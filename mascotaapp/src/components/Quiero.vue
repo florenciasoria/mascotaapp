@@ -1,7 +1,7 @@
 <template>
   <div class="quiero">
 
-  <b-container fluid class="p-4 bg-dark">
+  <b-container fluid class="p-4">
   <b-row>
     <b-col>
        <img alt="chihuahua_1" v-bind="mainProps" rounded="circle" class="rounded-circle" src="../assets/chihuahua_1.jpg">

@@ -23,7 +23,15 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   background-color: aquamarine;
-  margin-top: 60px;
+  /* margin-top: 60px; */
+  height: 100%;
 }
 
+body, html {
+  height: 100%;
+}
+
+img {
+  object-fit: cover;
+}
 </style>

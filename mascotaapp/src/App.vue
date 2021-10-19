@@ -1,17 +1,20 @@
 <template>
   <div id="app">
+    <Header />
     <Quiero msg="Welcome to Your Vue.js App"/>
   </div>
 </template>
 
 <script>
+import Header from './components/Header.vue'
 import Quiero from './components/Quiero.vue'
 
 
 export default {
   name: 'App',
   components: {
-    Quiero
+    Quiero,
+    Header
   }
 }
 </script>

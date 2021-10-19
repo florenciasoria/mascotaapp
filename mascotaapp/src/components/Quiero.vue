@@ -31,7 +31,7 @@ export default {
   },
    data() {
       return {
-        mainProps: { blank: true, blankColor: '#777',  width: 175, height: 175, class: 'm1' }
+        mainProps: { blank: true, blankColor: '#777',  width: 175, height: 175, class: 'm1'}
       }
     }
 }
@@ -55,4 +55,5 @@ li {
 a {
   color: #42b983;
 }
+
 </style>

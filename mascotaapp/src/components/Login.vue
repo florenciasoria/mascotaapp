@@ -25,6 +25,15 @@
 <li><input type="radio" name="sex" value="Male" checked /><span>Male</span></li>
 <li><input type="radio" name="sex" value="Female" /><span>Female</span></li>
 <br>
+<li><label for="LivingPlace">Tipo de Vivienda [Seleccionar ] :</label></li>
+<li><select name="LivingPlace">
+<option selected="" value="Default">(Seleccionar)</option>
+<option value="CA">Casa</option>
+<option value="DP">Departamento</option>
+<option value="CT">Country</option>
+<option value="PH">PH</option>
+</select></li>
+<br>
 <li><label for="desc">Comentarios [Opcional] :</label></li>
 <li><textarea name="desc" id="desc"></textarea></li>
 <br>

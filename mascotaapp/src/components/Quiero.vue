@@ -12,7 +12,9 @@
   </b-row>
   <b-row style="margin-top:50px">
       <b-col>
-       <b-button variant="success">Quiero Adoptar</b-button>
+       <b-button variant="success"><router-link to="/Buscar" tag="button">Buscar</router-link></b-button>
+       
+
     </b-col>
           <b-col>
         <b-button variant="success">Quiero Dar en Adopción</b-button>  

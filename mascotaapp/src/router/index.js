@@ -13,45 +13,38 @@ const routes = [
   {
     path: '/about',
     name: 'About',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
+    component: () => import( '../views/About.vue')
   },
   {
     path: '/quieroAdoptar',
     name: 'Quiero',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/QuieroAlgo.vue')
+    component: () => import( '../views/QuieroAlgo.vue')
   },
   {
     path: '/misSolicitudes',
     name: 'Solicitudes',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/MisSolicitudes.vue')
-
+    component: () => import('../views/MisSolicitudes.vue')
   }
   ,
   {
     path: '/misPublicaciones',
     name: 'Publicaciones',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/MisPublicaciones.vue')
+    component: () => import('../views/MisPublicaciones.vue')
   },
   {
     path: '/LoginF',
     name: 'Login',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/LoginF.vue')
+    component: () => import('../views/LoginF.vue')
   },
+  {
+    path: '/buscar',
+    name: 'Buscar',
+    component: () => import('../views/Buscar.vue')
+  },
+  { 
+    path: '/mascotas/:id',     
+    component: () => import('../views/Mascota.vue') 
+  }
 ]
 
 const router = new VueRouter({

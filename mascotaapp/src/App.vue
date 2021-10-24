@@ -1,28 +1,27 @@
 <template>
   <div id="app">
-    <div id="nav">  
+    <div id="nav">
       <Header />
 
       <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link> | 
-      <router-link to="/quieroAdoptar">Quiero</router-link> | 
-      <router-link to="/misSolicitudes">Solicitudes</router-link> | 
+      <router-link to="/about">About</router-link> |
+      <router-link to="/quieroAdoptar">Quiero</router-link> |
+      <router-link to="/misSolicitudes">Solicitudes</router-link> |
+      <router-link to="/misPublicaciones">Publicaciones</router-link> |
       <router-link to="/LoginF">Login</router-link> |
-      
     </div>
-    <router-view/>
+    <router-view />
   </div>
 </template>
 <script >
-
-import Header from './components/Header.vue'
+import Header from "./components/Header.vue";
 
 export default {
-  name: 'App',
+  name: "App",
   components: {
-    Header
-  }
-}
+    Header,
+  },
+};
 </script>
 <style>
 #app {
@@ -31,7 +30,7 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  background-color: #A3E3DC;
+  background-color: #a3e3dc;
   height: 100%;
 }
 
@@ -48,12 +47,12 @@ export default {
   color: #42b983;
 }
 
-body, html {
+body,
+html {
   height: 100%;
 }
 
 img {
   object-fit: cover;
 }
-
 </style>

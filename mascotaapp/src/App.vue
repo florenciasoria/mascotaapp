@@ -7,6 +7,7 @@
       <router-link to="/about">About</router-link> | 
       <router-link to="/quieroAdoptar">Quiero</router-link> | 
       <router-link to="/misSolicitudes">Solicitudes</router-link> | 
+      <router-link to="/LoginF">Login</router-link> |
       
     </div>
     <router-view/>

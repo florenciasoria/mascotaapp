@@ -2,7 +2,7 @@
   <div class="header">
     <div>
       <b-navbar toggleable="lg" type="dark" variant="dark">
-        <b-navbar-brand href="#" class="mx-4">MascotaAPP</b-navbar-brand>
+        <b-navbar-brand href="#" class="mx-4"><router-link to="/quieroAdoptar">MascotaAPP</router-link> </b-navbar-brand>
 
         <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
@@ -12,12 +12,11 @@
             <b-nav-item href="#" disabled>Disabled</b-nav-item>
           </b-navbar-nav>
 
-          <!-- Right aligned nav items -->
           <b-navbar-nav class="ms-auto">
             <b-nav-form class="py-2" >
-              <b-button size="sm" class="mx-4 my-sm-0" type="submit"
-                >Iniciar Sesión</b-button
-              >
+              <b-button size="sm" class="mx-4 my-sm-0" type="submit">
+                <router-link to="/LoginF">Iniciar Sesión</router-link>
+              </b-button>
             </b-nav-form>
           </b-navbar-nav>
         </b-collapse>

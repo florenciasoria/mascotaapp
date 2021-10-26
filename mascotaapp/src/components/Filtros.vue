@@ -1,79 +1,125 @@
 <template>
-  <div>
-    <b-button v-b-toggle.sidebar-1>Ver filtros</b-button>
-    <b-sidebar id="sidebar-1" title="Sidebar" shadow>
-      <div class="px-3 py-2">
+  <div class="container">
+    <b-row>
+      <b-col>
+        <b-row>
+                  <h3>Especie</h3>
+          <b-form-radio-group v-model="filtro.especie" :options="especie">
+          </b-form-radio-group>
+        </b-row>
+      <b-row >
+<h3> Color </h3>
+  
+          <b-form-radio-group v-model="filtro.color" :options="color">
+          </b-form-radio-group>
+        </b-row>
+      </b-col>
+
+      <b-col>
+        <div class="px-3 py-2">
           <b-row>
-            <h3>
-                Especie
-            </h3>
-            <div v-for="especie in especies" :key="especie"> 
-                <p>{{especie}}</p>
-            </div>
-          </b-row> 
-          <b-row>
-            <h3>
-                Edad
-            </h3>
-            <div v-for="edad in edades" :key="edad"> 
-                <p>{{edad}}</p>
-            </div>
-          </b-row> 
-          <b-row>
-            <h3>                 
-                Sexo            </h3>
-            <div v-for="sexo in sexos" :key="sexo"> 
-                <p>{{sexo}}</p>
-            </div>
+            <b-col
+              class="m-4 cajamascota"
+              v-for="mascota in mascotasFiltradas"
+              :key="mascota.id"
+            >
+              <p>{{ mascota.nombre }}</p>
+              <p>{{ mascota.edad }}</p>
+              <p>{{ mascota.especie }}</p>
+              <p>{{ mascota.color }}</p>
+              <b-button variant="success"
+                ><router-link :to="'/mascotas/' + mascota.id"
+                  >Ver ficha</router-link
+                ></b-button
+              >
+            </b-col>
           </b-row>
-          <b-row>
-            <h3>                 
-                Color            </h3>
-            <div v-for="color in colores" :key="color"> 
-                <p>{{color}}</p>
-            </div>
-          </b-row>
-      </div>
-    </b-sidebar>
+        </div>
+      </b-col>
+    </b-row>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'HelloWorld',
+  name: "HelloWorld",
   props: {
-    msg: String
+    msg: String,
   },
-   data() {
-      return {
-        mainProps: { blank: true, blankColor: '#777',  width: 175, height: 175, class: 'm1'},
-            especies : [
-                "gato",
-                "perro"
-            ],
-            edades: [
-                "0 - 3 meses",
-                "3 - 6 meses",
-                "6 - 12 meses",
-                "+ 1 año",
-                "+ 5 años"
-            ],
-            sexos: [
-                "macho",
-                "hembra",
-            ] ,           
-            colores: [
-                "negro",
-                "blanco",
-                "naranja",
-                "gris",
-            ]
-        
+  data() {
+    return {
+      filtro: {
+        especie: "",
+        edad: "",
+        sexo: "",
+        color: "",
+      },
+
+      especie: [
+        { text: "Perro", value: "perro" },
+        { text: "Gato", value: "gato" },
+      ],
+
+      color: [
+        { text: "Negro", value: "negro" },
+        { text: "Blanco", value: "blanco" },
+      ],
+
+      mascotas: [
+        {
+          id: 1,
+          nombre: "beethoven",
+          edad: "3 meses",
+          especie: "perro",
+          color: "blanco",
+        },
+        {
+          id: 2,
+          nombre: "nala",
+          edad: "3 meses",
+          especie: "gato",
+          color: "negro",
+        },
+        {
+          id: 3,
+          nombre: "alf",
+          edad: "6 meses",
+          especie: "perro",
+          color: "negro",
+        },
+        {
+          id: 4,
+          nombre: "arya",
+          edad: "2 años",
+          especie: "gato",
+          color: "blanco",
+        },
+        {
+          id: 5,
+          nombre: "arya",
+          edad: "2 años",
+          especie: "gato",
+          color: "negro",
+        },
+      ],
+
+      sexos: ["macho", "hembra"],
+      colores: ["negro", "blanco", "naranja", "gris"],
+    };
+  },
+  computed: {
+    mascotasFiltradas() {
+      let mascotasF = this.mascotas;
+      if (this.filtro != "") {
+        mascotasF = this.mascotas.filter(
+          (p) =>
+            p.especie == this.filtro.especie && p.color == this.filtro.color
+        );
       }
-    }
-}
-
-
+      return mascotasF;
+    },
+  },
+};
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
@@ -90,11 +136,11 @@ li {
   margin: 0 10px;
 }
 a {
-  color: #A3E3DC;
+  color: #a3e3dc;
 }
-
-
-
-
-
+.cajamascota {
+  background-color: rgb(255, 255, 255);
+  width: 250px;
+  height: 150px;
+}
 </style>

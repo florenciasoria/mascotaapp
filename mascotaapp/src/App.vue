@@ -8,12 +8,11 @@
       <router-link to="/quieroAdoptar">Quiero</router-link> |
       <router-link to="/misSolicitudes">Solicitudes</router-link> |
       <router-link to="/misPublicaciones">Publicaciones</router-link> |
-      <router-link to="/LoginF">Login</router-link> |
     </div>
     <router-view />
   </div>
 </template>
-<script >
+<script>
 import Header from "./components/Header.vue";
 
 export default {

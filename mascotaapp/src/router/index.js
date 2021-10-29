@@ -46,7 +46,7 @@ const routes = [
     component: () => import('../views/Mascota.vue') 
   },
   { 
-    path: '/form-adopciones/:id',     
+    path: '/form-adopcion/:id',     
     component: () => import('../views/FormAdopcion.vue') 
   }
 ]

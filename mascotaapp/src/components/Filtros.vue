@@ -27,11 +27,21 @@
               <p>{{ mascota.edad }}</p>
               <p>{{ mascota.especie }}</p>
               <p>{{ mascota.color }}</p>
+              <b-row>
+                <b-col>
+                <b-button variant="primary">
+                  <router-link :to="'/mascotas/' + mascota.id"
+                    >Ver ficha</router-link>
+                  </b-button>
+                </b-col>  
+              <b-col>    
               <b-button variant="success"
-                ><router-link :to="'/mascotas/' + mascota.id"
-                  >Ver ficha</router-link
+                ><router-link :to="'/form-adopcion/' + mascota.id"
+                  >¡Quiero adoptarlo!</router-link
                 ></b-button
               >
+               </b-col>  
+            </b-row>
             </b-col>
           </b-row>
         </div>

@@ -3,9 +3,9 @@
     <div id="nav">
       <Header />
 
-      <router-link to="/">Home</router-link> |
+      <router-link to="/home">Home</router-link> |
       <router-link to="/about">About</router-link> |
-      <router-link to="/quieroAdoptar">Quiero</router-link> |
+      <router-link to="/">Quiero</router-link> |
       <router-link to="/misSolicitudes">Solicitudes</router-link> |
       <router-link to="/misPublicaciones">Publicaciones</router-link> |
     </div>

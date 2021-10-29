@@ -44,6 +44,10 @@ const routes = [
   { 
     path: '/mascotas/:id',     
     component: () => import('../views/Mascota.vue') 
+  },
+  { 
+    path: '/form-adopciones/:id',     
+    component: () => import('../views/FormAdopcion.vue') 
   }
 ]
 

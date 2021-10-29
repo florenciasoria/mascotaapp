@@ -1,5 +1,5 @@
 <template>
-  <div class="home">
+  <div class="mascota">
         <Mascota/>
   </div>
 </template>
@@ -17,7 +17,7 @@ export default {
 </script>
 
 <style>
-.home {
+.mascota {
     background-color: #e2aee4;
 }
 </style>

@@ -41,6 +41,8 @@
 </template>
 
 <script>
+import mascotas from '../assets/mascotas';
+
 export default {
   name: "HelloWorld",
   props: {
@@ -65,46 +67,10 @@ export default {
         { text: "Blanco", value: "blanco" },
       ],
 
-      mascotas: [
-        {
-          id: 1,
-          nombre: "beethoven",
-          edad: "3 meses",
-          especie: "perro",
-          color: "blanco",
-        },
-        {
-          id: 2,
-          nombre: "nala",
-          edad: "3 meses",
-          especie: "gato",
-          color: "negro",
-        },
-        {
-          id: 3,
-          nombre: "alf",
-          edad: "6 meses",
-          especie: "perro",
-          color: "negro",
-        },
-        {
-          id: 4,
-          nombre: "arya",
-          edad: "2 años",
-          especie: "gato",
-          color: "blanco",
-        },
-        {
-          id: 5,
-          nombre: "arya",
-          edad: "2 años",
-          especie: "gato",
-          color: "negro",
-        },
-      ],
-
       sexos: ["macho", "hembra"],
       colores: ["negro", "blanco", "naranja", "gris"],
+
+      mascotas,
     };
   },
   computed: {

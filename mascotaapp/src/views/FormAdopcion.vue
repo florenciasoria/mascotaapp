@@ -53,7 +53,7 @@
 </template>
 
 <script>
-import mascotas from '../assets/js/mascotas';
+import { mapGetters } from 'vuex'; 
 
 export default {
   name: "form-adopcion",
@@ -65,9 +65,14 @@ export default {
     }
   },
   computed: {
+    ...mapGetters([
+      'getmascotas',
+    ]),
     mascotaForm() {
         console.log(this.$route.params.id);
-      return mascotas.find((mascota) => mascota.id == this.$route.params.id)
+        return this.getmascotas.find((mascota) => mascota.id == this.$route.params.id)
+        // return getters({mascotas:'getmascotas'});
+     // return ...getters({mascotas:getmascotas}).find((mascota) => mascota.id == this.$route.params.id)
     },
   },
   methods:{

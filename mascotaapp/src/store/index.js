@@ -19,7 +19,12 @@ export default new Vuex.Store({
 
     },
     getters:{
-
+        getmascotas:(state) => {
+            return state.mascotas
+        },
+        getusuarios:(state) => {
+            return state.usuarios
+        }
     }
 
 }); 

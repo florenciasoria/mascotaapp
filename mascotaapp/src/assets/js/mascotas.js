@@ -5,6 +5,7 @@ const mascotas = [
       edad: "3 meses",
       especie: "perro",
       color: "blanco",
+      // foto: "/mascotaapp/mascotaapp/src/assets/chihuahua_1.jpg",
     },
     {
       id: 2,

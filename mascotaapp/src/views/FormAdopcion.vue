@@ -5,6 +5,7 @@
       <p>{{mascotaForm.edad}}</p>
       <p>{{mascotaForm.especie}}</p>
       <p>{{mascotaForm.color}}</p>
+      <!-- <img :src="mascotaForm.foto" > -->
     </div>
     <div class="form">  
       <b-row class="my-1">

@@ -51,7 +51,7 @@
 </template>
 
 <script>
-import mascotas from '../assets/mascotas';
+import mascotas from '../assets/js/mascotas';
 
 export default {
   name: "HelloWorld",

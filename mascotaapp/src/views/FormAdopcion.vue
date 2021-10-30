@@ -12,7 +12,7 @@
           <label for="input-nombre">Nombre:</label>
         </b-col>
         <b-col sm="3">
-          <b-form-input id="input-nombre" size="sm" placeholder=""></b-form-input>
+          <b-form-input id="input-nombre" v-model="nombre" size="sm" placeholder=""></b-form-input>
         </b-col>
       </b-row>
       <b-row class="my-1">
@@ -40,17 +40,27 @@
         </b-col>
       </b-row>
     </div>      
+    <div>
+      <b-col>    
+        <b-button variant="success" @click="enviarform()">
+           Enviar Formulario
+        </b-button>
+      </b-col>  
+   </div>
   </div>
+
 </template>
 
 <script>
-import mascotas from '../assets/mascotas';
+import mascotas from '../assets/js/mascotas';
 
 export default {
   name: "form-adopcion",
   data() {
     return { 
         text: '',
+        nombre: '',
+
     }
   },
   computed: {
@@ -59,5 +69,10 @@ export default {
       return mascotas.find((mascota) => mascota.id == this.$route.params.id)
     },
   },
+  methods:{
+    enviarform(){
+        alert("Formulario enviado, " + this.nombre);
+    }
+  }
 };
 </script>

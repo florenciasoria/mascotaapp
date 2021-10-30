@@ -3,16 +3,29 @@
     <b-row>
       <b-col>
         <b-row>
-                  <h3>Especie</h3>
+          <h3>Especie</h3>
           <b-form-radio-group v-model="filtro.especie" :options="especie">
           </b-form-radio-group>
         </b-row>
-      <b-row >
-<h3> Color </h3>
-  
+
+        <b-row>
+          <h3>Color</h3>
           <b-form-radio-group v-model="filtro.color" :options="color">
           </b-form-radio-group>
+        </b-row>        
+        
+        <b-row>
+          <h3>Edad</h3>
+          <b-form-radio-group v-model="filtro.edad" :options="edad">
+          </b-form-radio-group>
+        </b-row>   
+        
+        <b-row>
+          <h3>Sexo</h3>
+          <b-form-radio-group v-model="filtro.sexo" :options="sexo">
+          </b-form-radio-group>
         </b-row>
+
       </b-col>
 
       <b-col>
@@ -27,21 +40,23 @@
               <p>{{ mascota.edad }}</p>
               <p>{{ mascota.especie }}</p>
               <p>{{ mascota.color }}</p>
+              <p>{{ mascota.sexo }}</p>
               <b-row>
                 <b-col>
-                <b-button variant="primary">
-                  <router-link :to="'/mascotas/' + mascota.id"
-                    >Ver ficha</router-link>
+                  <b-button variant="primary">
+                    <router-link :to="'/mascotas/' + mascota.id"
+                      >Ver ficha</router-link
+                    >
                   </b-button>
-                </b-col>  
-              <b-col>    
-              <b-button variant="success"
-                ><router-link :to="'/form-adopcion/' + mascota.id"
-                  >¡Quiero adoptarlo!</router-link
-                ></b-button
-              >
-               </b-col>  
-            </b-row>
+                </b-col>
+                <b-col>
+                  <b-button variant="success"
+                    ><router-link :to="'/form-adopcion/' + mascota.id"
+                      >¡Quiero adoptarlo!</router-link
+                    ></b-button
+                  >
+                </b-col>
+              </b-row>
             </b-col>
           </b-row>
         </div>
@@ -51,7 +66,7 @@
 </template>
 
 <script>
-import mascotas from '../assets/js/mascotas';
+import mascotas from "../assets/js/mascotas";
 
 export default {
   name: "HelloWorld",
@@ -77,6 +92,17 @@ export default {
         { text: "Blanco", value: "blanco" },
       ],
 
+      edad: [
+        { text: "Cachorro", value: "cachorro" },
+        { text: "Joven", value: "joven" },
+        { text: "Adulto", value: "adulto" },
+      ], 
+      
+      sexo: [
+        { text: "Macho", value: "macho" },
+        { text: "Hembra", value: "hembra" },
+      ],
+
       sexos: ["macho", "hembra"],
       colores: ["negro", "blanco", "naranja", "gris"],
 
@@ -86,13 +112,41 @@ export default {
   computed: {
     mascotasFiltradas() {
       let mascotasF = this.mascotas;
-      if (this.filtro != "") {
-        mascotasF = this.mascotas.filter(
-          (p) =>
-            p.especie == this.filtro.especie && p.color == this.filtro.color
-        );
-      }
-      return mascotasF;
+      // if (this.filtro != "") {
+      //   mascotasF = this.mascotas.filter(
+      //     (p) =>
+      //       p.especie == this.filtro.especie && p.color == this.filtro.color
+      //   );
+      // }
+      // return mascotasF;
+      return  this.filtrarAnimalesPorEspecie(
+              this.filtrarAnimalesPorColor(
+              this.filtrarAnimalesPorEdad(
+              this.filtrarAnimalesPorSexo(mascotasF))))
+    },
+  },
+  methods: {
+    filtrarAnimalesPorEspecie: function (mascotas) {
+      if (this.filtro.especie != "")
+        return mascotas.filter((m) => m.especie == this.filtro.especie);
+      else return mascotas;
+    },
+    filtrarAnimalesPorColor: function (mascotas) {
+      if (this.filtro.color != "")
+        return mascotas.filter((m) => m.color == this.filtro.color);
+      else return mascotas;
+    },
+    
+    filtrarAnimalesPorEdad: function (mascotas) {
+      if (this.filtro.edad != "")
+        return mascotas.filter((m) => m.edad == this.filtro.edad);
+      else return mascotas;
+    },    
+    
+    filtrarAnimalesPorSexo: function (mascotas) {
+      if (this.filtro.sexo != "")
+        return mascotas.filter((m) => m.sexo == this.filtro.sexo);
+      else return mascotas;
     },
   },
 };
@@ -116,7 +170,7 @@ a {
 }
 .cajamascota {
   background-color: rgb(255, 255, 255);
-  width: 250px;
-  height: 150px;
+  /* width: 250px;
+  height: 150px; */
 }
 </style>

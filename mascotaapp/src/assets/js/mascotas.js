@@ -2,38 +2,43 @@ const mascotas = [
     {
       id: 1,
       nombre: "beethoven",
-      edad: "3 meses",
+      edad: "cachorro",
       especie: "perro",
       color: "blanco",
+      sexo: "macho"
       // foto: "/mascotaapp/mascotaapp/src/assets/chihuahua_1.jpg",
     },
     {
       id: 2,
       nombre: "nala",
-      edad: "3 meses",
+      edad: "joven",
       especie: "gato",
       color: "negro",
+      sexo: "hembra"
     },
     {
       id: 3,
       nombre: "alf",
-      edad: "6 meses",
+      edad: "adulto",
       especie: "perro",
       color: "negro",
+      sexo: "macho"
     },
     {
       id: 4,
       nombre: "arya",
-      edad: "2 años",
+      edad: "cachorro",
       especie: "gato",
       color: "blanco",
+      sexo: "hembra"
     },
     {
       id: 5,
-      nombre: "arya",
-      edad: "2 años",
+      nombre: "pelusa",
+      edad: "joven",
       especie: "gato",
       color: "negro",
+      sexo: "hembra"
     }
 ];
 export default mascotas;

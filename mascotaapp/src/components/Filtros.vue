@@ -1,29 +1,29 @@
 <template>
   <div class="container">
     <b-row>
-      <b-col>
+      <b-col class="col-lg-3">
         <b-row>
           <h3>Especie</h3>
-          <b-form-radio-group v-model="filtro.especie" :options="especie">
-          </b-form-radio-group>
+          <b-form-checkbox-group v-model="filtro.especie" :options="especie">
+          </b-form-checkbox-group>
         </b-row>
 
         <b-row>
           <h3>Color</h3>
-          <b-form-radio-group v-model="filtro.color" :options="color">
-          </b-form-radio-group>
+          <b-form-checkbox-group v-model="filtro.color" :options="color">
+          </b-form-checkbox-group>
         </b-row>        
         
         <b-row>
           <h3>Edad</h3>
-          <b-form-radio-group v-model="filtro.edad" :options="edad">
-          </b-form-radio-group>
+          <b-form-checkbox-group v-model="filtro.edad" :options="edad">
+          </b-form-checkbox-group>
         </b-row>   
         
         <b-row>
           <h3>Sexo</h3>
-          <b-form-radio-group v-model="filtro.sexo" :options="sexo">
-          </b-form-radio-group>
+          <b-form-checkbox-group v-model="filtro.sexo" :options="sexo">
+          </b-form-checkbox-group>
         </b-row>
 
       </b-col>
@@ -32,7 +32,7 @@
         <div class="px-3 py-2">
           <b-row>
             <b-col
-              class="m-4 cajamascota"
+              class="col-lg-3 m-4 cajamascota"
               v-for="mascota in mascotasFiltradas"
               :key="mascota.id"
             >
@@ -76,10 +76,10 @@ export default {
   data() {
     return {
       filtro: {
-        especie: "",
-        edad: "",
-        sexo: "",
-        color: "",
+        especie: [],
+        edad: [],
+        sexo: [],
+        color: [],
       },
 
       especie: [
@@ -112,13 +112,6 @@ export default {
   computed: {
     mascotasFiltradas() {
       let mascotasF = this.mascotas;
-      // if (this.filtro != "") {
-      //   mascotasF = this.mascotas.filter(
-      //     (p) =>
-      //       p.especie == this.filtro.especie && p.color == this.filtro.color
-      //   );
-      // }
-      // return mascotasF;
       return  this.filtrarAnimalesPorEspecie(
               this.filtrarAnimalesPorColor(
               this.filtrarAnimalesPorEdad(
@@ -128,24 +121,24 @@ export default {
   methods: {
     filtrarAnimalesPorEspecie: function (mascotas) {
       if (this.filtro.especie != "")
-        return mascotas.filter((m) => m.especie == this.filtro.especie);
+        return mascotas.filter(m => this.filtro.especie.includes(m.especie));
       else return mascotas;
     },
     filtrarAnimalesPorColor: function (mascotas) {
       if (this.filtro.color != "")
-        return mascotas.filter((m) => m.color == this.filtro.color);
-      else return mascotas;
+        return mascotas.filter(m => this.filtro.color.includes(m.color));
+              else return mascotas;
     },
     
     filtrarAnimalesPorEdad: function (mascotas) {
       if (this.filtro.edad != "")
-        return mascotas.filter((m) => m.edad == this.filtro.edad);
+        return mascotas.filter(m => this.filtro.edad.includes(m.edad));
       else return mascotas;
     },    
     
     filtrarAnimalesPorSexo: function (mascotas) {
       if (this.filtro.sexo != "")
-        return mascotas.filter((m) => m.sexo == this.filtro.sexo);
+        return mascotas.filter(m => this.filtro.sexo.includes(m.sexo));
       else return mascotas;
     },
   },
@@ -170,7 +163,6 @@ a {
 }
 .cajamascota {
   background-color: rgb(255, 255, 255);
-  /* width: 250px;
-  height: 150px; */
+  border-radius: 5%;
 }
 </style>

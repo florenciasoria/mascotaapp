@@ -11,7 +11,7 @@
 <li><input type="text" name="email" size="50"  /></li><br>
 <li><label for="address">Direccion :</label></li>
 <li><input type="text" name="address" size="30" /></li><br>
-<li><label for="country">Nacionalidad [Seleccionar el pais] :</label></li>
+<!-- <li><label for="country">Nacionalidad [Seleccionar el pais] :</label></li>
 <li><select name="country">
 <option selected="" value="Default">(Seleccionar)</option>
 <option value="AR">Argentina</option>
@@ -20,10 +20,11 @@
 <option value="AF">Australia</option>
 <option value="AL">Canada</option>
 <option value="AD">USA</option>
-</select></li><br>
+</select></li><br> -->
 <li><label id="gender">Genero:</label></li>
-<li><input type="radio" name="sex" value="Male" checked /><span>Male</span></li>
-<li><input type="radio" name="sex" value="Female" /><span>Female</span></li>
+<li><input type="radio" name="sex" value="M" checked /><span>Male</span></li>
+<li><input type="radio" name="sex" value="F" /><span>Female</span></li>
+<li><input type="radio" name="sex" value="N" /><span>No Binarie</span></li>
 <br>
 <li><label for="LivingPlace">Tipo de Vivienda [Seleccionar ] :</label></li>
 <li><select name="LivingPlace">

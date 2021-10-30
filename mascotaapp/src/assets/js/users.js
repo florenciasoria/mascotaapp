@@ -32,6 +32,7 @@ const usuarios = [
       apellido: "Cafiero",
       mail:"a.cafiero@outlook.com",
       pass:"agus1234",
+      genero:"F",
       rol: "P",
       mascoPropias: [ 
        1          
@@ -46,6 +47,7 @@ const usuarios = [
       apellido: "Cafiero",
       mail:"a.cafiero@outlook.com",
       pass:"agus1234", 
+      genero:"F",
       rol: "P",
       mascoPropias: [ 
                 
@@ -60,6 +62,7 @@ const usuarios = [
       apellido: "Cafiero",
       mail:"a.cafiero@outlook.com",
       pass:"agus1234",
+      genero:"F",
       rol: "A",
       mascoPropias: [ 
           3

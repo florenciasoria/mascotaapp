@@ -19,5 +19,7 @@ export default {
 <style>
 .home {
     background-color: #e2aee4;
+    /* height: 100%; */
+
 }
 </style>

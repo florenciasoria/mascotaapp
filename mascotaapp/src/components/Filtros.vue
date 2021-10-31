@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="container altura">
     <b-row>
       <b-col class="col-lg-3">
         <b-row>
@@ -32,11 +32,11 @@
         <div class="px-3 py-2">
           <b-row>
             <b-col
-              class="col-lg-3 m-4 cajamascota"
+              class="col-lg-3 m-4 px-3 py-4 cajamascota"
               v-for="mascota in mascotasFiltradas"
               :key="mascota.id"
             >
-              <p>{{ mascota.nombre }}</p>
+              <h5 class="pb-2">{{ mascota.nombre }}</h5>
               <p>{{ mascota.edad }}</p>
               <p>{{ mascota.especie }}</p>
               <p>{{ mascota.color }}</p>
@@ -67,6 +67,9 @@
 
 <script>
 import mascotas from "../assets/js/mascotas";
+
+
+import { mapGetters } from 'vuex'; 
 
 export default {
   name: "HelloWorld",
@@ -111,13 +114,20 @@ export default {
   },
   computed: {
     mascotasFiltradas() {
-      let mascotasF = this.mascotas;
+      let mascotasF = this.getmascotas;
       return  this.filtrarAnimalesPorEspecie(
               this.filtrarAnimalesPorColor(
               this.filtrarAnimalesPorEdad(
               this.filtrarAnimalesPorSexo(mascotasF))))
     },
+    ...mapGetters([
+      'getmascotas',
+    ]),
   },
+
+
+
+
   methods: {
     filtrarAnimalesPorEspecie: function (mascotas) {
       if (this.filtro.especie != "")
@@ -161,8 +171,12 @@ li {
 a {
   color: #a3e3dc;
 }
+* { text-align: left;}
 .cajamascota {
   background-color: rgb(255, 255, 255);
   border-radius: 5%;
+}
+.altura {
+  min-height: 80%;
 }
 </style>

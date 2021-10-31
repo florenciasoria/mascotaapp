@@ -1,8 +1,8 @@
 <template>
   <div class="quiero">
 
-  <b-container fluid class="p-4">
-  <b-row>
+  <b-container fluid class="m-auto margenes" >
+  <b-row class="m-auto" >
     <b-col>
        <img alt="chihuahua_1" v-bind="mainProps" rounded="circle" class="rounded-circle" src="../assets/chihuahua_1.jpg">
     </b-col>
@@ -12,8 +12,8 @@
   </b-row>
   <b-row style="margin-top:50px">
       <b-col>
-       <b-button variant="success"><router-link to="/Buscar" tag="button">Buscar</router-link></b-button>
-       
+       <b-button variant="success"><router-link :to="'/buscar'">Quiero adoptar </router-link></b-button>
+       <!-- <b-button variant="success"><router-link :to="'/form-adopcion/' + mascota.id">¡Quiero adoptarlo!</router-link></b-button> -->
 
     </b-col>
           <b-col>
@@ -27,7 +27,7 @@
 
 <script>
 export default {
-  name: 'HelloWorld',
+  name: 'Grilla',
   props: {
     msg: String
   },
@@ -58,8 +58,9 @@ a {
   color: #A3E3DC;
 }
 
-
-
-
+.margenes {
+  padding-top: 100px;
+  padding-bottom: 100px;
+}
 
 </style>

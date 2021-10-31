@@ -14,13 +14,14 @@ import Filtros from '@/components/Filtros.vue'
 export default {
   name: 'Buscar',
   components: {
-    Filtros
+    Filtros 
   }
 }
 </script>
 
 <style>
 .home {
-    background-color: #e2aee4;
+    background-color: #eecee6;
+    /* min-height: 80%; */
 }
 </style>

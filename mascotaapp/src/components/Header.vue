@@ -2,15 +2,14 @@
   <div class="header">
     <div>
       <b-navbar toggleable="lg" type="dark" variant="dark">
-        <b-navbar-brand href="#" class="mx-4"><router-link to="/quieroAdoptar">MascotaAPP</router-link> </b-navbar-brand>
+        <b-navbar-brand href="#" class="mx-4"><router-link to="/">MascotaAPP</router-link> </b-navbar-brand>
 
         <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
         <b-collapse id="nav-collapse" is-nav>
-          <b-navbar-nav>
-            <b-nav-item href="#">Link</b-nav-item>
-            <b-nav-item href="#" disabled>Disabled</b-nav-item>
-          </b-navbar-nav>
+      <router-link to="/" class="px-2">Quiero</router-link> |
+      <router-link to="/misSolicitudes" class="px-2">Solicitudes</router-link> |
+      <router-link to="/misPublicaciones" class="px-2">Publicaciones</router-link> |
 
           <b-navbar-nav class="ms-auto">
             <b-nav-form class="py-2" >

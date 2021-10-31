@@ -1,63 +1,140 @@
 <template>
-  <div class="quiero">
-<form name='registration'>
-<ul>
-<li><label for="userid">Nombre y Apellido:</label></li>
+  <div>
+    <b-form @submit="onSubmit" @reset="onReset" v-if="show">
+      <b-form-group
+        id="input-group-1"
+        label="Direccion de Email:"
+        label-for="input-1"
+        description="Su mail nunca sera distribuido con nadie."
+      >
+        <b-form-input
+          id="input-1"
+          v-model="form.mail"
+          type="mail"
+          placeholder="Ingresar Mail:"
+          size="sm"
+          required
+        ></b-form-input>
+      </b-form-group>
 
-<li><input type="text" name="userid" size="12"/></li><br>
-<li><label for="passid">Contraseña [8 to 12 caracteres] :</label></li>
-<li><input type="password" name="passid" size="12" /></li><br>
-<li><label for="email">Email [Valid email] :</label></li>
-<li><input type="text" name="email" size="50"  /></li><br>
-<li><label for="address">Direccion :</label></li>
-<li><input type="text" name="address" size="30" /></li><br>
-<!-- <li><label for="country">Nacionalidad [Seleccionar el pais] :</label></li>
-<li><select name="country">
-<option selected="" value="Default">(Seleccionar)</option>
-<option value="AR">Argentina</option>
-<option value="UY">Uruguay</option>
-<option value="BR">Brasil</option>
-<option value="AF">Australia</option>
-<option value="AL">Canada</option>
-<option value="AD">USA</option>
-</select></li><br> -->
-<li><label id="gender">Genero:</label></li>
-<li><input type="radio" name="sex" value="M" checked /><span>Male</span></li>
-<li><input type="radio" name="sex" value="F" /><span>Female</span></li>
-<li><input type="radio" name="sex" value="N" /><span>No Binarie</span></li>
-<br>
-<li><label for="LivingPlace">Tipo de Vivienda [Seleccionar ] :</label></li>
-<li><select name="LivingPlace">
-<option selected="" value="Default">(Seleccionar)</option>
-<option value="CA">Casa</option>
-<option value="DP">Departamento</option>
-<option value="CT">Country</option>
-<option value="PH">PH</option>
-</select></li>
-<br>
-<li><label for="desc">Comentarios [Opcional] :</label></li>
-<li><textarea name="desc" id="desc"></textarea></li>
-<br>
-<li><input type="submit" name="submit" value="Guardar" onclick="alert('Form submitted successfully')" /></li>
-</ul>
-</form>
+      <b-form-group id="input-group-2" label="Contraseña:" label-for="input-2">
+        <b-form-input
+          id="input-2"
+          size="sm"
+          v-model="form.pass"
+          placeholder="Ingresar Contraseña:"
+          required
+        ></b-form-input>
+      </b-form-group>
+
+      <b-form-group id="input-group-3" label="Nombre:" label-for="input-3">
+        <b-form-input
+          id="input-3"
+          v-model="form.nombre"
+          placeholder="Ingresar Nombre:"
+          size="sm"
+          required
+        ></b-form-input>
+      </b-form-group>
+
+      <b-form-group id="input-group-4" label="Apellido:" label-for="input-4">
+        <b-form-input
+          id="input-4"
+          v-model="form.apellido"
+          placeholder="Ingresar Apellido:"
+          required
+        ></b-form-input>
+      </b-form-group>
+
+      <b-form-group id="input-group-5" label="Genero:" label-for="input-5">
+        <b-form-select
+          id="input-5"
+          v-model="form.Genero"
+          :options="Genero"
+          required
+        ></b-form-select>
+      </b-form-group>
+
+      <b-form-group id="input-group-6" v-slot="{ ariaDescribedby }">
+        <b-form-radio-group
+          v-model="form.rol"
+          id="radios-5"
+          :aria-describedby="ariaDescribedby"
+          :options="roles"
+        ></b-form-radio-group>
+      </b-form-group>
+
+      <b-button type="submit" variant="primary"><router-link to="/quiero">Submit</router-link></b-button>
+      <b-button type="reset" variant="danger">Reset</b-button>
+    </b-form>
+    <b-card class="mt-3" header="Form Data Result">
+      <pre class="m-0">{{ form }}</pre>
+    </b-card>
   </div>
 </template>
 
+
 <script>
+import { mapActions } from "vuex";
 export default {
-  name: 'Login',
+  name: "Login",
   props: {
-    msg: String
+    msg: String,
   },
-   data() {
-      return {
-        mainProps: { blank: true, blankColor: '#777',  width: 175, height: 175, class: 'm1'}
-      }
-    }
-}
+  data() {
+    return {
+      otroid: 6,
+      form: {
+        id: this.otroid,
+        mail: "",
+        pass: "",
+        nombre: "",
+        apellido: "",
+        genero: "",
+        rol: "",
+        mascoPropias: [],
+        mascoPubli: [],
+      },
+      Genero: [
+        { text: "Select One", value: null },
+        { value: "f", text: "femele" },
+        { value: "m", text: "Male" },
+        { value: "nb", text: "No Binarie" },
+      ],
+      roles:[
+        { value: "p", text: "Postulante" },
+        { value: "a", text: "Adoptante" },
+      ],
+      show: true,
+    };
+  },
+  methods: {
+    ...mapActions(["agregarusuario"]),
 
+    onSubmit(event) {
+      event.preventDefault();
+      this.agregarusuario(this.form);
+      this.otroid++;
 
+    },
+
+    onReset(event) {
+      event.preventDefault();
+      // Reset our form values
+      this.form.mail = "";
+      this.form.pass = "";
+      this.form.nombre = "";
+      this.form.apellido = "";
+      this.form.Genero = null;
+      this.form.rol = [];
+      // Trick to reset/clear native browser form validation state
+      this.show = false;
+      this.$nextTick(() => {
+        this.show = true;
+      });
+    },
+  },
+};
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
@@ -74,11 +151,6 @@ li {
   margin: 0 10px;
 }
 a {
-  color: #A3E3DC;
+  color: #a3e3dc;
 }
-
-
-
-
-
 </style>

@@ -15,7 +15,7 @@ export default new Vuex.Store({
     mutations: {
 
         agregarmascota(state, mascota) {
-            state.mascotas = state.mascotas.push(mascota);
+           state.mascotas.push(mascota);
         },
         eliminarmascota(state, id) {
             state.mascotas = state.mascotas.filter((mascota) => mascota.id != id)
@@ -23,8 +23,10 @@ export default new Vuex.Store({
         editarmascota(state, nuevoArrayDeMascotas) {
             state.mascotas = nuevoArrayDeMascotas;
         },
+
+
         agregarusuario(state, usuario) {
-            state.usuarios = state.usuarios.push(usuario);
+        state.usuarios.push(usuario);
         },
         eliminarusuario(state, id) {
             state.usuarios = state.usuarios.filter((usuario) => usuario.id != id)

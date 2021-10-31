@@ -10,7 +10,7 @@
         <b-form-input
           id="input-1"
           v-model="form.mail"
-          type="mail"
+          type="email"
           placeholder="Ingresar Mail:"
           size="sm"
           required

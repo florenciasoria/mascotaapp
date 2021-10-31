@@ -64,7 +64,7 @@
         ></b-form-radio-group>
       </b-form-group>
 
-      <b-button type="submit" variant="primary"><router-link to="/quiero">Submit</router-link></b-button>
+      <b-button type="submit" variant="primary"><router-link to="/">Submit</router-link></b-button>
       <b-button type="reset" variant="danger">Reset</b-button>
     </b-form>
     <b-card class="mt-3" header="Form Data Result">

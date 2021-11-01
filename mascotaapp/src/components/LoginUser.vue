@@ -110,12 +110,13 @@ export default {
 
   data() {
     return {
-      acceso: true,
+    
       form: {
         mail: "",
         pass: "",
       },
       show: true,
+        acceso: true,
     };
   },
   methods: {
@@ -130,7 +131,7 @@ export default {
 
 
    
-    },
+   
 
     onReset(event) {
       event.preventDefault();
@@ -144,7 +145,8 @@ export default {
         this.show = true;
       });
     },
-  };
+  },
+};
 
 </script>
 

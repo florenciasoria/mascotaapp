@@ -107,6 +107,7 @@ export default {
   props: {
     msg: String,
   },
+
   data() {
     return {
       acceso: true,
@@ -114,6 +115,7 @@ export default {
         mail: "",
         pass: "",
       },
+      show: true,
     };
   },
   methods: {

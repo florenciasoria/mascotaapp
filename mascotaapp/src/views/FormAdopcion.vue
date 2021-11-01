@@ -1,17 +1,16 @@
 <template>
-  <div class="formulario">
-      <form-adopcion/>
+  <div class="Home">
+      <Formulario/>
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
-import formAdopcion from '@/components/formAdopcion.vue'
+import Formulario from '@/components/Formulario.vue'
 
 export default {
-  name: 'formAdopcion',
   components: {
-    formAdopcion
+    Formulario
   }
 }
 </script>

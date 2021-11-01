@@ -56,14 +56,15 @@
 import { mapGetters } from 'vuex'; 
 
 export default {
-  name: "form-adopcion",
-  data() {
+    name: 'form-adopcion',
+    data() {
     return { 
         text: '',
         nombre: '',
 
     }
   },
+
   computed: {
     ...mapGetters([
       'getmascotas',

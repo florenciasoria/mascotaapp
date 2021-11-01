@@ -2,8 +2,12 @@
   <div class="header">
     <div>
       <b-navbar toggleable="lg" type="dark" variant="dark">
-        <b-navbar-brand href="#" class="mx-4"><router-link to="/">MascotaAPP</router-link> </b-navbar-brand>
+        <b-navbar-brand href="#" class="mx-4">
+          <router-link to="/"><img src="../assets/logo.png" class="loguito"></router-link> 
+          </b-navbar-brand>
 
+
+          
         <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
         <b-collapse id="nav-collapse" is-nav>
@@ -40,5 +44,8 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-
+img {
+  width: 200px;
+  height: auto;
+}
 </style>

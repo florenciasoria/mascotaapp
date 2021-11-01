@@ -14,7 +14,7 @@
           <b-navbar-nav class="ms-auto">
             <b-nav-form class="py-2" >
               <b-button size="sm" class="mx-4 my-sm-0" type="submit">
-                <router-link to="/LoginF">Iniciar Sesión</router-link>
+                <router-link to="/LoginU">Iniciar Sesión</router-link>
               </b-button>
             </b-nav-form>
           </b-navbar-nav>

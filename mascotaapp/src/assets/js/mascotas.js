@@ -5,8 +5,8 @@ const mascotas = [
       edad: "cachorro",
       especie: "perro",
       color: "blanco",
-      sexo: "macho"
-      // foto: "/mascotaapp/mascotaapp/src/assets/chihuahua_1.jpg",
+      sexo: "macho",
+      foto: require("../chihuahua_1.jpg")
     },
     {
       id: 2,
@@ -14,7 +14,8 @@ const mascotas = [
       edad: "joven",
       especie: "gato",
       color: "negro",
-      sexo: "hembra"
+      sexo: "hembra",
+      foto: require("../gatitoPublicacion.jpg")
     },
     {
       id: 3,
@@ -22,7 +23,9 @@ const mascotas = [
       edad: "adulto",
       especie: "perro",
       color: "negro",
-      sexo: "macho"
+      sexo: "macho",
+      foto: require("../perritoPublicado.jpg")
+
     },
     {
       id: 4,
@@ -30,7 +33,9 @@ const mascotas = [
       edad: "cachorro",
       especie: "gato",
       color: "blanco",
-      sexo: "hembra"
+      sexo: "hembra",
+      foto: require("../gatitoSolicitud.jpg")
+
     },
     {
       id: 5,
@@ -38,7 +43,8 @@ const mascotas = [
       edad: "joven",
       especie: "gato",
       color: "negro",
-      sexo: "hembra"
+      sexo: "hembra",
+      foto: require("../gatitoPublicacion.jpg")
     }
 ];
 export default mascotas;

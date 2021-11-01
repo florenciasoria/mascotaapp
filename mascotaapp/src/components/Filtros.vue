@@ -41,6 +41,7 @@
               <p>{{ mascota.especie }}</p>
               <p>{{ mascota.color }}</p>
               <p>{{ mascota.sexo }}</p>
+              <img :src="mascota.foto" > 
               <b-row>
                 <b-col>
                   <b-button variant="primary">
@@ -178,5 +179,10 @@ a {
 }
 .altura {
   min-height: 80%;
+}
+
+img {
+  width: 100px;
+  height: 80px;
 }
 </style>

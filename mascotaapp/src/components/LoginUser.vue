@@ -2,7 +2,7 @@
   <div class="container">
     <div class="row">
       <div class="col-6">
-        <b-form @submit="onSubmit" @reset="onReset" v-if="show">
+        <b-form v-if="show">
           <b-form-group
             id="input-group-1"
             label="Direccion de Email:"
@@ -33,8 +33,9 @@
             ></b-form-input>
           </b-form-group>
 
-          <b-button type="submit" variant="primary" v-on:click="onSubmit"
-            ><router-link to="/">Submit</router-link></b-button>
+          <b-button type="submit" variant="primary" @click="onSubmit()">
+            <!-- <router-link to="/">Submit</router-link></b-button> -->
+            Submit</b-button>
           <b-button type="reset" variant="danger">Reset</b-button>
           <b-button type="" variant="success"
             ><router-link :to="'/LoginF'">Crear Usuario</router-link></b-button
@@ -115,23 +116,40 @@ export default {
         mail: "",
         pass: "",
       },
+      user:{
+        mail: "",
+        pass: "",
+      },
       show: true,
         acceso: true,
     };
   },
+
+    computed: {
+    ...mapGetters([
+      'getusuarios',
+    ]),
+  },
+
   methods: {
-    ...mapGetters(["getusuarios"]),
+//  ...mapGetters(["getusuarios"]),
 
-    onSubmit(event) {
-      event.preventDefault();
-      this.agregarusuario(this.form);
-      this.otroid++;
+    // onSubmit(event) {
+      onSubmit(){
+      // event.preventDefault();
+      if (this.buscarUser() != null && this.buscarUser().pass == this.form.pass ){
+        alert("bienvenido")
+        this.$router.push('/')
+      }else{
+        alert("Usuario o clave incorrectos")
+      }
+      },
+     buscarUser(){
+     return this.getusuarios.find((usuario) => usuario.mail == this.form.mail)
+    }
     },
-   
 
 
-   
-   
 
     onReset(event) {
       event.preventDefault();
@@ -145,7 +163,8 @@ export default {
         this.show = true;
       });
     },
-  },
+
+
 };
 
 </script>

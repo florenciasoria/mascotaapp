@@ -2,7 +2,7 @@
   <div class="container">
     <div class="row">
       <div class="col-6">
-        <b-form v-if="show">
+        <b-form v-if="show" @submit.prevent="onSubmit()">
           <b-form-group
             id="input-group-1"
             label="Direccion de Email:"
@@ -10,7 +10,7 @@
           >
             <b-form-input
               id="input-1"
-              v-model="form.mail"
+              v-model="form.email"
               type="email"
               placeholder="Ingresar Mail:"
               size="sm"
@@ -33,9 +33,10 @@
             ></b-form-input>
           </b-form-group>
 
-          <b-button type="submit" variant="primary" @click="onSubmit()">
-            <!-- <router-link to="/">Submit</router-link></b-button> -->
-            Submit</b-button>
+          <!-- <b-button type="submit" variant="primary" @click="onSubmit()"> -->
+          <b-button type="submit" variant="primary" >
+            Submit</b-button
+          >
           <b-button type="reset" variant="danger">Reset</b-button>
           <b-button type="" variant="success"
             ><router-link :to="'/LoginF'">Crear Usuario</router-link></b-button
@@ -43,6 +44,8 @@
         </b-form>
         <b-card class="mt-3" header="Form Data Result">
           <pre class="m-0">{{ form }}</pre>
+          <pre class="m-0">{{ this.resp }}</pre>
+          <pre class="m-0">{{ this.arrayPers }}</pre>
         </b-card>
       </div>
     </div>
@@ -102,7 +105,10 @@
 
 
 <script>
-import { mapGetters } from "vuex";
+// import { mapGetters } from "vuex";
+
+import service from '../services/personas'
+
 export default {
   name: "LoginUser",
   props: {
@@ -111,62 +117,102 @@ export default {
 
   data() {
     return {
-    
       form: {
-        mail: "",
+        email: "",
         pass: "",
       },
-      user:{
-        mail: "",
+      user: {  //-> este hay q pasarlo al store
+        email: "",
         pass: "",
       },
       show: true,
-        acceso: true,
+      acceso: true,
+
+      //temporal para debug
+      resp:"",
+      arrayPers:[],
+      nomTest:""
     };
   },
 
-    computed: {
-    ...mapGetters([
-      'getusuarios',
-    ]),
-  },
+  // computed: {
+  //   ...mapGetters(["getusuarios"]),
+  // },
+
+
 
   methods: {
-//  ...mapGetters(["getusuarios"]),
+    //  ...mapGetters(["getusuarios"]),
 
     // onSubmit(event) {
-      onSubmit(){
-      // event.preventDefault();
-      if (this.buscarUser() != null && this.buscarUser().pass == this.form.pass ){
-        alert("bienvenido")
-        this.$router.push('/')
-      }else{
-        alert("Usuario o clave incorrectos")
-      }
-      },
-     buscarUser(){
-     return this.getusuarios.find((usuario) => usuario.mail == this.form.mail)
+    async onSubmit() {
+    alert('llegaaaaa?')
+    try {
+      const usuario = await this.buscarUser()
+      if ( usuario != null 
+      // && usuario.pass == this.form.pass
+      ) {
+        console.log('usuario ', usuario)
+        console.log('usuario.pass ', usuario.pass)
+  
+        console.log('usuario email', usuario.email)
+        console.log('form pass ', this.form.pass)
+
+        this.nomTest = usuario.nombre
+
+        alert("bienvenido ", this.nomTest);
+        this.$router.push("/");
+      } 
+    } catch (error) {
+      alert("Usuario o clave incorrectos");
     }
     },
 
+    // buscarUser() {
+    //   return this.getusuarios.find((usuario) => usuario.mail == this.form.mail);
+    // },
 
-
-    onReset(event) {
-      event.preventDefault();
-      // Reset our form values
-      this.form.mail = "";
-      this.form.pass = "";
-
-      // Trick to reset/clear native browser form validation state
-      this.show = false;
-      this.$nextTick(() => {
-        this.show = true;
-      });
+    async buscarUser(){
+      // //const responsex = await service.get()
+      // const response = await service.getById(7)
+      // console.log(response)
+      // const array = response.data
+      // this.arrayPers = array
+      
+      // // const persona  = array.find((usuario) => usuario.email == this.form.email);
+      // // console.log(persona)
+      // // return persona
+      // return persona
+      const resuGet = await service.get()
+      const array = resuGet.data
+      this.arrayPers = resuGet.data
+      const persona  = array.find((usuario) => usuario.email == this.form.email);
+      return persona
     },
+    async verUser(){
+      this.resp = await service.get()
+      console.log(this.resp)
+      this.arrayPers = JSON.parse(this.resp)
+      console.log(this.arrayPers)
+    }
 
 
+
+  },
+
+  onReset(event) {
+    event.preventDefault();
+    // Reset our form values
+    this.form.email = "";
+    this.form.pass = "";
+
+    // Trick to reset/clear native browser form validation state
+    this.show = false;
+    this.$nextTick(() => {
+      this.show = true;
+    });
+  },
 };
-
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

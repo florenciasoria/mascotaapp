@@ -11,11 +11,14 @@ export default {
     getById(id){
         return client.get(`/${id}`)
     },
+    getUnUsuario(id){
+        return client.get(`/${id}`)
+    },
     delete(id){
         return client.delete(`/${id}`)
     },
     post(mascota){
-        return client.post(mascota)
+        return client.post(this.baseURL, mascota)
     },
     put(mascota){
         return client.put(mascota)

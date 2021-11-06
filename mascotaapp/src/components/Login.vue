@@ -11,7 +11,7 @@
           >
             <b-form-input
               id="input-1"
-              v-model="form.mail"
+              v-model="form.email"
               type="email"
               placeholder="Ingresar Mail:"
               size="sm"
@@ -75,7 +75,7 @@
           </b-form-group>
 
           <b-button type="submit" variant="primary" v-on:click="onSubmit"
-            ><router-link to="/">Submit</router-link></b-button
+            >Submit</b-button
           >
           <b-button type="reset" variant="danger">Reset</b-button>
         </b-form>
@@ -89,7 +89,8 @@
 
 
 <script>
-import { mapActions } from "vuex";
+//import { mapActions } from "vuex";
+import service from '../services/personas'
 export default {
   name: "Home",
   props: {
@@ -100,7 +101,7 @@ export default {
       otroid: 6,
       form: {
         id: this.otroid,
-        mail: "",
+        email: "",
         pass: "",
         nombre: "",
         apellido: "",
@@ -123,18 +124,30 @@ export default {
     };
   },
   methods: {
-    ...mapActions(["agregarusuario"]),
+    // ...mapActions(["agregarusuario"]),
 
     onSubmit(event) {
       event.preventDefault();
-      this.agregarusuario(this.form);
-      this.otroid++;
+      //this.agregarusuario(this.form);
+      try {
+        this.agregarPersona(this.form)
+        this.otroid++;
+        this.$router.push("/");
+      } catch {
+        alert('error en el put')
+      }
+      
+      
+    },
+
+    async agregarPersona(persona){
+      await service.post(persona)
     },
 
     onReset(event) {
       event.preventDefault();
       // Reset our form values
-      this.form.mail = "";
+      this.form.email = "";
       this.form.pass = "";
       this.form.nombre = "";
       this.form.apellido = "";
@@ -143,7 +156,7 @@ export default {
       // Trick to reset/clear native browser form validation state
       this.show = false;
       this.$nextTick(() => {
-        this.show = true;
+      this.show = true;
       });
     },
   },

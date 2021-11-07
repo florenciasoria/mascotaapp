@@ -51,56 +51,7 @@
     </div>
   </div>
 
-  <!-- <div class="error-mensaje"></div>
-    <div class="form-group">
-      <label for="usuario">Usuario</label>
-      <input name="usuario_nombre" type="text" class="form-control" />
-    </div>
-    <div class="form-group">
-      <div class="form-row">
-        <div class="col">
-          <label for="password">Contraseña</label>
-          <input
-            name="usuario_password"
-            type="password"
-            value=""
-            class="form-control"
-            id="contrasena"
-          />
-        </div>
-        <div class="col">
-          <label for="password"></label> -->
-  <!-- checkbox que nos permite activar o desactivar la opcion -->
-  <!-- <div style="margin-top: 15px">
-            <input
-              style="margin-left: 20px"
-              type="checkbox"
-              id="mostrar_contrasena"
-              title="clic para mostrar contraseña"
-            />
-            &nbsp;&nbsp;Mostrar Contraseña
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="form-check">
-      <input
-        type="checkbox"
-        name="remember"
-        id="remember"
-        class="form-check-input"
-      />
-      <label for="remember-me">Recordarme</label>
-    </div>
-    <div class="form-group">
-      <input
-        type="submit"
-        name="login"
-        value="Iniciar Sesión"
-        class="btn btn-primary"
-      />
-    </div>
-     -->
+ 
 </template>
 
 

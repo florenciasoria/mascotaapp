@@ -53,11 +53,12 @@ const routes = [
   { 
     path: '/form-adopcion/:id',     
     component: () => import('../views/FormAdopcion.vue') 
-  }  ,
-  { 
-    path: '/pruebas',     
-    component: () => import('../components/Pruebas.vue') 
+  },
+  {
+    path: '/subir-mascota/',     
+    component: () => import('../views/SubirMascota.vue') 
   }
+
 ]
 
 const router = new VueRouter({

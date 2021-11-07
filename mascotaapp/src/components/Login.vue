@@ -98,9 +98,7 @@ export default {
   },
   data() {
     return {
-      otroid: 6,
       form: {
-        id: this.otroid,
         email: "",
         pass: "",
         nombre: "",
@@ -131,8 +129,7 @@ export default {
       //this.agregarusuario(this.form);
       try {
         this.agregarPersona(this.form)
-        this.otroid++;
-        this.$router.push("/");
+        this.$router.push("/LoginU");
       } catch {
         alert('error en el put')
       }

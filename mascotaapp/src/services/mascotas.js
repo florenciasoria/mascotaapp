@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const client = axios.create({
-    baseURL: "https://618090a88bfae60017adfb35.mockapi.io/api/mascotas/"
+    baseURL: "https://618090a88bfae60017adfb35.mockapi.io/mascotas/"
 })
 
 export default {
@@ -9,9 +9,6 @@ export default {
         return client.get()
     },
     getById(id){
-        return client.get(`/${id}`)
-    },
-    getUnUsuario(id){
         return client.get(`/${id}`)
     },
     delete(id){

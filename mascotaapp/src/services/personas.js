@@ -13,7 +13,6 @@ export default {
     getById(id){
         return client.get(`/${id}`)
     },
-    
     delete(id){
         return client.delete(`/${id}`)  
     },

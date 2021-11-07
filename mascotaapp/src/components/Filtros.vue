@@ -27,13 +27,14 @@
         </b-row>
 
       </b-col>
+          <button v-on:click="mascotasFiltradas">A ver si carga</button>
 
       <b-col>
         <div class="px-3 py-2">
           <b-row>
             <b-col
               class="col-lg-3 m-4 px-3 py-4 cajamascota"
-              v-for="mascota in mascotasFiltradas"
+              v-for="mascota in mascotasPaMostrar"
               :key="mascota.id"
             >
               <h5 class="pb-2">{{ mascota.nombre }}</h5>
@@ -67,10 +68,10 @@
 </template>
 
 <script>
-import mascotas from "../assets/js/mascotas";
+//import mascotas from "../assets/js/mascotas";
 
-
-import { mapGetters } from 'vuex'; 
+import service from '../services/mascotas'
+//import { mapGetters } from 'vuex'; 
 
 export default {
   name: "HelloWorld",
@@ -85,7 +86,7 @@ export default {
         sexo: [],
         color: [],
       },
-
+      mascotasPaMostrar:[],
       especie: [
         { text: "Perro", value: "perro" },
         { text: "Gato", value: "gato" },
@@ -94,6 +95,7 @@ export default {
       color: [
         { text: "Negro", value: "negro" },
         { text: "Blanco", value: "blanco" },
+        { text: "Marron", value: "marron" },
       ],
 
       edad: [
@@ -110,26 +112,53 @@ export default {
       sexos: ["macho", "hembra"],
       colores: ["negro", "blanco", "naranja", "gris"],
 
-      mascotas,
+      
     };
   },
   computed: {
-    mascotasFiltradas() {
-      let mascotasF = this.getmascotas;
+    // mascotasFiltradas() {
+      
+    //   let mascotasF = this.traerMascotas();
+    //   console.log("devuelve array de mascotas ", mascotasF)
+
+      
+    //   return  this.filtrarAnimalesPorEspecie(
+    //           this.filtrarAnimalesPorColor(
+    //           this.filtrarAnimalesPorEdad(
+    //           this.filtrarAnimalesPorSexo(mascotasF))))
+    // },
+    //...mapGetters([
+    //  'getmascotas',
+    //]),
+  },
+
+  methods: {
+
+    async mascotasFiltradas() {
+      
+      let mascotasF = await this.traerMascotas();
+      console.log("devuelve array de mascotas ", mascotasF)
+
+      this.mascotasPaMostrar = this.filtrarAnimalesPorEspecie(
+              this.filtrarAnimalesPorColor(
+              this.filtrarAnimalesPorEdad(
+              this.filtrarAnimalesPorSexo(mascotasF))))
+      
       return  this.filtrarAnimalesPorEspecie(
               this.filtrarAnimalesPorColor(
               this.filtrarAnimalesPorEdad(
               this.filtrarAnimalesPorSexo(mascotasF))))
     },
-    ...mapGetters([
-      'getmascotas',
-    ]),
-  },
 
 
+    async traerMascotas(){
+      const resuGet = await service.get()
+      console.log(resuGet)
+      const arrayMascotas = resuGet.data
+            console.log(arrayMascotas)
+      return arrayMascotas
+    },
 
-
-  methods: {
     filtrarAnimalesPorEspecie: function (mascotas) {
       if (this.filtro.especie != "")
         return mascotas.filter(m => this.filtro.especie.includes(m.especie));

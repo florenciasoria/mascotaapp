@@ -97,7 +97,6 @@ export default {
 
     // onSubmit(event) {
     async onSubmit() {
-    alert('llegaaaaa?')
     try {
       const usuario = await this.buscarUser()
       if ( usuario != null 

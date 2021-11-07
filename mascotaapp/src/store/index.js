@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 import mascotas from '../assets/js/mascotas.js'
-import usuarios from '../assets/js/usuarios.js'
+import usuariosLog from '../assets/js/usuariosLog.js'
 
 
 Vue.use(Vuex)
@@ -10,7 +10,7 @@ export default new Vuex.Store({
     state: {
         // esto le pone valor inicial a la variable mascotas (el array)
         mascotas,
-        usuarios
+        usuariosLog
     },
     mutations: {
 
@@ -25,27 +25,27 @@ export default new Vuex.Store({
         },
 
 
-        agregarusuario(state, usuario) {
-        state.usuarios.push(usuario);
+        agregarusuarioLog(state, usuario) {
+        state.usuariosLog.push(usuario);
         },
-        eliminarusuario(state, id) {
-            state.usuarios = state.usuarios.filter((usuario) => usuario.id != id)
+        eliminarusuarioLog(state, id) {
+            state.usuariosLog = state.usuariosLog.filter((usuario) => usuario.id != id)
         },
-        editarusuario(state, nuevoArrayDeUsuarios) {
-            state.usuarios = nuevoArrayDeUsuarios;
+        editarusuarioLog(state, nuevoArrayDeUsuarios) {
+            state.usuariosLog = nuevoArrayDeUsuarios;
         }
     },
     actions: {
-        agregarusuario({commit}, usuario) {
-            commit("agregarusuario",usuario)
+        agregarusuarioLog({commit}, usuario) {
+            commit("agregarusuarioLog",usuario)
         },
     },
     getters: {
         getmascotas: (state) => {
             return state.mascotas
         },
-        getusuarios: (state) => {
-            return state.usuarios
+        getusuariosLog: (state) => {
+            return state.usuariosLog
         }
     }
 

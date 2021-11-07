@@ -56,7 +56,7 @@
 
 
 <script>
-// import { mapGetters } from "vuex";
+ import { mapActions } from "vuex";
 
 import service from '../services/personas'
 
@@ -93,7 +93,7 @@ export default {
 
 
   methods: {
-    //  ...mapGetters(["getusuarios"]),
+      ...mapActions(["agregarusuarioLog"]),
 
     // onSubmit(event) {
     async onSubmit() {
@@ -103,14 +103,14 @@ export default {
       if ( usuario != null 
       // && usuario.pass == this.form.pass
       ) {
-        console.log('usuario ', usuario)
-        console.log('usuario.pass ', usuario.pass)
+        //console.log('usuario ', usuario)
+        //console.log('usuario.pass ', usuario.pass)
   
-        console.log('usuario email', usuario.email)
-        console.log('form pass ', this.form.pass)
+        //console.log('usuario email', usuario.email)
+        //console.log('form pass ', this.form.pass)
 
-        this.nomTest = usuario.nombre
-
+        //this.nomTest = usuario.nombre
+        this.agregarusuarioLog(usuario)
         alert("bienvenido ", this.nomTest);
         this.$router.push("/");
       } 
@@ -146,9 +146,6 @@ export default {
       this.arrayPers = JSON.parse(this.resp)
       console.log(this.arrayPers)
     }
-
-
-
   },
 
   onReset(event) {

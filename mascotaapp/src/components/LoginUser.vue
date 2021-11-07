@@ -97,25 +97,29 @@ export default {
 
     // onSubmit(event) {
     async onSubmit() {
-    try {
-      const usuario = await this.buscarUser()
-      if ( usuario != null 
-      // && usuario.pass == this.form.pass
-      ) {
-        //console.log('usuario ', usuario)
-        //console.log('usuario.pass ', usuario.pass)
-  
-        //console.log('usuario email', usuario.email)
-        //console.log('form pass ', this.form.pass)
+      try {
+        const usuario = await this.buscarUser()
+        if ( usuario != null 
+         && usuario.pass == this.form.pass
+        ) {
+          //console.log('usuario ', usuario)
+          //console.log('usuario.pass ', usuario.pass)
+    
+          //console.log('usuario email', usuario.email)
+          //console.log('form pass ', this.form.pass)
 
-        //this.nomTest = usuario.nombre
-        this.agregarusuarioLog(usuario)
-        alert("bienvenido ", this.nomTest);
-        this.$router.push("/");
-      } 
-    } catch (error) {
-      alert("Usuario o clave incorrectos");
-    }
+          //this.nomTest = usuario.nombre
+          this.agregarusuarioLog(usuario)
+          alert("bienvenido ", this.nomTest);
+          this.$router.push("/");
+        }else{
+          //agrego el else acá porque si encuentra el mail y la pass es incorrecta no lo estamos
+          //agarrando
+          alert("Usuario o clave incorrectos");
+        } 
+      } catch (error) {
+        alert("Usuario o clave incorrectos");
+      }
     },
 
     // buscarUser() {
@@ -137,6 +141,7 @@ export default {
       const array = resuGet.data
       this.arrayPers = resuGet.data
       const persona  = array.find((usuario) => usuario.email == this.form.email);
+      console.log("resultado find", persona);
       return persona
     },
     async verUser(){

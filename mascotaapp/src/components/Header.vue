@@ -21,13 +21,18 @@
           >
           |
 
-          <button v-on:click="verUsuarioLogueado">A ver si carga</button>
-          <p v-if="usuario"> {{usuario.nombre}}  {{usuario.email}} </p>
+          <p v-if="usuario.nombre"> {{usuario.nombre}}  {{usuario.email}} </p>
 
           <b-navbar-nav class="ms-auto">
             <b-nav-form class="py-2">
-              <div v-if="show">
-                <b-button size="sm" class="mx-4 my-sm-0" type="submit">
+              <div v-if="usuario.nombre">
+
+                 <b-button size="sm" class="mx-4 my-sm-0" type="submit" v-on:click="cerrarSesion">
+                  <router-link to="/">Cerrar Sesión</router-link>
+                </b-button>
+              </div>
+              <div v-else>
+                               <b-button size="sm" class="mx-4 my-sm-0" type="submit">
                   <router-link to="/LoginU">Iniciar Sesión</router-link>
                 </b-button>
               </div>
@@ -41,6 +46,7 @@
 
 <script>
 import { mapGetters } from "vuex";
+import { mapActions } from "vuex";
 export default {
   name: "HelloWorld",
   props: {},
@@ -52,19 +58,35 @@ export default {
   },
 
   methods: {
-    ...mapGetters(["getusuariosLog"]),
+    //...mapGetters(["getusuariosLog"]),
+      ...mapActions(["eliminarusuarioLog"]),
+
+    async cerrarSesion(){
+      console.log("llega a cerrar sesion")
+        await this.eliminarusuarioLog
+        this.usuario = {}
+        console.log(this.getusuariosLog)
+        console.log(this.usuario)
+    },
 
     async verUsuarioLogueado() {
-      const usuario = this.getusuariosLog().find((usuario) => usuario.id != null );
-      console.log(usuario)
+      const usuario = this.getusuariosLog.find((usuario) => usuario.id != null );
+      console.log("Encontro usuario?" , usuario)
       this.usuario = usuario
-      return usuario != null ? (this.show = false) : (this.show = true);
+      console.log(this.usuario)
+      //return usuario != null ? (this.show = false) : (this.show = true);
     },
   },
+
+  computed: {
+        ...mapGetters(["getusuariosLog"]),
+  },
   watch: {
+
     getusuariosLog: {
       handler() {
         console.log(this.show);
+        console.log(this.getusuariosLog)
         this.verUsuarioLogueado();
         console.log(this.show);
       },
@@ -78,5 +100,10 @@ export default {
 img {
   width: 200px;
   height: auto;
+}
+
+
+p {
+  color: white;
 }
 </style>

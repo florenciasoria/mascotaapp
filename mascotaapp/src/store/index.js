@@ -28,8 +28,9 @@ export default new Vuex.Store({
         agregarusuarioLog(state, usuario) {
         state.usuariosLog.push(usuario);
         },
-        eliminarusuarioLog(state, id) {
-            state.usuariosLog = state.usuariosLog.filter((usuario) => usuario.id != id)
+        eliminarusuarioLog(state) {
+            //state.usuariosLog = state.usuariosLog.filter((usuario) => usuario.id != id)
+            state.usuariosLog = {}
         },
         editarusuarioLog(state, nuevoArrayDeUsuarios) {
             state.usuariosLog = nuevoArrayDeUsuarios;

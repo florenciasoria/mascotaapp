@@ -69,9 +69,8 @@ export default {
 
         console.log('usuario ', usuario)
         console.log('usuario.pass ', usuario.pass)
-  
-        console.log('usuario email', usuario.email)
-        console.log('form pass ', this.form.pass)
+        console.log('usuario.email', usuario.email)
+        console.log('form.pass ', this.form.pass)
 
       if ( usuario != null 
       // && usuario.pass == this.form.pass

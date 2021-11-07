@@ -21,6 +21,9 @@
           >
           |
 
+          <button v-on:click="verUsuarioLogueado">A ver si carga</button>
+          <p v-if="usuario"> {{usuario.nombre}}  {{usuario.email}} </p>
+
           <b-navbar-nav class="ms-auto">
             <b-nav-form class="py-2">
               <div v-if="show">
@@ -44,22 +47,22 @@ export default {
   data() {
     return {
       show: true,
+      usuario:{}
     };
-  },
-  computed:{
-
   },
 
   methods: {
     ...mapGetters(["getusuariosLog"]),
 
     async verUsuarioLogueado() {
-      const usuario = this.getusuariosLog();
+      const usuario = this.getusuariosLog().find((usuario) => usuario.id != null );
+      console.log(usuario)
+      this.usuario = usuario
       return usuario != null ? (this.show = false) : (this.show = true);
     },
   },
   watch: {
-    show: {
+    getusuariosLog: {
       handler() {
         console.log(this.show);
         this.verUsuarioLogueado();

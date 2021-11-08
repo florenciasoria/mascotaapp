@@ -61,11 +61,11 @@ export default {
 
   methods: {
     //...mapGetters(["getusuariosLog"]),
-      ...mapActions(["eliminarusuarioLog"]),
+      ...mapActions(["cerarSesion"]),
 
     async cerrarSesion(){
       console.log("llega a cerrar sesion")
-        await this.eliminarusuarioLog
+        await this.cerrarSesion
         this.usuario = {}
         console.log(this.getusuariosLog)
         console.log(this.usuario)

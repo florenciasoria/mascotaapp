@@ -1,4 +1,3 @@
-const usuariosLog = [
- 
-];
+const usuariosLog = []
+;
 export default usuariosLog;

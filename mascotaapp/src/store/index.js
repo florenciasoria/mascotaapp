@@ -40,6 +40,10 @@ export default new Vuex.Store({
         agregarusuarioLog({commit}, usuario) {
             commit("agregarusuarioLog",usuario)
         },
+        cerrarsesion({commit}) {
+            commit("eliminarusuarioLog")
+        },
+        
     },
     getters: {
         getmascotas: (state) => {

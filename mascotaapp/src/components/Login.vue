@@ -116,7 +116,9 @@ export default {
       ],
       roles: [
         { value: "p", text: "Postulante" },
+        { value: "z", text: "Administrador" },
         { value: "a", text: "Adoptante" },
+
       ],
       show: true,
     };

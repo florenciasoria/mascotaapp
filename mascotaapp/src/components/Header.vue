@@ -11,12 +11,12 @@
         <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
         <b-collapse id="nav-collapse" is-nav>
-          <router-link to="/" class="px-2">Quiero</router-link> |
-          <router-link to="/misSolicitudes" class="px-2"
+          <!-- <router-link to="/" class="px-2">Quiero</router-link> | -->
+          <router-link v-if="esAdoptante" to="/misSolicitudes" class="px-2"
             >Solicitudes</router-link
           >
           |
-          <router-link to="/misPublicaciones" class="px-2"
+          <router-link to="/misPublicaciones" class="px-2" v-if="esPublicador"
             >Publicaciones</router-link
           >
           |
@@ -57,6 +57,8 @@ export default {
     };
   },
 
+
+
   methods: {
     //...mapGetters(["getusuariosLog"]),
       ...mapActions(["eliminarusuarioLog"]),
@@ -73,6 +75,7 @@ export default {
       const usuario = this.getusuariosLog.find((usuario) => usuario.id != null );
       console.log("Encontro usuario?" , usuario)
       this.usuario = usuario
+      
       console.log(this.usuario)
       //return usuario != null ? (this.show = false) : (this.show = true);
     },
@@ -80,7 +83,8 @@ export default {
 
   computed: {
         ...mapGetters(["getusuariosLog"]),
-  },
+        esAdoptante() {return this.usuario.rol == "a" || this.usuario.rol == "z"} ,
+        esPublicador() {return this.usuario.rol == "p" || this.usuario.rol == "z"} ,  },
   watch: {
 
     getusuariosLog: {

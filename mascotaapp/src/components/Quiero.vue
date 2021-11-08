@@ -23,14 +23,14 @@
       </b-row>
       <b-row style="margin-top: 50px">
         <b-col>
-          <b-button variant="success"
+          <b-button class="boton"
             ><router-link :to="'/buscar'"
               >Quiero adoptar
             </router-link></b-button
           >
         </b-col>
         <b-col>
-          <b-button variant="success"><router-link :to="'/subir-mascota'"
+          <b-button class="boton"><router-link :to="'/subir-mascota'"
               >Quiero Dar en Adopción
             </router-link></b-button>
           
@@ -74,11 +74,17 @@ li {
   margin: 0 10px;
 }
 a {
-  color: #a3e3dc;
+  color: #ffffff;
+  text-decoration: none;
 }
 
 .margenes {
   padding-top: 100px;
   padding-bottom: 100px;
+}
+
+.boton {
+  background-color: #8969D3;
+  border-color: #8969D3;
 }
 </style>

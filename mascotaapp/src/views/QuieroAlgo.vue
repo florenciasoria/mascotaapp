@@ -18,8 +18,10 @@ export default {
 
 <style>
 .home {
-    background-color: #e2aee4;
+    background-color: #e1cde7;
     /* height: 100%; */
 
 }
+
+
 </style>

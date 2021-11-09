@@ -54,15 +54,16 @@
                   <!-- <b-button variant="success" v-on:click="openModal(mascota)" -->
                   <b-button
                     variant="success"
-                    @click="modalVisible = !modalVisible"
+                    v-b-modal.my-modal
+                    @click="asignarMascota(mascota)"
                     >¡Quiero adoptarlo!</b-button
                   >
                 </b-col>
               </b-row>
             </b-col>
           </b-row>
-          <b-modal id="bv-modal-example" title="Confirmar?" :data="modalData">
-            <p class="my-4">Texto</p>
+          <b-modal id="my-modal" title="Confirmar?" :data="modalData">
+            <p class="my-4">{{modalData.nombre}}</p>
             <b-button variant="success" @click="confirmarAdopcion(mascota)"
               >Confirmar adopción</b-button
             >
@@ -175,7 +176,9 @@ export default {
         this.agregarAdopcion(soli)
     },
 
-
+  asignarMascota(mascota){
+          this.modalData = mascota;
+  },
 
 
     openModal(mascota) {

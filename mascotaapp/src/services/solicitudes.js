@@ -11,6 +11,10 @@ export default {
     getById(id){
         return client.get(`/${id}`)
     },
+    
+    //get/solicitudes?solicitante="usuarioLogueado"
+    //get/solicitudes?publicador="usuarioLogueado"
+
     delete(id){
         return client.delete(`/${id}`)
     },

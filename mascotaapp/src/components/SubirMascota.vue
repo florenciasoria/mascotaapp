@@ -69,7 +69,7 @@
 
 
 <script>
-//import { mapActions } from "vuex";
+import { mapGetters } from "vuex";
 import service from '../services/mascotas'
 export default {
   name: "Home",
@@ -79,6 +79,7 @@ export default {
   data() {
     return {
     //   otroid: 6,
+  
       form: {
         // id: this.otroid,
         nombre: "",
@@ -87,10 +88,11 @@ export default {
         color: "",
         sexo: "",
         foto: "",
+        idPublicador: "",
       },
       especie: [
-        { value: "perro", text: "Perro" },
-        { value: "gato", text: "Gato" },
+        { value: "perro", text: "perro" },
+        { value: "gato", text: "gato" },
       ],
       color: [
         { text: "Select One", value: null },
@@ -105,8 +107,8 @@ export default {
         { value: "adulto", text: "adulto" }
       ],      
       sexo: [
-        { value: "Hembra", text: "Hembra" },
-        { value: "Macho", text: "Macho" },
+        { value: "hembra", text: "hembra" },
+        { value: "macho", text: "macho" },
       ],
 
       show: true,
@@ -114,11 +116,16 @@ export default {
   },
   methods: {
     // ...mapActions(["agregarusuario"]),
+    ...mapGetters(["getusuariosLog"]),
 
-    onSubmit(event) {
+
+    async onSubmit(event) {
       event.preventDefault();
       //this.agregarusuario(this.form);
       try {
+        const publicador = await this.getusuariosLog()
+        const id = publicador[0].id;
+        this.form.idPublicador = id
         this.agregarMascota(this.form)
         // this.otroid++;
         this.$router.push("/");

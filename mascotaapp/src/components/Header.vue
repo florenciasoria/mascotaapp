@@ -11,12 +11,13 @@
         <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
         <b-collapse id="nav-collapse" is-nav>
-          <!-- <router-link to="/" class="px-2">Quiero</router-link> | -->
-          <router-link v-if="esAdoptante" to="/misSolicitudes" class="px-2"
+
+          
+          <router-link v-if="esAdoptante || esAdmin" to="/misSolicitudes" class="px-2"
             >Solicitudes</router-link
           >
           |
-          <router-link to="/misPublicaciones" class="px-2" v-if="esPublicador"
+          <router-link to="/misPublicaciones" class="px-2" v-if="esPublicador || esAdmin"
             >Publicaciones</router-link
           >
           |
@@ -61,38 +62,40 @@ export default {
 
   methods: {
     //...mapGetters(["getusuariosLog"]),
-      ...mapActions(["cerarSesion"]),
+      ...mapActions(["cerrarSesion2"]),
 
-    async cerrarSesion(){
-      console.log("llega a cerrar sesion")
-        await this.cerrarSesion
+    cerrarSesion(){
+      console.log("Metodo cerrar Sesion -----")
+        console.log("Get Usuarios Log ",this.getusuariosLog)
+        this.cerrarSesion2()
         this.usuario = {}
-        console.log(this.getusuariosLog)
-        console.log(this.usuario)
+        console.log("Get Usuarios Log ",this.getusuariosLog)
+        console.log("This Usuario ",this.usuario)
     },
 
     async verUsuarioLogueado() {
+      //debugger;
       const usuario = this.getusuariosLog.find((usuario) => usuario.id != null );
-      console.log("Encontro usuario?" , usuario)
       this.usuario = usuario
-      
-      console.log(this.usuario)
       //return usuario != null ? (this.show = false) : (this.show = true);
     },
   },
 
   computed: {
         ...mapGetters(["getusuariosLog"]),
-        esAdoptante() {return this.usuario.rol == "a" || this.usuario.rol == "z"} ,
-        esPublicador() {return this.usuario.rol == "p" || this.usuario.rol == "z"} ,  },
+        esAdoptante() {return this.usuario.rol == "a"} ,
+        esAdmin() {return this.usuario.rol == "z"} ,
+        esPublicador() {
+        return this.usuario.rol == "p"} ,  },
+
   watch: {
 
     getusuariosLog: {
       handler() {
-        console.log(this.show);
-        console.log(this.getusuariosLog)
+        //console.log(this.show);
+        //console.log(this.getusuariosLog)
         this.verUsuarioLogueado();
-        console.log(this.show);
+        //console.log(this.show);
       },
     },
   },

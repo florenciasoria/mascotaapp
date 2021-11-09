@@ -9,7 +9,6 @@ export default {
     get(){
         return client.get()
     },
-
     getById(id){
         return client.get(`/${id}`)
     },

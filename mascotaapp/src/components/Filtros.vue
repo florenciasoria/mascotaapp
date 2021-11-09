@@ -12,29 +12,35 @@
           <h3>Color</h3>
           <b-form-checkbox-group v-model="filtro.color" :options="color">
           </b-form-checkbox-group>
-        </b-row>        
-        
+        </b-row>
+
         <b-row>
           <h3>Edad</h3>
           <b-form-checkbox-group v-model="filtro.edad" :options="edad">
           </b-form-checkbox-group>
-        </b-row>   
-        
+        </b-row>
+
         <b-row>
           <h3>Sexo</h3>
           <b-form-checkbox-group v-model="filtro.sexo" :options="sexo">
           </b-form-checkbox-group>
         </b-row>
-
       </b-col>
-          <button v-on:click="mascotasFiltradas">A ver si carga</button>
 
       <b-col>
+        <!-- <b-modal
+          id="modal-1"
+          title="Confirmar?"
+          :data="modalData"
+          v-if="modalVisible"
+          @close="modalVisible = false"
+        >         -->
+
         <div class="px-3 py-2">
           <b-row>
             <b-col
               class="col-lg-3 m-4 px-3 py-4 cajamascota"
-              v-for="mascota in mascotasPaMostrar"
+              v-for="mascota in mascotasFiltradas"
               :key="mascota.id"
             >
               <h5 class="pb-2">{{ mascota.nombre }}</h5>
@@ -42,25 +48,25 @@
               <p>{{ mascota.especie }}</p>
               <p>{{ mascota.color }}</p>
               <p>{{ mascota.sexo }}</p>
-              <img :src="mascota.foto" > 
+              <img :src="mascota.foto" />
               <b-row>
                 <b-col>
-                  <b-button variant="primary">
-                    <router-link :to="'/mascotas/' + mascota.id"
-                      >Ver ficha</router-link
-                    >
-                  </b-button>
-                </b-col>
-                <b-col>
-                  <b-button variant="success"
-                    ><router-link :to="'/form-adopcion/' + mascota.id"
-                      >¡Quiero adoptarlo!</router-link
-                    ></b-button
+                  <!-- <b-button variant="success" v-on:click="openModal(mascota)" -->
+                  <b-button
+                    variant="success"
+                    @click="modalVisible = !modalVisible"
+                    >¡Quiero adoptarlo!</b-button
                   >
                 </b-col>
               </b-row>
             </b-col>
           </b-row>
+          <b-modal id="bv-modal-example" title="Confirmar?" :data="modalData">
+            <p class="my-4">Texto</p>
+            <b-button variant="success" @click="confirmarAdopcion(mascota)"
+              >Confirmar adopción</b-button
+            >
+          </b-modal>
         </div>
       </b-col>
     </b-row>
@@ -70,8 +76,8 @@
 <script>
 //import mascotas from "../assets/js/mascotas";
 
-import service from '../services/mascotas'
-//import { mapGetters } from 'vuex'; 
+import service from "../services/mascotas";
+import { mapGetters } from "vuex";
 
 export default {
   name: "HelloWorld",
@@ -80,13 +86,21 @@ export default {
   },
   data() {
     return {
+      solicitud: {
+        idMascota: "",
+        idAdoptante: "",
+        idPublicador: "",
+        estado: "Pendiente"
+      },
+
       filtro: {
         especie: [],
         edad: [],
         sexo: [],
         color: [],
       },
-      mascotasPaMostrar:[],
+      mascotasInicial: [],
+      mascotas: [],
       especie: [
         { text: "Perro", value: "perro" },
         { text: "Gato", value: "gato" },
@@ -102,8 +116,8 @@ export default {
         { text: "Cachorro", value: "cachorro" },
         { text: "Joven", value: "joven" },
         { text: "Adulto", value: "adulto" },
-      ], 
-      
+      ],
+
       sexo: [
         { text: "Macho", value: "macho" },
         { text: "Hembra", value: "hembra" },
@@ -112,16 +126,27 @@ export default {
       sexos: ["macho", "hembra"],
       colores: ["negro", "blanco", "naranja", "gris"],
 
-      
+      modalVisible: false,
+      modalData: null,
     };
   },
   computed: {
+    mascotasFiltradas() {
+      let mascotasF = this.mascotasInicial;
+      console.log("devuelve array de mascotas ", mascotasF);
+
+      return this.filtrarAnimalesPorEspecie(
+        this.filtrarAnimalesPorColor(
+          this.filtrarAnimalesPorEdad(this.filtrarAnimalesPorSexo(mascotasF))
+        )
+      );
+    },
+
     // mascotasFiltradas() {
-      
+
     //   let mascotasF = this.traerMascotas();
     //   console.log("devuelve array de mascotas ", mascotasF)
 
-      
     //   return  this.filtrarAnimalesPorEspecie(
     //           this.filtrarAnimalesPorColor(
     //           this.filtrarAnimalesPorEdad(
@@ -132,53 +157,62 @@ export default {
     //]),
   },
 
+  async created() {
+    this.mascotasInicial = await this.traerMascotas();
+  },
+
   methods: {
+    ...mapGetters(["getusuariosLog"]),
 
-    async mascotasFiltradas() {
-      
-      let mascotasF = await this.traerMascotas();
-      console.log("devuelve array de mascotas ", mascotasF)
-
-      this.mascotasPaMostrar = this.filtrarAnimalesPorEspecie(
-              this.filtrarAnimalesPorColor(
-              this.filtrarAnimalesPorEdad(
-              this.filtrarAnimalesPorSexo(mascotasF))))
-      
-      return  this.filtrarAnimalesPorEspecie(
-              this.filtrarAnimalesPorColor(
-              this.filtrarAnimalesPorEdad(
-              this.filtrarAnimalesPorSexo(mascotasF))))
+    confirmarAdopcion(mascota) {
+      const usuario = this.getusuariosLog()
+      const soli = {
+        idMascota : mascota.id,
+        idAdoptante: usuario.id,
+        idPublicador: mascota.idPublicador,
+        estado: "Pendiente"
+      }
+        this.agregarAdopcion(soli)
     },
 
 
-    async traerMascotas(){
-      const resuGet = await service.get()
-      console.log(resuGet)
-      const arrayMascotas = resuGet.data
-            console.log(arrayMascotas)
-      return arrayMascotas
+
+
+    openModal(mascota) {
+      console.log("Abre el modal");
+      console.log(mascota);
+      this.modalData = mascota;
+      this.modalVisible = true;
+    },
+
+    async traerMascotas() {
+      const resuGet = await service.get();
+      console.log(resuGet);
+      const arrayMascotas = resuGet.data;
+      console.log(arrayMascotas);
+      return arrayMascotas;
     },
 
     filtrarAnimalesPorEspecie: function (mascotas) {
       if (this.filtro.especie != "")
-        return mascotas.filter(m => this.filtro.especie.includes(m.especie));
+        return mascotas.filter((m) => this.filtro.especie.includes(m.especie));
       else return mascotas;
     },
     filtrarAnimalesPorColor: function (mascotas) {
       if (this.filtro.color != "")
-        return mascotas.filter(m => this.filtro.color.includes(m.color));
-              else return mascotas;
+        return mascotas.filter((m) => this.filtro.color.includes(m.color));
+      else return mascotas;
     },
-    
+
     filtrarAnimalesPorEdad: function (mascotas) {
       if (this.filtro.edad != "")
-        return mascotas.filter(m => this.filtro.edad.includes(m.edad));
+        return mascotas.filter((m) => this.filtro.edad.includes(m.edad));
       else return mascotas;
-    },    
-    
+    },
+
     filtrarAnimalesPorSexo: function (mascotas) {
       if (this.filtro.sexo != "")
-        return mascotas.filter(m => this.filtro.sexo.includes(m.sexo));
+        return mascotas.filter((m) => this.filtro.sexo.includes(m.sexo));
       else return mascotas;
     },
   },
@@ -201,13 +235,15 @@ li {
 a {
   color: #a3e3dc;
 }
-* { text-align: left;}
+* {
+  text-align: left;
+}
 .cajamascota {
   background-color: rgb(255, 255, 255);
   border-radius: 5%;
 }
 .altura {
-  min-height: 80%;
+  min-height: 100%;
 }
 
 img {

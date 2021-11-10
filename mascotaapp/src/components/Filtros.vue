@@ -58,7 +58,7 @@
           </b-row>
           <b-modal id="my-modal" title="Confirmar?" :data="modalData">
             <p class="my-4">{{ modalData.nombre }}</p>
-            <b-button variant="success" @click="confirmarAdopcion(mascota)"
+            <b-button variant="success" @click="confirmarAdopcion(modalData)"
               >Confirmar adopción</b-button
             >
           </b-modal>
@@ -164,6 +164,7 @@ export default {
 
     confirmarAdopcion(mascota) {
       const usuario = this.getusuariosLog();
+      console.log(usuario)
       const soli = {
         idMascota: mascota.id,
         idAdoptante: usuario.id,

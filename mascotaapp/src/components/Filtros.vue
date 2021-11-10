@@ -172,6 +172,7 @@ export default {
         estado: "Pendiente",
       };
       this.agregarAdopcion(soli);
+      this.$router.push("/misSolicitudes");
     },
 
     asignarMascota(mascota) {

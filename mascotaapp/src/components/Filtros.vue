@@ -1,7 +1,7 @@
 <template>
   <div class="container altura">
     <b-row>
-      <b-col class="col-lg-3">
+      <b-col class="col-lg-2">
         <b-row>
           <h3>Especie</h3>
           <b-form-checkbox-group v-model="filtro.especie" :options="especie">
@@ -27,43 +27,37 @@
         </b-row>
       </b-col>
 
-      <b-col>
-        <!-- <b-modal
-          id="modal-1"
-          title="Confirmar?"
-          :data="modalData"
-          v-if="modalVisible"
-          @close="modalVisible = false"
-        >         -->
 
-        <div class="px-3 py-2">
+      <b-col class="col-lg-10">
+
+
+
+        <div class="">
           <b-row>
-            <b-col
-              class="col-lg-3 m-4 px-3 py-4 cajamascota"
+           <b-card
               v-for="mascota in mascotasFiltradas"
               :key="mascota.id"
+              :title="mascota.nombre"
+              :img-src="mascota.foto"
+              img-top
+              style="max-width: 20rem"
+              class="m-2"
             >
-              <h5 class="pb-2">{{ mascota.nombre }}</h5>
               <p>{{ mascota.edad }}</p>
               <p>{{ mascota.especie }}</p>
               <p>{{ mascota.color }}</p>
               <p>{{ mascota.sexo }}</p>
-              <img :src="mascota.foto" />
-              <b-row>
-                <b-col>
-                  <!-- <b-button variant="success" v-on:click="openModal(mascota)" -->
-                  <b-button
-                    variant="success"
-                    v-b-modal.my-modal
-                    @click="asignarMascota(mascota)"
-                    >¡Quiero adoptarlo!</b-button
-                  >
-                </b-col>
-              </b-row>
-            </b-col>
+
+              <b-button
+                variant="success"
+                v-b-modal.my-modal
+                @click="asignarMascota(mascota)"
+                >¡Quiero adoptarlo!</b-button
+              >
+            </b-card>
           </b-row>
           <b-modal id="my-modal" title="Confirmar?" :data="modalData">
-            <p class="my-4">{{modalData.nombre}}</p>
+            <p class="my-4">{{ modalData.nombre }}</p>
             <b-button variant="success" @click="confirmarAdopcion(mascota)"
               >Confirmar adopción</b-button
             >
@@ -77,7 +71,8 @@
 <script>
 //import mascotas from "../assets/js/mascotas";
 
-import service from "../services/mascotas";
+import apiMascotas from "../services/mascotas";
+import apiSolicitudes from "../services/solicitudes";
 import { mapGetters } from "vuex";
 
 export default {
@@ -91,7 +86,7 @@ export default {
         idMascota: "",
         idAdoptante: "",
         idPublicador: "",
-        estado: "Pendiente"
+        estado: "Pendiente",
       },
 
       filtro: {
@@ -128,12 +123,13 @@ export default {
       colores: ["negro", "blanco", "naranja", "gris"],
 
       modalVisible: false,
-      modalData: null,
+      modalData: "",
     };
   },
   computed: {
     mascotasFiltradas() {
       let mascotasF = this.mascotasInicial;
+      mascotasF = mascotasF.sort(() => 0.5 - Math.random());
       console.log("devuelve array de mascotas ", mascotasF);
 
       return this.filtrarAnimalesPorEspecie(
@@ -159,43 +155,37 @@ export default {
   },
 
   async created() {
-    this.mascotasInicial = await this.traerMascotas();
+    //llama a la API para traer la lista de mascotas y la guarda en variable local
+    this.mascotasInicial = await this.traerMascotasDeApi();
   },
 
   methods: {
     ...mapGetters(["getusuariosLog"]),
 
     confirmarAdopcion(mascota) {
-      const usuario = this.getusuariosLog()
+      const usuario = this.getusuariosLog();
       const soli = {
-        idMascota : mascota.id,
+        idMascota: mascota.id,
         idAdoptante: usuario.id,
         idPublicador: mascota.idPublicador,
-        estado: "Pendiente"
-      }
-        this.agregarAdopcion(soli)
+        estado: "Pendiente",
+      };
+      this.agregarAdopcion(soli);
     },
 
-  asignarMascota(mascota){
-          this.modalData = mascota;
-  },
-
-
-    openModal(mascota) {
-      console.log("Abre el modal");
-      console.log(mascota);
+    asignarMascota(mascota) {
       this.modalData = mascota;
-      this.modalVisible = true;
     },
 
-    async traerMascotas() {
-      const resuGet = await service.get();
-      console.log(resuGet);
+    async agregarAdopcion(soli) {
+      await apiSolicitudes.post(soli);
+    },
+
+    async traerMascotasDeApi() {
+      const resuGet = await apiMascotas.get();
       const arrayMascotas = resuGet.data;
-      console.log(arrayMascotas);
       return arrayMascotas;
     },
-
     filtrarAnimalesPorEspecie: function (mascotas) {
       if (this.filtro.especie != "")
         return mascotas.filter((m) => this.filtro.especie.includes(m.especie));
@@ -206,17 +196,22 @@ export default {
         return mascotas.filter((m) => this.filtro.color.includes(m.color));
       else return mascotas;
     },
-
     filtrarAnimalesPorEdad: function (mascotas) {
       if (this.filtro.edad != "")
         return mascotas.filter((m) => this.filtro.edad.includes(m.edad));
       else return mascotas;
     },
-
     filtrarAnimalesPorSexo: function (mascotas) {
       if (this.filtro.sexo != "")
         return mascotas.filter((m) => this.filtro.sexo.includes(m.sexo));
       else return mascotas;
+    },
+
+    openModal(mascota) {
+      console.log("Abre el modal");
+      console.log(mascota);
+      this.modalData = mascota;
+      this.modalVisible = true;
     },
   },
 };
@@ -250,7 +245,12 @@ a {
 }
 
 img {
-  width: 100px;
-  height: 80px;
+    width: 100%;
+    height: 15vw;
+    object-fit: cover;
+}
+
+.row {
+  --bs-gutter-x: 0!important;
 }
 </style>

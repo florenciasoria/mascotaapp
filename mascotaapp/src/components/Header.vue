@@ -85,8 +85,7 @@ export default {
         ...mapGetters(["getusuariosLog"]),
         esAdoptante() {return this.usuario.rol == "a"} ,
         esAdmin() {return this.usuario.rol == "z"} ,
-        esPublicador() {
-        return this.usuario.rol == "p"} ,  },
+        esPublicador() {return this.usuario.rol == "p"} ,  },
 
   watch: {
 

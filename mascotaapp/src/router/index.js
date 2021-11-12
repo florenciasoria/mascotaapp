@@ -53,6 +53,11 @@ const routes = [
   {
     path: '/subir-mascota/',     
     component: () => import('../views/SubirMascota.vue') 
+  },
+  {
+    path: '/line',
+    name: 'Line',
+    component: () => import('../views/Line.vue')
   }
 
 ]

@@ -10,7 +10,7 @@
           <div class="">
             <b-row>
               <b-card
-                v-for="solicitud in buscarSolicitudes"
+                v-for="solicitud in soliMostrar"
                 :key="solicitud.id"
                 :title="solicitud.nombremascota"
                 :img-src="solicitud.mascotafoto"
@@ -76,6 +76,7 @@ export default {
   },
   data() {
     return {
+      soliMostrar : [],
       solicitud: {
         id: "",
         nombremascota: "",
@@ -90,18 +91,7 @@ export default {
     };
   },
   computed: {
-    buscarSolicitudes() {
-      const usuarioLog = this.buscarUsuario();
-      console.log("hola matias ");
-      console.log(usuarioLog);
-      console.log(this.missolicitudes);
-      const solisFiltradasapi = this.missolicitudes.filter(
-        (soli) => (soli.idAdoptante = usuarioLog.id)
-      );
-      const solisFiltradas = this.buscarMascotas(solisFiltradasapi);
-
-      return solisFiltradas;
-    },
+    
   },
 
   
@@ -112,6 +102,19 @@ export default {
       return this.getusuariosLog()[0];
     },
 
+    async buscarSolicitudes() {
+      const usuarioLog = this.buscarUsuario();
+      console.log("Metodo Buscar Solicitudes ");
+      console.log("Usuario Logueado ",usuarioLog);
+      console.log(this.missolicitudes);
+      const solisFiltradasapi = this.missolicitudes.filter(
+        (soli) => (soli.idAdoptante = usuarioLog.id)
+      );
+      const solisFiltradas = await this.buscarMascotas(solisFiltradasapi);
+
+      return solisFiltradas;
+    },
+
     async getSolicitudes() {
       const apisoli = await apiSolicitudes.get();
       const arraysoli = apisoli.data;
@@ -119,15 +122,12 @@ export default {
     },
     async buscarMascotas(lista) {
       const listaAdevolver = [];
-
+      let idx = 0;
       for (const i of lista) {
-        console.log("rozic NOOOOO a esta hora no discuto");
-        console.log(i)
         const mascotaApi = await apiMascotas.getById(i.idMascota)
         const mascota =  mascotaApi.data;
-        console.log(mascota)
         listaAdevolver.push({
-          id: mascota.id,
+          id: idx,
           nombremascota: mascota.nombre,
           mascotafoto: mascota.foto,
           mascotaedad: mascota.edad,
@@ -135,20 +135,24 @@ export default {
           mascotacolor: mascota.color,
           mascotasexo: mascota.sexo,
         });
+        idx++
       }
-      console.log(" Rozic a cuantos te llevaste");
-console.log(listaAdevolver)
-console.log(listaAdevolver.length);
+      console.log("Lista A Devolver ",listaAdevolver)
+      console.log(listaAdevolver.length);
       return listaAdevolver;
     },
   },
 
   async created() {
     //llama a la API para traer la lista de mascotas y la guarda en variable local
-    console.log("matias no mires");
+    console.log("created");
     this.missolicitudes = await this.getSolicitudes();
 
     console.log(this.missolicitudes.length);
+
+    this.soliMostrar = await this.buscarSolicitudes()
+    console.log("Soli Mostrar ", this.soliMostrar)
+
   },
 };
 </script>

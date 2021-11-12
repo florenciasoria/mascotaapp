@@ -27,14 +27,10 @@
         </b-row>
       </b-col>
 
-
       <b-col class="col-lg-10">
-
-
-
         <div class="">
           <b-row>
-           <b-card
+            <b-card
               v-for="mascota in mascotasFiltradas"
               :key="mascota.id"
               :title="mascota.nombre"
@@ -163,8 +159,10 @@ export default {
     ...mapGetters(["getusuariosLog"]),
 
     confirmarAdopcion(mascota) {
-      const usuario = this.getusuariosLog();
-      console.log(usuario)
+      const usuario = this.getusuariosLog()[0];
+
+      console.log(this.getusuariosLog()[0]);
+      console.log(usuario);
       const soli = {
         idMascota: mascota.id,
         idAdoptante: usuario.id,
@@ -247,12 +245,12 @@ a {
 }
 
 img {
-    width: 100%;
-    height: 15vw;
-    object-fit: cover;
+  width: 100%;
+  height: 15vw;
+  object-fit: cover;
 }
 
 .row {
-  --bs-gutter-x: 0!important;
+  --bs-gutter-x: 0 !important;
 }
 </style>

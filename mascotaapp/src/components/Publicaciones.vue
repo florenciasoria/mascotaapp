@@ -30,9 +30,8 @@
     <div class="col"> 
     <h1> Solicitudes</h1>
     <p> Fernando </p>
-    <button> Ver perfil </button>
-    <button> Aprobar </button>
-    <button> Rechazar </button>
+     <b-button class="boton"> Aprobar </b-button>
+     <b-button class="boton"> Rechazar </b-button>
     </div> 
     </div>
     </div> 
@@ -50,12 +49,18 @@ export default {
   },
      data() {
       return {
-        mainProps: { blank: true, blankColor: '#777',  width: 175, height: 175, class: 'm1'}
+        mainProps: {         
+        blank: true,
+        blankColor: "#777",
+        width: 175,
+        height: 175,
+        class: "m1",}
       }
     }
 }
 </script>
 
+<!-- Add "scoped" attribute to limit CSS to this component only -->
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 h3 {
@@ -70,6 +75,18 @@ li {
   margin: 0 10px;
 }
 a {
-  color: #42b983;
+  color: #ffffff;
+  text-decoration: none;
+}
+
+.margenes {
+  padding-top: 100px;
+  padding-bottom: 100px;
+}
+
+.boton {
+  background-color: #8969D3;
+  border-color: #8969D3;
 }
 </style>
+

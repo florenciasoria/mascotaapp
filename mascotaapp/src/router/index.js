@@ -47,10 +47,6 @@ const routes = [
     component: () => import('../views/Buscar.vue')
   },
   { 
-    path: '/mascotas/:id',     
-    component: () => import('../views/Mascota.vue') 
-  },
-  { 
     path: '/form-adopcion/:id',     
     component: () => import('../views/FormAdopcion.vue') 
   },

@@ -62,39 +62,49 @@ export default {
 
   methods: {
     //...mapGetters(["getusuariosLog"]),
-      ...mapActions(["cerrarSesion2"]),
+      ...mapActions(["cerrarSesionStore"]),
 
     cerrarSesion(){
-      console.log("Metodo cerrar Sesion -----")
-        console.log("Get Usuarios Log ",this.getusuariosLog)
-        this.cerrarSesion2()
-        this.usuario = {}
-        console.log("Get Usuarios Log ",this.getusuariosLog)
-        console.log("This Usuario ",this.usuario)
+        this.cerrarSesionStore()
+        //Inicializamos los datos del usuario (si no da error cuando buscamos el rol para seleccionar los links)
+        this.usuario = {
+          email: "",
+          pass: "",
+          nombre: "",
+          apellido: "",
+          genero: "",
+          rol: "",
+          mascoPropias: [],
+          mascoPubli: [],
+        }
     },
 
     async verUsuarioLogueado() {
-      //debugger;
-      const usuario = this.getusuariosLog.find((usuario) => usuario.id != null );
-      this.usuario = usuario
+      //const usuario = this.getusuariosLog.find((usuario) => usuario.id != null );
+      console.log("Usuario unico: ", this.getusuariosLog)
+      if (this.getusuariosLog.id != "") {
+        this.usuario = this.getusuariosLog
+      }
+      
+      
+      //Pendiente: chequear si el usuario no esta vacio?
+      
       //return usuario != null ? (this.show = false) : (this.show = true);
     },
   },
 
   computed: {
         ...mapGetters(["getusuariosLog"]),
-        esAdoptante() {return this.usuario.rol == "a"} ,
-        esAdmin() {return this.usuario.rol == "z"} ,
-        esPublicador() {return this.usuario.rol == "p"} ,  },
+        esAdoptante() {return this.usuario === undefined ? false : this.usuario.rol == "a" ? true : false} ,
+        esAdmin() {return this.usuario === undefined ? false : this.usuario.rol == "z" ? true : false} ,
+        esPublicador() {return this.usuario === undefined ? false : this.usuario.rol == "p" ? true : false} , 
+        },
 
   watch: {
 
     getusuariosLog: {
       handler() {
-        //console.log(this.show);
-        //console.log(this.getusuariosLog)
         this.verUsuarioLogueado();
-        //console.log(this.show);
       },
     },
   },

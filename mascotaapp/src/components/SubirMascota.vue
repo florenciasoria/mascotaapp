@@ -89,6 +89,7 @@ export default {
         sexo: "",
         foto: "",
         idPublicador: "",
+        estado: "publicado",
       },
       especie: [
         { value: "perro", text: "perro" },
@@ -124,7 +125,7 @@ export default {
       //this.agregarusuario(this.form);
       try {
         const publicador = await this.getusuariosLog()
-        const id = publicador[0].id;
+        const id = publicador.id;
         this.form.idPublicador = id
         this.agregarMascota(this.form)
         // this.otroid++;

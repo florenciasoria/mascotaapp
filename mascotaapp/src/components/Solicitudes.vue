@@ -14,7 +14,7 @@
                 :key="solicitud.id"
                 :title="solicitud.nombremascota"
                 :img-src="solicitud.mascotafoto"
-                style="max-width: 20rem"
+                img-left
                 class="m-2"
               >
                 <p>{{ solicitud.mascotaedad }}</p>
@@ -99,7 +99,7 @@ export default {
     ...mapGetters(["getusuariosLog"]),
 
     buscarUsuario() {
-      return this.getusuariosLog()[0];
+      return this.getusuariosLog();
     },
 
     async buscarSolicitudes() {
@@ -173,4 +173,11 @@ li {
 a {
   color: #42b983;
 }
+
+img {
+  height: 100%;
+  width:  25vw;
+  object-fit: cover;
+}
+
 </style>

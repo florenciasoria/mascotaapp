@@ -70,7 +70,7 @@ export default {
     ...mapGetters(["getusuariosLog"]),
 
     buscarUsuario() {
-      return this.getusuariosLog()[0];
+      return this.getusuariosLog();
     },
 
     async buscarSolicitudes() {

@@ -125,12 +125,13 @@ export default {
   computed: {
     mascotasFiltradas() {
       let mascotasF = this.mascotasInicial;
+      //Filter por estado publicado (no ADOPTADO) y q no sean del usuario logueado
       mascotasF = mascotasF.sort(() => 0.5 - Math.random());
       console.log("devuelve array de mascotas ", mascotasF);
 
-      return this.filtrarAnimalesPorEspecie(
-        this.filtrarAnimalesPorColor(
-          this.filtrarAnimalesPorEdad(this.filtrarAnimalesPorSexo(mascotasF))
+      return  this.filtrarAnimalesPorEspecie(
+              this.filtrarAnimalesPorColor(
+              this.filtrarAnimalesPorEdad(this.filtrarAnimalesPorSexo(mascotasF))
         )
       );
     },
@@ -153,15 +154,17 @@ export default {
   async created() {
     //llama a la API para traer la lista de mascotas y la guarda en variable local
     this.mascotasInicial = await this.traerMascotasDeApi();
+
+    //Filtrar por estado 
   },
 
   methods: {
     ...mapGetters(["getusuariosLog"]),
 
     confirmarAdopcion(mascota) {
-      const usuario = this.getusuariosLog()[0];
+      const usuario = this.getusuariosLog();
 
-      console.log(this.getusuariosLog()[0]);
+      console.log(this.getusuariosLog());
       console.log(usuario);
       const soli = {
         idMascota: mascota.id,

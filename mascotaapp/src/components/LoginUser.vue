@@ -99,7 +99,6 @@ export default {
     async onSubmit() {
     try {
       const usuario = await this.buscarUser()
-      console.log('usuario ', usuario)
 
       if (usuario && usuario.pass == this.form.pass ) {
 
@@ -108,7 +107,7 @@ export default {
         console.log('form pass ', this.form.pass)
 
         this.agregarusuarioLog(usuario)
-        alert("bienvenido ");
+        alert("bienvenido");
         this.$router.push("/");
 
         }else{

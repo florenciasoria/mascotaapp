@@ -24,15 +24,11 @@ export default new Vuex.Store({
             state.mascotas = nuevoArrayDeMascotas;
         },
 
-
         agregarusuarioLog(state, usuario) {
-
-            state.usuariosLog.push(usuario);
+            state.usuariosLog = usuario;
         },
         eliminarusuarioLog(state) {
-            //state.usuariosLog = state.usuariosLog.filter((usuario) => usuario.id != id)
-            console.log("Eliminar usuario log ", state.usuariosLog)
-            state.usuariosLog.pop()
+            state.usuariosLog = {}
         },
         editarusuarioLog(state, nuevoArrayDeUsuarios) {
             state.usuariosLog = nuevoArrayDeUsuarios;
@@ -42,8 +38,7 @@ export default new Vuex.Store({
         agregarusuarioLog({commit}, usuario) {
             commit("agregarusuarioLog",usuario)
         },
-        cerrarSesion2({commit}) {
-            console.log("Cerrar sesion 2")
+        cerrarSesionStore({commit}) {
             commit("eliminarusuarioLog")
         },
         

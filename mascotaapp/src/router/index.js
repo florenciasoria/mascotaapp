@@ -55,9 +55,9 @@ const routes = [
     component: () => import('../views/SubirMascota.vue') 
   },
   {
-    path: '/line',
-    name: 'Line',
-    component: () => import('../views/Line.vue')
+    path: '/admin',
+    name: 'PanelAdministracion',
+    component: () => import('../views/PanelAdministracion.vue')
   }
 
 ]

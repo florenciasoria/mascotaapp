@@ -4,25 +4,25 @@
       <b-col class="col-lg-2">
         <b-row>
           <h3>Especie</h3>
-          <b-form-checkbox-group v-model="filtro.especie" :options="especie">
+          <b-form-checkbox-group v-model="filtro.especie" :options="valores.especie">
           </b-form-checkbox-group>
         </b-row>
 
         <b-row>
           <h3>Color</h3>
-          <b-form-checkbox-group v-model="filtro.color" :options="color">
+          <b-form-checkbox-group v-model="filtro.color" :options="valores.color">
           </b-form-checkbox-group>
         </b-row>
 
         <b-row>
           <h3>Edad</h3>
-          <b-form-checkbox-group v-model="filtro.edad" :options="edad">
+          <b-form-checkbox-group v-model="filtro.edad" :options="valores.edad">
           </b-form-checkbox-group>
         </b-row>
 
         <b-row>
           <h3>Sexo</h3>
-          <b-form-checkbox-group v-model="filtro.sexo" :options="sexo">
+          <b-form-checkbox-group v-model="filtro.sexo" :options="valores.sexo">
           </b-form-checkbox-group>
         </b-row>
       </b-col>
@@ -54,9 +54,9 @@
           </b-row>
           <b-modal id="my-modal" title="Confirmar?" :data="modalData">
             <p class="my-4">{{ modalData.nombre }}</p>
-            <b-button variant="success" @click="confirmarAdopcion(modalData)"
-              >Confirmar adopción</b-button
-            >
+            <b-button variant="success" @click="confirmarAdopcion(modalData)">
+              Confirmar adopción
+              </b-button>
           </b-modal>
         </div>
       </b-col>
@@ -70,9 +70,10 @@
 import apiMascotas from "../services/mascotas";
 import apiSolicitudes from "../services/solicitudes";
 import { mapGetters } from "vuex";
+import {valoresData} from '../assets/js/valoresData.js'
 
 export default {
-  name: "HelloWorld",
+  name: "Grilla",
   props: {
     msg: String,
   },
@@ -84,7 +85,6 @@ export default {
         idPublicador: "",
         estado: "Pendiente",
       },
-
       filtro: {
         especie: [],
         edad: [],
@@ -93,30 +93,7 @@ export default {
       },
       mascotasInicial: [],
       mascotas: [],
-      especie: [
-        { text: "Perro", value: "perro" },
-        { text: "Gato", value: "gato" },
-      ],
-
-      color: [
-        { text: "Negro", value: "negro" },
-        { text: "Blanco", value: "blanco" },
-        { text: "Marron", value: "marron" },
-      ],
-
-      edad: [
-        { text: "Cachorro", value: "cachorro" },
-        { text: "Joven", value: "joven" },
-        { text: "Adulto", value: "adulto" },
-      ],
-
-      sexo: [
-        { text: "Macho", value: "macho" },
-        { text: "Hembra", value: "hembra" },
-      ],
-
-      sexos: ["macho", "hembra"],
-      colores: ["negro", "blanco", "naranja", "gris"],
+      valores : {},
 
       modalVisible: false,
       modalData: "",
@@ -127,7 +104,6 @@ export default {
       let mascotasF = this.mascotasInicial;
       //Filter por estado publicado (no ADOPTADO) y q no sean del usuario logueado
       mascotasF = mascotasF.sort(() => 0.5 - Math.random());
-      console.log("devuelve array de mascotas ", mascotasF);
 
       return  this.filtrarAnimalesPorEspecie(
               this.filtrarAnimalesPorColor(
@@ -154,7 +130,8 @@ export default {
   async created() {
     //llama a la API para traer la lista de mascotas y la guarda en variable local
     this.mascotasInicial = await this.traerMascotasDeApi();
-
+    this.valores = valoresData 
+    console.log("Valores Data", valoresData)
     //Filtrar por estado 
   },
 

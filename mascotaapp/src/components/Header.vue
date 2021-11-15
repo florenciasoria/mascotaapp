@@ -20,7 +20,13 @@
           <router-link to="/misPublicaciones" class="px-2" v-if="esPublicador || esAdmin"
             >Publicaciones</router-link
           >
+          |         
+          
+           <router-link to="/admin" class="px-2" v-if="esAdmin"
+            >Panel de Administración</router-link
+          >
           |
+
 
           <b-navbar-nav class="ml-auto" right >
             

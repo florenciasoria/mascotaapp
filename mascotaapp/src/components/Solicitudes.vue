@@ -4,7 +4,6 @@
     <div class="container">
       <div class="row" style="margin-top: 50px">
         <div class="col">
-          <!-- <img alt="gatitoSolicitud" src="../assets/gatitoSolicitud.jpg" /> -->
         </div>
         <b-col class="col-lg-10">
           <div class="">
@@ -17,47 +16,25 @@
                 img-left
                 class="m-2 cardSolicitud"
               >
+              <div class="row">
+              <div class="col">
                 <p>{{ solicitud.mascotaedad }}</p>
                 <p>{{ solicitud.mascotaespecie }}</p>
                 <p>{{ solicitud.mascotacolor }}</p>
                 <p>{{ solicitud.mascotasexo }}</p>
-
-                <b-button variant="success" @click="cancelar(solicitud)"
+              </div>
+              <div class="col">
+                <h5>Estado de la solicitud</h5>
+                <p>{{ solicitud.estado }}</p>
+                <b-button v-if="solicitud.estado == 'Pendiente'" variant="success" @click="cancelar(solicitud)"
                   >cancelar</b-button
                 >
+              </div>
+              </div>
               </b-card>
             </b-row>
           </div>
         </b-col>
-        <!-- 
-        <div class="col">
-          <h1>Pelusa</h1>
-          <p>2 años</p>
-          <p>Descripcion de la mascota</p>
-          <button>Cancelar Solicitud</button>
-        </div>
-        <div class="col">
-          <h1>Refugio</h1>
-          <p>Proyecto 4 patas</p>
-          <p>Descripcion refugio</p>
-          <button>Ver perfil</button>
-        </div>
-        <div class="row" style="margin-top: 50px">
-          <div class="col">
-            <img alt="pelusa" v-bind="mainProps" src="../assets/pelusa.jpg" />
-          </div>
-          <div class="col">
-            <h1>Pichicho</h1>
-            <p>6 meses</p>
-            <p>Descripcion de la mascota</p>
-            <button>Cancelar Solicitud</button>
-          </div>
-          <div class="col">
-            <h1>Refugio</h1>
-            <p>Proyecto 4 patas</p>
-            <p>Descripcion refugio</p>
-            <button>Ver perfil</button>
-          </div> -->
       </div>
     </div>
   </div>
@@ -85,6 +62,7 @@ export default {
         mascotaespecie: "",
         mascotacolor: "",
         mascotasexo: "",
+        estado:""
       },
       //usuarioLog:"",
       missolicitudes: [],
@@ -104,9 +82,6 @@ export default {
 
     async buscarSolicitudes() {
       const usuarioLog = this.buscarUsuario();
-      console.log("Metodo Buscar Solicitudes ");
-      console.log("Usuario Logueado ",usuarioLog);
-      console.log(this.missolicitudes);
       const solisFiltradasapi = this.missolicitudes.filter(
         (soli) => (soli.idAdoptante = usuarioLog.id)
       );
@@ -117,8 +92,7 @@ export default {
 
     async getSolicitudes() {
       const apisoli = await apiSolicitudes.get();
-      const arraysoli = apisoli.data;
-      return arraysoli;
+      return apisoli.data;
     },
     async buscarMascotas(lista) {
       const listaAdevolver = [];
@@ -134,6 +108,7 @@ export default {
           mascotaespecie: mascota.especie,
           mascotacolor: mascota.color,
           mascotasexo: mascota.sexo,
+          estado: i.estado
         });
         idx++
       }
@@ -145,13 +120,9 @@ export default {
 
   async created() {
     //llama a la API para traer la lista de mascotas y la guarda en variable local
-    console.log("created");
     this.missolicitudes = await this.getSolicitudes();
 
-    console.log(this.missolicitudes.length);
-
     this.soliMostrar = await this.buscarSolicitudes()
-    console.log("Soli Mostrar ", this.soliMostrar)
 
   },
 };

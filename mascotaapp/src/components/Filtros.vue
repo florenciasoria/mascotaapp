@@ -4,13 +4,19 @@
       <b-col class="col-lg-2">
         <b-row>
           <h3>Especie</h3>
-          <b-form-checkbox-group v-model="filtro.especie" :options="valores.especie">
+          <b-form-checkbox-group
+            v-model="filtro.especie"
+            :options="valores.especie"
+          >
           </b-form-checkbox-group>
         </b-row>
 
         <b-row>
           <h3>Color</h3>
-          <b-form-checkbox-group v-model="filtro.color" :options="valores.color">
+          <b-form-checkbox-group
+            v-model="filtro.color"
+            :options="valores.color"
+          >
           </b-form-checkbox-group>
         </b-row>
 
@@ -56,7 +62,6 @@
           <b-modal id="my-modal" title="Confirmar?" :data="modalData">
             <p class="my-4">{{ modalData.nombre }}</p>
 
-
             <template #modal-footer>
               <div class="w-100 ">
               <b-button @click="confirmarAdopcion(modalData)"            class="float-right">
@@ -77,7 +82,7 @@
 import apiMascotas from "../services/mascotas";
 import apiSolicitudes from "../services/solicitudes";
 import { mapGetters } from "vuex";
-import {valoresData} from '../assets/js/valoresData.js'
+import { valoresData } from "../assets/js/valoresData.js";
 
 export default {
   name: "Grilla",
@@ -137,9 +142,9 @@ export default {
   async created() {
     //llama a la API para traer la lista de mascotas y la guarda en variable local
     this.mascotasInicial = await this.traerMascotasDeApi();
-    this.valores = valoresData 
-    console.log("Valores Data", valoresData)
-    //Filtrar por estado 
+    this.valores = valoresData;
+    console.log("Valores Data", valoresData);
+    //Filtrar por estado
   },
 
   methods: {
@@ -147,17 +152,21 @@ export default {
 
     confirmarAdopcion(mascota) {
       const usuario = this.getusuariosLog();
-
-      console.log(this.getusuariosLog());
-      console.log(usuario);
+      console.log("Usuario logueado ", usuario.id)
+      if (usuario.id != undefined){
       const soli = {
         idMascota: mascota.id,
         idAdoptante: usuario.id,
         idPublicador: mascota.idPublicador,
         estado: "Pendiente",
       };
-      this.agregarAdopcion(soli);
-      this.$router.push("/misSolicitudes");
+      console.log("Se crea la solicitud",soli)
+      //this.agregarAdopcion(soli);
+        this.$router.push("/misSolicitudes");
+      } else {
+        this.$router.push("/LoginU");
+      }
+
     },
 
     asignarMascota(mascota) {

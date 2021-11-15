@@ -23,14 +23,16 @@
       </b-row>
       <b-row style="margin-top: 50px">
         <b-col>
-          <b-button class="boton"
-            ><router-link :to="'/buscar'"
+          <b-button class="boton" @click="irABuscar"
+
               >Quiero adoptar
-            </router-link></b-button
+</b-button
           >
         </b-col>
         <b-col>
-          <b-button class="boton"><router-link :to="'/subir-mascota'"
+          <b-button class="boton">
+            
+            <router-link :to="'/subir-mascota'"
               >Quiero Dar en Adopción
             </router-link></b-button>
           
@@ -56,7 +58,14 @@ export default {
         class: "m1",
       },
     };
+
   },
+      methods:{
+      irABuscar(){
+        console.log("llega")
+        this.$router.push('/buscar')
+    }
+    }
 };
 </script>
 

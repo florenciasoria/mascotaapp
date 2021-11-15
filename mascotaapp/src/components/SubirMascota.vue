@@ -59,6 +59,18 @@
             ></b-form-radio-group>
           </b-form-group>
 
+            <b-form-group
+              id="input-group-6"
+              label="Link a imagen:"
+              label-for="input-6"
+            >
+              <b-form-input
+                id="input-6"
+                v-model="form.foto"
+                type="text"
+                placeholder="Link a la imagen"
+              ></b-form-input>
+            </b-form-group>
 
           <b-button type="reset" variant="danger">Borrar formulario</b-button>
 
@@ -122,11 +134,12 @@ export default {
       show: true,
     };
   },
-  // computed:{
-  //     validation() {
-  //       return this.form.nombre.length > 1
-  //     }
-  // },
+  created(){
+    const usuario = this.getusuariosLog()
+          console.log("Usuario logueado ", usuario.id)
+      if (usuario.id == undefined){
+this.$router.push("/LoginU");}
+  },
   methods: {
     // ...mapActions(["agregarusuario"]),
     ...mapGetters(["getusuariosLog"]),
@@ -140,6 +153,11 @@ export default {
         const publicador = await this.getusuariosLog();
         const id = publicador.id;
         this.form.idPublicador = id;
+
+        if (this.form.foto == ""){
+          this.form.foto = "https://i.ibb.co/fHF2BS9/relleno-foto-02.png"
+        }
+
         this.agregarMascota(this.form);
         // this.otroid++;
         this.$router.push("/");
@@ -157,13 +175,11 @@ export default {
 
     onReset(event) {
       event.preventDefault();
-      // Reset our form values
       this.form.nombre = "";
       this.form.edad = null;
       this.form.especie = "";
       this.form.color = null;
       this.form.sexo = "";
-      // Trick to reset/clear native browser form validation state
       this.show = false;
       this.$nextTick(() => {
         this.show = true;

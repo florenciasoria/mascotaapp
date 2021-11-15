@@ -15,7 +15,7 @@
                 :title="solicitud.nombremascota"
                 :img-src="solicitud.mascotafoto"
                 img-left
-                class="m-2"
+                class="m-2 cardSolicitud"
               >
                 <p>{{ solicitud.mascotaedad }}</p>
                 <p>{{ solicitud.mascotaespecie }}</p>
@@ -176,8 +176,13 @@ a {
 
 img {
   height: 100%;
-  width:  25vw;
+  width:  20vw;
   object-fit: cover;
+}
+
+.cardSolicitud{
+  text-align: left;
+  width: 50vw;
 }
 
 </style>

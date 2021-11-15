@@ -27,7 +27,7 @@
         </b-row>
       </b-col>
 
-      <b-col class="col-lg-10">
+      <b-col class="col">
         <div class="">
           <b-row>
             <b-card
@@ -36,7 +36,7 @@
               :title="mascota.nombre"
               :img-src="mascota.foto"
               img-top
-              style="max-width: 20rem"
+              style="width: 18rem"
               class="m-2"
             >
               <p>{{ mascota.edad }}</p>
@@ -45,8 +45,9 @@
               <p>{{ mascota.sexo }}</p>
 
               <b-button
-                variant="success"
+
                 v-b-modal.my-modal
+                class="w-100"
                 @click="asignarMascota(mascota)"
                 >¡Quiero adoptarlo!</b-button
               >
@@ -54,9 +55,15 @@
           </b-row>
           <b-modal id="my-modal" title="Confirmar?" :data="modalData">
             <p class="my-4">{{ modalData.nombre }}</p>
-            <b-button variant="success" @click="confirmarAdopcion(modalData)">
-              Confirmar adopción
-              </b-button>
+
+
+            <template #modal-footer>
+              <div class="w-100 ">
+              <b-button @click="confirmarAdopcion(modalData)"            class="float-right">
+              Enviar solicitud de adopción
+            </b-button>
+              </div>
+            </template>
           </b-modal>
         </div>
       </b-col>
@@ -93,7 +100,7 @@ export default {
       },
       mascotasInicial: [],
       mascotas: [],
-      valores : {},
+      valores: {},
 
       modalVisible: false,
       modalData: "",
@@ -232,5 +239,21 @@ img {
 
 .row {
   --bs-gutter-x: 0 !important;
+}
+
+button {
+  background-color: #8969D3;
+  border-color: #8969D3;
+  text-align: center;
+}
+
+button:hover{
+    background-color: #00B497;
+  border-color: #00B497;
+}
+.btn-secondary:focus{
+    background-color: #00B497;
+  border-color: #00B497;
+  box-shadow:0 180 151 0.2rem rgb(0 180 151 / 50%) !important
 }
 </style>

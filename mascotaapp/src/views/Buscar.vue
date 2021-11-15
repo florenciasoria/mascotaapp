@@ -19,9 +19,9 @@ export default {
 }
 </script>
 
-<style>
-.home {
-    background-color: #eecee6;
-    /* min-height: 80%; */
-}
+<style scoped>
+/* .home {
+    background-color: #eecee6; 
+    height: 100%;  
+} */
 </style>

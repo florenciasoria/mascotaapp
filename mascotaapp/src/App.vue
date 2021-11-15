@@ -24,15 +24,14 @@ export default {
 </script>
 <style>
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
+  font-family: "Work Sans", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
   background-color: #ffffff;
-  height: 100%;
+  height: 100vh;
 }
-
 
 #nav a {
   font-weight: bold;
@@ -45,6 +44,8 @@ export default {
 
 body,
 html {
+  margin: 0;
+  padding: 0;
   height: 100%;
 }
 

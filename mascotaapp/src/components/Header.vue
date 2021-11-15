@@ -22,18 +22,20 @@
           >
           |
 
-          <p v-if="usuario.nombre"> {{usuario.nombre}}  {{usuario.email}} </p>
-
-          <b-navbar-nav class="ms-auto">
-            <b-nav-form class="py-2">
+          <b-navbar-nav class="ml-auto" right >
+            
+          <p class="my-auto" v-if="usuario.nombre"> {{usuario.nombre}}  {{usuario.email}} </p>
+          
+            <b-nav-form class="py-2" align-h="end">
+              
               <div v-if="usuario.nombre">
 
-                 <b-button size="sm" class="mx-4 my-sm-0" type="submit" v-on:click="cerrarSesion">
+                 <b-button size="sm" class="mx-4 my-sm-0 align-self-end" type="submit" v-on:click="cerrarSesion" right>
                   <router-link to="/">Cerrar Sesión</router-link>
                 </b-button>
               </div>
               <div v-else>
-                               <b-button size="sm" class="mx-4 my-sm-0" type="submit">
+                               <b-button size="sm" class="mx-4 my-sm-0" type="submit" right>
                   <router-link to="/LoginU">Iniciar Sesión</router-link>
                 </b-button>
               </div>

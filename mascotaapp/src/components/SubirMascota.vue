@@ -90,6 +90,7 @@
 <script>
 import { mapGetters } from "vuex";
 import service from "../services/mascotas";
+import { valoresData } from "../assets/js/valoresData.js";
 export default {
   name: "Home",
   props: {
@@ -110,25 +111,19 @@ export default {
         idPublicador: "",
         estado: "publicado",
       },
-      especie: [
-        { value: "perro", text: "perro" },
-        { value: "gato", text: "gato" },
-      ],
+      especie: 
+        valoresData.especie
+      ,
       color: [
         { text: "Seleccionar color", value: "", disabled: true },
-        { value: "negro", text: "negro" },
-        { value: "blanco", text: "blanco" },
-        { value: "marron", text: "marron" },
+        ...valoresData.color
       ],
       edad: [
         { text: "Selecionar edad", value: "", disabled: true },
-        { value: "cachorro", text: "cachorro" },
-        { value: "joven", text: "joven" },
-        { value: "adulto", text: "adulto" },
+        ...valoresData.edad
       ],
       sexo: [
-        { value: "hembra", text: "hembra" },
-        { value: "macho", text: "macho" },
+        ...valoresData.sexo
       ],
 
       show: true,

@@ -7,6 +7,9 @@ export const valoresData = {
         { text: "Negro", value: "negro" },
         { text: "Blanco", value: "blanco" },
         { text: "Marron", value: "marron" },
+        { text: "Naranja", value: "naranja" },
+        { text: "Gris", value: "gris" },
+        { text: "Atigrado", value: "atigrado" },
       ],
       edad: [
         { text: "Cachorro", value: "cachorro" },

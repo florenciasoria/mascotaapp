@@ -154,6 +154,7 @@ img {
 .cardSolicitud{
   text-align: left;
   width: 50vw;
+  height: 15vw;
 }
 
 </style>

@@ -4,32 +4,46 @@
       <b-col class="col-lg-2">
         <b-row>
           <h3>Especie</h3>
-          <b-form-checkbox-group
-            v-model="filtro.especie"
-            :options="valores.especie"
-          >
-          </b-form-checkbox-group>
+          <b-form-group stacked>
+            <b-form-checkbox-group
+              v-model="filtro.especie"
+              :options="valores.especie"
+            >
+            </b-form-checkbox-group>
+          </b-form-group>
         </b-row>
 
         <b-row>
-          <h3>Color</h3>
-          <b-form-checkbox-group
-            v-model="filtro.color"
-            :options="valores.color"
-          >
-          </b-form-checkbox-group>
+          <b-form-group stacked>
+            <h3>Color</h3>
+            <b-form-checkbox-group
+              v-model="filtro.color"
+              :options="valores.color"
+            >
+            </b-form-checkbox-group>
+          </b-form-group>
         </b-row>
 
         <b-row>
-          <h3>Edad</h3>
-          <b-form-checkbox-group v-model="filtro.edad" :options="valores.edad">
-          </b-form-checkbox-group>
+          <b-form-group stacked>
+            <h3>Edad</h3>
+            <b-form-checkbox-group
+              v-model="filtro.edad"
+              :options="valores.edad"
+            >
+            </b-form-checkbox-group>
+          </b-form-group>
         </b-row>
 
         <b-row>
           <h3>Sexo</h3>
-          <b-form-checkbox-group v-model="filtro.sexo" :options="valores.sexo">
-          </b-form-checkbox-group>
+          <b-form-group stacked>
+            <b-form-checkbox-group
+              v-model="filtro.sexo"
+              :options="valores.sexo"
+            >
+            </b-form-checkbox-group>
+          </b-form-group>
         </b-row>
       </b-col>
 
@@ -42,8 +56,8 @@
               :title="mascota.nombre"
               :img-src="mascota.foto"
               img-top
-              style="width: 18rem"
-              class="m-2"
+              style="width: 17rem"
+              class="m-2" body-class="d-flex flex-column "
             >
               <p>{{ mascota.edad }}</p>
               <p>{{ mascota.especie }}</p>
@@ -51,11 +65,18 @@
               <p>{{ mascota.sexo }}</p>
 
               <b-button
-
                 v-b-modal.my-modal
-                class="w-100"
+                v-if="mascota.sexo == 'hembra'"
+                class="mt-auto pt-2"
                 @click="asignarMascota(mascota)"
-                >¡Quiero adoptarlo!</b-button
+                >¡Quiero adoptarla!</b-button
+              >
+              <b-btn
+                v-b-modal.my-modal
+                v-else
+                class="mt-auto" 
+                @click="asignarMascota(mascota)"
+                >¡Quiero adoptarlo!</b-btn
               >
             </b-card>
           </b-row>
@@ -63,10 +84,13 @@
             <p class="my-4">{{ modalData.nombre }}</p>
 
             <template #modal-footer>
-              <div class="w-100 ">
-              <b-button @click="confirmarAdopcion(modalData)"            class="float-right">
-              Enviar solicitud de adopción
-            </b-button>
+              <div class="w-100">
+                <b-button
+                  @click="confirmarAdopcion(modalData)"
+                  class="float-right"
+                >
+                  Enviar solicitud de adopción
+                </b-button>
               </div>
             </template>
           </b-modal>
@@ -117,9 +141,9 @@ export default {
       //Filter por estado publicado (no ADOPTADO) y q no sean del usuario logueado
       mascotasF = mascotasF.sort(() => 0.5 - Math.random());
 
-      return  this.filtrarAnimalesPorEspecie(
-              this.filtrarAnimalesPorColor(
-              this.filtrarAnimalesPorEdad(this.filtrarAnimalesPorSexo(mascotasF))
+      return this.filtrarAnimalesPorEspecie(
+        this.filtrarAnimalesPorColor(
+          this.filtrarAnimalesPorEdad(this.filtrarAnimalesPorSexo(mascotasF))
         )
       );
     },
@@ -152,21 +176,19 @@ export default {
 
     confirmarAdopcion(mascota) {
       const usuario = this.getusuariosLog();
-      console.log("Usuario logueado ", usuario.id)
-      if (usuario.id != undefined){
-      const soli = {
-        idMascota: mascota.id,
-        idAdoptante: usuario.id,
-        idPublicador: mascota.idPublicador,
-        estado: "Pendiente",
-      };
-      console.log("Se crea la solicitud",soli)
-      //this.agregarAdopcion(soli);
+      console.log("Usuario logueado ", usuario.id);
+      if (usuario.id != undefined) {
+        const soli = {
+          idMascota: mascota.id,
+          idAdoptante: usuario.id,
+          idPublicador: mascota.idPublicador,
+          estado: "Pendiente",
+        };
+        this.agregarAdopcion(soli);
         this.$router.push("/misSolicitudes");
       } else {
         this.$router.push("/LoginU");
       }
-
     },
 
     asignarMascota(mascota) {
@@ -229,6 +251,9 @@ li {
 a {
   color: #a3e3dc;
 }
+p {
+  margin-bottom: 0.2rem !important;
+}
 * {
   text-align: left;
 }
@@ -251,18 +276,19 @@ img {
 }
 
 button {
-  background-color: #8969D3;
-  border-color: #8969D3;
+  background-color: #8969d3;
+  border-color: #8969d3;
   text-align: center;
+  margin-top: 1em;
 }
 
-button:hover{
-    background-color: #00B497;
-  border-color: #00B497;
+button:hover {
+  background-color: #00b497;
+  border-color: #00b497;
 }
-.btn-secondary:focus{
-    background-color: #00B497;
-  border-color: #00B497;
-  box-shadow:0 180 151 0.2rem rgb(0 180 151 / 50%) !important
+.btn-secondary:focus {
+  background-color: #00b497;
+  border-color: #00b497;
+  box-shadow: 0 180 151 0.2rem rgb(0 180 151 / 50%) !important;
 }
 </style>

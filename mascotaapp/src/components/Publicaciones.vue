@@ -138,11 +138,12 @@ export default {
         let solis = [];
         for (const s of solicitudes) {
           const persona = await this.getUsuario(s.idAdoptante);
-          console.log("Persona solicitante", persona);
+          console.log("Persona solicitante", persona, s.id);
+          console.log("este es s: ",s)
           solis.push({
             nombre: persona.nombre,
             estado: s.estado,
-            soliId: s.id,
+            soliId: s.idSolicitud,
           });
         }
 
@@ -179,22 +180,22 @@ export default {
     // },
     async getSolicitudById(id) {
       console.log(id);
-    const apisoli = await apiSolicitudes.getById(id);
-    return apisoli.data;
-  },
+      const apisoli = await apiSolicitudes.getById(id);
+      return apisoli.data;
+    },
 
-  async rechazar(solicitud) {
-    const soli = await this.getSolicitudById(solicitud.soliId);
-    soli.estado = valoresData.estadoSolicitud.cancelada;
-    await this.actualizarSolicitud(soli);
-  },
+    async rechazar(solicitud) {
+      console.log("solo soli:", solicitud)
+      console.log(solicitud.soliId);
+      const soli = await this.getSolicitudById(solicitud.soliId);
+      soli.estado = valoresData.estadoSolicitud.cancelada;
+      await this.actualizarSolicitud(soli);
+    },
 
-  async actualizarSolicitud(solicitud) {
-    await apiSolicitudes.put(solicitud);
+    async actualizarSolicitud(solicitud) {
+      await apiSolicitudes.put(solicitud);
+    },
   },
-  },
-
-  
 
   async created() {
     //llama a la API para traer la lista de mascotas y la guarda en variable local

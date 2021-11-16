@@ -22,7 +22,6 @@ export default {
         return client.post(this.baseURL, solicitud)
     },
     put(solicitud){
-        return client.put(this.baseURL, solicitud)
+        return client.put(`/${solicitud.idSolicitud}`,solicitud)
     }
-
 }

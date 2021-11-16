@@ -26,9 +26,9 @@
               <div class="col">
                 <h5>Solicitudes</h5>
 
-                 <div v-for="solicitud in mascota.solicitudes" :key="solicitud.id">
+                 <div v-for="solicitud in mascota.solis" :key="solicitud.id">
 
-                <p>{{ solicitud.nombreSolicitante }}</p>
+                <p>{{ solicitud.nombre }}</p>
                 <b-button v-if="solicitud.estado == 'Pendiente'" variant="success" @click="aceptar(solicitud)"
                   >aceptar</b-button
                 >
@@ -126,21 +126,26 @@ export default {
 
       //console.log("Mascotas filtradas ", mascotasFiltradas)
 
-      for (const m of mascotasFiltradas) {
+      await  this.buscarSolicitudesFiltradas(mascotasFiltradas)
+    },
+
+    async buscarSolicitudesFiltradas(mascotasFiltradas){
+
+        for (const m of mascotasFiltradas) {
         const solicitudes = this.buscarSolicitudes(m.id)
         console.log("Solicitudes filtradas", solicitudes)
         
-        let personasSolicitud = []
+        let solis = []
         for (const s of solicitudes) {
           const persona = await this.getUsuario(s.idAdoptante)
           console.log("Persona solicitante", persona)
-          personasSolicitud.push({nombre: persona.nombre, estado: s.estado})
+          solis.push({nombre: persona.nombre, estado: s.estado, soliId: s.id})
 
         }
 
         this.mascotasMostrar.push({
           ...m,
-          personasSolicitud
+          solis
         })
       }
 
@@ -205,8 +210,8 @@ img {
 
 .cardSolicitud{
   text-align: left;
-  width: 50vw;
-  height: 15vw;
+  width: 70vw;
+ /* height: 15vw; */
 }
 
 </style>

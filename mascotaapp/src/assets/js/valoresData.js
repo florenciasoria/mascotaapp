@@ -24,10 +24,13 @@ export const valoresData = {
         { text: "Publicado", value: "publicado" },
         { text: "Adoptado", value: "adoptado" },
       ],
-      estadoSolicitud: [
-        { text: "Pendiente", value: "pendiente" },
-        { text: "Cancelada", value: "cancelada" },
-        { text: "Aceptada", value: "aceptada" },
-        { text: "Rechazada", value: "rechazada" },
-      ]
+
+      estadoSolicitud:         
+      { 
+        pendiente: "pendiente",
+        cancelada: "cancelada",
+        aceptada: "aceptada",
+        rechazada: "rechazada"
+      }
+
 }

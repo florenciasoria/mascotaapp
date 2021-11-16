@@ -3,8 +3,7 @@
     <h1>{{ msg }}</h1>
     <div class="container">
       <div class="row" style="margin-top: 50px">
-        <div class="col">
-        </div>
+        <div class="col"></div>
         <b-col class="col-lg-10">
           <div class="">
             <b-row>
@@ -16,31 +15,33 @@
                 img-left
                 class="m-2 cardSolicitud"
               >
-              <div class="row">
-              <div class="col">
-                <p>{{ mascota.edad }}</p>
-                <p>{{ mascota.especie }}</p>
-                <p>{{ mascota.color }}</p>
-                <p>{{ mascota.sexo }}</p>
-              </div>
-              <div class="col">
-                <h5>Solicitudes</h5>
+                <div class="row">
+                  <div class="col">
+                    <p>{{ mascota.edad }}</p>
+                    <p>{{ mascota.especie }}</p>
+                    <p>{{ mascota.color }}</p>
+                    <p>{{ mascota.sexo }}</p>
+                  </div>
+                  <div class="col">
+                    <h5>Solicitudes</h5>
 
-                 <div v-for="solicitud in mascota.solis" :key="solicitud.id">
-
-                <p>{{ solicitud.nombre }}</p>
-                <b-button v-if="solicitud.estado == 'Pendiente'" variant="success" @click="aceptar(solicitud)"
-                  >aceptar</b-button
-                >
-                <b-button v-if="solicitud.estado == 'Pendiente'" variant="danger" @click="rechazar(solicitud)"
-                  >rechazar</b-button
-                >
-
-                </div> 
-
-
-              </div>
-              </div>
+                    <div v-for="solicitud in mascota.solis" :key="solicitud.id">
+                      <p>{{ solicitud.nombre }}</p>
+                      <b-button
+                        v-if="solicitud.estado == 'Pendiente'"
+                        variant="success"
+                        @click="aceptar(solicitud)"
+                        >aceptar</b-button
+                      >
+                      <b-button
+                        v-if="solicitud.estado == 'Pendiente'"
+                        variant="danger"
+                        @click="rechazar(solicitud)"
+                        >rechazar</b-button
+                      >
+                    </div>
+                  </div>
+                </div>
               </b-card>
             </b-row>
           </div>
@@ -57,6 +58,7 @@ import { mapGetters } from "vuex";
 import apiSolicitudes from "../services/solicitudes";
 import apiMascotas from "../services/mascotas";
 import apiPersonas from "../services/personas";
+import { valoresData } from "../assets/js/valoresData.js";
 export default {
   name: "Solicitudes",
   props: {
@@ -64,7 +66,7 @@ export default {
   },
   data() {
     return {
-      soliMostrar : [],
+      soliMostrar: [],
       solicitud: {
         id: "",
         nombremascota: "",
@@ -73,19 +75,16 @@ export default {
         mascotaespecie: "",
         mascotacolor: "",
         mascotasexo: "",
-        estado:""
+        estado: "",
       },
       //usuarioLog:"",
       missolicitudes: [],
       misMascotas: [],
-      mascotasMostrar: []
+      mascotasMostrar: [],
     };
   },
-  computed: {
-    
-  },
+  computed: {},
 
-  
   methods: {
     ...mapGetters(["getusuariosLog"]),
 
@@ -101,9 +100,9 @@ export default {
       // const solisFiltradas = await this.buscarMascotas(solisFiltradasapi);
 
       // return solisFiltradas;
-      console.log(idMascota)
-      let solis = this.missolicitudes
-      const soliDeLaMascota = solis.filter(s => s.idMascota == idMascota)
+      console.log(idMascota);
+      let solis = this.missolicitudes;
+      const soliDeLaMascota = solis.filter((s) => s.idMascota == idMascota);
       return soliDeLaMascota;
     },
 
@@ -116,41 +115,44 @@ export default {
       const apiPers = await apiPersonas.getById(id);
       return apiPers.data;
     },
-    
+
     async getMisMascotas() {
       const misMascotas = await apiMascotas.get();
       const usuarioLog = this.buscarUsuario();
 
       //capaz deberia ser con un for sobre el mascopubli de usuario
-      const mascotasFiltradas = misMascotas.data.filter(m => m.idPublicador == usuarioLog.id)
+      const mascotasFiltradas = misMascotas.data.filter(
+        (m) => m.idPublicador == usuarioLog.id
+      );
 
       //console.log("Mascotas filtradas ", mascotasFiltradas)
 
-      await  this.buscarSolicitudesFiltradas(mascotasFiltradas)
+      await this.buscarSolicitudesFiltradas(mascotasFiltradas);
     },
 
-    async buscarSolicitudesFiltradas(mascotasFiltradas){
+    async buscarSolicitudesFiltradas(mascotasFiltradas) {
+      for (const m of mascotasFiltradas) {
+        const solicitudes = this.buscarSolicitudes(m.id);
+        console.log("Solicitudes filtradas", solicitudes);
 
-        for (const m of mascotasFiltradas) {
-        const solicitudes = this.buscarSolicitudes(m.id)
-        console.log("Solicitudes filtradas", solicitudes)
-        
-        let solis = []
+        let solis = [];
         for (const s of solicitudes) {
-          const persona = await this.getUsuario(s.idAdoptante)
-          console.log("Persona solicitante", persona)
-          solis.push({nombre: persona.nombre, estado: s.estado, soliId: s.id})
-
+          const persona = await this.getUsuario(s.idAdoptante);
+          console.log("Persona solicitante", persona);
+          solis.push({
+            nombre: persona.nombre,
+            estado: s.estado,
+            soliId: s.id,
+          });
         }
 
         this.mascotasMostrar.push({
           ...m,
-          solis
-        })
+          solis,
+        });
       }
 
-    console.log("Mascotas para mostrar ", this.mascotasMostrar)
-
+      console.log("Mascotas para mostrar ", this.mascotasMostrar);
     },
     // async buscarMascotas(lista) {
     //   const listaAdevolver = [];
@@ -175,12 +177,29 @@ export default {
     //   console.log(listaAdevolver.length);
     //   return listaAdevolver;
     // },
+    async getSolicitudById(id) {
+      console.log(id);
+    const apisoli = await apiSolicitudes.getById(id);
+    return apisoli.data;
   },
+
+  async rechazar(solicitud) {
+    const soli = await this.getSolicitudById(solicitud.soliId);
+    soli.estado = valoresData.estadoSolicitud.cancelada;
+    await this.actualizarSolicitud(soli);
+  },
+
+  async actualizarSolicitud(solicitud) {
+    await apiSolicitudes.put(solicitud);
+  },
+  },
+
+  
 
   async created() {
     //llama a la API para traer la lista de mascotas y la guarda en variable local
-    this.missolicitudes = await this.getSolicitudes()
-    this.misMascotas = await this.getMisMascotas()
+    this.missolicitudes = await this.getSolicitudes();
+    this.misMascotas = await this.getMisMascotas();
   },
 };
 </script>
@@ -204,14 +223,13 @@ a {
 
 img {
   height: 100%;
-  width:  20vw;
+  width: 20vw;
   object-fit: cover;
 }
 
-.cardSolicitud{
+.cardSolicitud {
   text-align: left;
   width: 70vw;
- /* height: 15vw; */
+  /* height: 15vw; */
 }
-
 </style>

@@ -20,4 +20,14 @@ export const valoresData = {
         { text: "Macho", value: "macho" },
         { text: "Hembra", value: "hembra" },
       ],
+      estado: [
+        { text: "Publicado", value: "publicado" },
+        { text: "Adoptado", value: "adoptado" },
+      ],
+      estadoSolicitud: [
+        { text: "Pendiente", value: "pendiente" },
+        { text: "Cancelada", value: "cancelada" },
+        { text: "Aceptada", value: "aceptada" },
+        { text: "Rechazada", value: "rechazada" },
+      ]
 }

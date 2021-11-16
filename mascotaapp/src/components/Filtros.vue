@@ -202,8 +202,22 @@ export default {
     async traerMascotasDeApi() {
       const resuGet = await apiMascotas.get();
       const arrayMascotas = resuGet.data;
-      return arrayMascotas;
+      const usuario = this.getusuariosLog();
+
+      let arrayDevolver = arrayMascotas
+      if (usuario.id != undefined) {
+        console.log("usuario id", usuario.id)
+        arrayDevolver = arrayMascotas.filter((m) => m.idPublicador != usuario.id)
+      }
+
+      console.log("array filtrado por usuario", arrayDevolver)
+      //pasar a valores data
+      arrayDevolver = arrayDevolver.filter((m) => m.estado == "publicado")
+      console.log("array filtrado por estado", arrayDevolver)
+
+      return arrayDevolver;
     },
+
     filtrarAnimalesPorEspecie: function (mascotas) {
       if (this.filtro.especie != "")
         return mascotas.filter((m) => this.filtro.especie.includes(m.especie));

@@ -3,7 +3,7 @@ import { Line } from "vue-chartjs";
 
 export default {
   extends: Line,
-  props:['datos'],
+  props: ["datos"],
   data() {
     return {
       bar: null,
@@ -19,8 +19,8 @@ export default {
             backgroundColor: "#8969D3",
             borderWidth: 1,
           },
-        ], 
-      },  
+        ],
+      },
       options: {
         scales: {
           yAxes: [
@@ -59,22 +59,21 @@ export default {
   },
 
   methods: {
-   
     cargarGrafico() {
       //this.datos es lo que pasamos en el v-bind del componente padre
-      const arrayGrafico = this.datos.arrayDatos; 
-  
-      console.log("Array recibido de padre", arrayGrafico)
- 
+      const arrayGrafico = this.datos.arrayDatos;
+
+      console.log("Array recibido de padre", arrayGrafico);
+
       //map para separar el array en dos arrays (meses y cant por mes)
       const cant = arrayGrafico.map((item) => item.cant);
       const nroMes = arrayGrafico.map((item) => item.nroMes);
 
-    console.log("Array de Cantidades", cant);
-    console.log("Array de Mes", nroMes);
+      console.log("Array de Cantidades", cant);
+      console.log("Array de Mes", nroMes);
 
       //datos del grafico
-      this.chartData.datasets[0].label = this.datos.tituloGrafico;    
+      this.chartData.datasets[0].label = this.datos.tituloGrafico;
       this.chartData.datasets[0].data = cant;
       this.chartData.labels = nroMes;
       // const c = cant + 1

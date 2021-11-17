@@ -43,13 +43,13 @@ export default {
           },
         ],
       },
-options: {
-          legend: {
-            display: true
-          },
-          responsive: true,
-          maintainAspectRatio: false
-        }
+      options: {
+        legend: {
+          display: true,
+        },
+        responsive: true,
+        maintainAspectRatio: false,
+      },
     };
   },
   async mounted() {

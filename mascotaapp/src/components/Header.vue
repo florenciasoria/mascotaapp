@@ -11,37 +11,45 @@
         <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
         <b-collapse id="nav-collapse" is-nav>
-
-          
-          <router-link v-if="esAdoptante || esAdmin" to="/misSolicitudes" class="px-2"
+          <router-link
+            v-if="esAdoptante || esAdmin"
+            to="/misSolicitudes"
+            class="px-2"
             >Solicitudes</router-link
           >
           |
-          <router-link to="/misPublicaciones" class="px-2" v-if="esPublicador || esAdmin"
+          <router-link
+            to="/misPublicaciones"
+            class="px-2"
+            v-if="esPublicador || esAdmin"
             >Publicaciones</router-link
           >
-          |         
-          
-           <router-link to="/admin" class="px-2" v-if="esAdmin"
+          |
+
+          <router-link to="/admin" class="px-2" v-if="esAdmin"
             >Panel de Administración</router-link
           >
           |
 
+          <b-navbar-nav class="ml-auto" right>
+            <p class="my-auto" v-if="usuario.nombre">
+              {{ usuario.nombre }} {{ usuario.email }}
+            </p>
 
-          <b-navbar-nav class="ml-auto" right >
-            
-          <p class="my-auto" v-if="usuario.nombre"> {{usuario.nombre}}  {{usuario.email}} </p>
-          
             <b-nav-form class="py-2" align-h="end">
-              
               <div v-if="usuario.nombre">
-
-                 <b-button size="sm" class="mx-4 my-sm-0 align-self-end" type="submit" v-on:click="cerrarSesion" right>
+                <b-button
+                  size="sm"
+                  class="mx-4 my-sm-0 align-self-end"
+                  type="submit"
+                  v-on:click="cerrarSesion"
+                  right
+                >
                   <router-link to="/">Cerrar Sesión</router-link>
                 </b-button>
               </div>
               <div v-else>
-                               <b-button size="sm" class="mx-4 my-sm-0" type="submit" right>
+                <b-button size="sm" class="mx-4 my-sm-0" type="submit" right>
                   <router-link to="/LoginU">Iniciar Sesión</router-link>
                 </b-button>
               </div>
@@ -62,54 +70,68 @@ export default {
   data() {
     return {
       show: true,
-      usuario:{}
+      usuario: {},
     };
   },
 
-
-
   methods: {
     //...mapGetters(["getusuariosLog"]),
-      ...mapActions(["cerrarSesionStore"]),
+    ...mapActions(["cerrarSesionStore"]),
 
-    cerrarSesion(){
-        this.cerrarSesionStore()
-        //Inicializamos los datos del usuario (si no da error cuando buscamos el rol para seleccionar los links)
-        this.usuario = {
-          email: "",
-          pass: "",
-          nombre: "",
-          apellido: "",
-          genero: "",
-          rol: "",
-          mascoPropias: [],
-          mascoPubli: [],
-        }
+    cerrarSesion() {
+      this.cerrarSesionStore();
+      //Inicializamos los datos del usuario (si no da error cuando buscamos el rol para seleccionar los links)
+      this.usuario = {
+        email: "",
+        pass: "",
+        nombre: "",
+        apellido: "",
+        genero: "",
+        rol: "",
+        mascoPropias: [],
+        mascoPubli: [],
+      };
     },
 
     async verUsuarioLogueado() {
       //const usuario = this.getusuariosLog.find((usuario) => usuario.id != null );
-      console.log("Usuario unico: ", this.getusuariosLog)
+      console.log("Usuario unico: ", this.getusuariosLog);
       if (this.getusuariosLog.id != "") {
-        this.usuario = this.getusuariosLog
+        this.usuario = this.getusuariosLog;
       }
-      
-      
+
       //Pendiente: chequear si el usuario no esta vacio?
-      
+
       //return usuario != null ? (this.show = false) : (this.show = true);
     },
   },
 
   computed: {
-        ...mapGetters(["getusuariosLog"]),
-        esAdoptante() {return this.usuario === undefined ? false : this.usuario.rol == "a" ? true : false} ,
-        esAdmin() {return this.usuario === undefined ? false : this.usuario.rol == "z" ? true : false} ,
-        esPublicador() {return this.usuario === undefined ? false : this.usuario.rol == "p" ? true : false} , 
-        },
+    ...mapGetters(["getusuariosLog"]),
+    esAdoptante() {
+      return this.usuario === undefined
+        ? false
+        : this.usuario.rol == "a"
+        ? true
+        : false;
+    },
+    esAdmin() {
+      return this.usuario === undefined
+        ? false
+        : this.usuario.rol == "z"
+        ? true
+        : false;
+    },
+    esPublicador() {
+      return this.usuario === undefined
+        ? false
+        : this.usuario.rol == "p"
+        ? true
+        : false;
+    },
+  },
 
   watch: {
-
     getusuariosLog: {
       handler() {
         this.verUsuarioLogueado();
@@ -125,7 +147,6 @@ img {
   width: 200px;
   height: auto;
 }
-
 
 p {
   color: white;

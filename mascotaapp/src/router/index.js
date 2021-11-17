@@ -13,12 +13,12 @@ const routes = [
   {
     path: '/about',
     name: 'About',
-    component: () => import( '../views/About.vue')
+    component: () => import('../views/About.vue')
   },
   {
     path: '/',
     name: 'Quiero',
-    component: () => import( '../views/QuieroAlgo.vue')
+    component: () => import('../views/QuieroAlgo.vue')
   },
   {
     path: '/misSolicitudes',
@@ -46,13 +46,13 @@ const routes = [
     name: 'Buscar',
     component: () => import('../views/Buscar.vue')
   },
-  { 
-    path: '/form-adopcion/:id',     
-    component: () => import('../views/FormAdopcion.vue') 
+  {
+    path: '/form-adopcion/:id',
+    component: () => import('../views/FormAdopcion.vue')
   },
   {
-    path: '/subir-mascota/',     
-    component: () => import('../views/SubirMascota.vue') 
+    path: '/subir-mascota/',
+    component: () => import('../views/SubirMascota.vue')
   },
   {
     path: '/admin',

@@ -83,9 +83,6 @@ export default {
     async buscarSolicitudes() {
       const usuarioLog = this.buscarUsuario();
       const soliDelSolicitante = await apiSolicitudes.getBySolicitante(usuarioLog.id)
-      // const solisFiltradasapi = this.missolicitudes.filter(
-      //   (soli) => (soli.idAdoptante = usuarioLog.id)
-      // );
       const solisFiltradas = await this.buscarMascotas(soliDelSolicitante.data);
 
       return solisFiltradas;

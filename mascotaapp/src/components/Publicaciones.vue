@@ -139,7 +139,7 @@ export default {
         for (const s of solicitudes) {
           const persona = await this.getUsuario(s.idAdoptante);
           console.log("Persona solicitante", persona, s.id);
-          console.log("este es s: ",s)
+          console.log("este es s: ", s);
           solis.push({
             nombre: persona.nombre,
             estado: s.estado,
@@ -155,29 +155,7 @@ export default {
 
       console.log("Mascotas para mostrar ", this.mascotasMostrar);
     },
-    // async buscarMascotas(lista) {
-    //   const listaAdevolver = [];
-    //   let idx = 0;
-    //   for (const i of lista) {
-    //     const mascotaApi = await apiMascotas.getById(i.idMascota)
-    //     const mascota =  mascotaApi.data;
 
-    //     listaAdevolver.push({
-    //       id: idx,
-    //       nombremascota: mascota.nombre,
-    //       mascotafoto: mascota.foto,
-    //       mascotaedad: mascota.edad,
-    //       mascotaespecie: mascota.especie,
-    //       mascotacolor: mascota.color,
-    //       mascotasexo: mascota.sexo,
-    //       estado: i.estado
-    //     });
-    //     idx++
-    //   }
-    //   console.log("Lista A Devolver ",listaAdevolver)
-    //   console.log(listaAdevolver.length);
-    //   return listaAdevolver;
-    // },
     async getSolicitudById(id) {
       console.log(id);
       const apisoli = await apiSolicitudes.getById(id);
@@ -185,7 +163,7 @@ export default {
     },
 
     async rechazar(solicitud) {
-      console.log("solo soli:", solicitud)
+      console.log("solo soli:", solicitud);
       console.log(solicitud.soliId);
       const soli = await this.getSolicitudById(solicitud.soliId);
       soli.estado = valoresData.estadoSolicitud.cancelada;

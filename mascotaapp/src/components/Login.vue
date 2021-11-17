@@ -90,7 +90,7 @@
 
 <script>
 //import { mapActions } from "vuex";
-import service from '../services/personas'
+import service from "../services/personas";
 export default {
   name: "Home",
   props: {
@@ -118,29 +118,25 @@ export default {
         { value: "p", text: "Postulante" },
         { value: "z", text: "Administrador" },
         { value: "a", text: "Adoptante" },
-
       ],
       show: true,
     };
   },
   methods: {
-    // ...mapActions(["agregarusuario"]),
 
     onSubmit(event) {
       event.preventDefault();
       //this.agregarusuario(this.form);
       try {
-        this.agregarPersona(this.form)
+        this.agregarPersona(this.form);
         this.$router.push("/LoginU");
       } catch {
-        alert('error en el put')
+        alert("error en el put");
       }
-      
-      
     },
 
-    async agregarPersona(persona){
-      await service.post(persona)
+    async agregarPersona(persona) {
+      await service.post(persona);
     },
 
     onReset(event) {
@@ -155,7 +151,7 @@ export default {
       // Trick to reset/clear native browser form validation state
       this.show = false;
       this.$nextTick(() => {
-      this.show = true;
+        this.show = true;
       });
     },
   },

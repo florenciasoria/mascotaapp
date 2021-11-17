@@ -34,9 +34,7 @@
           </b-form-group>
 
           <!-- <b-button type="submit" variant="primary" @click="onSubmit()"> -->
-          <b-button type="submit" variant="primary" >
-            Submit</b-button
-          >
+          <b-button type="submit" variant="primary"> Submit</b-button>
           <b-button type="reset" variant="danger">Reset</b-button>
           <b-button type="" variant="success"
             ><router-link :to="'/LoginF'">Crear Usuario</router-link></b-button
@@ -50,15 +48,13 @@
       </div>
     </div>
   </div>
-
- 
 </template>
 
 
 <script>
- import { mapActions } from "vuex";
+import { mapActions } from "vuex";
 
-import service from '../services/personas'
+import service from "../services/personas";
 
 export default {
   name: "LoginUser",
@@ -72,7 +68,8 @@ export default {
         email: "",
         pass: "",
       },
-      user: {  //-> este hay q pasarlo al store
+      user: {
+        //-> este hay q pasarlo al store
         email: "",
         pass: "",
       },
@@ -80,9 +77,9 @@ export default {
       acceso: true,
 
       //temporal para debug
-      resp:"",
-      arrayPers:[],
-      nomTest:""
+      resp: "",
+      arrayPers: [],
+      nomTest: "",
     };
   },
 
@@ -90,64 +87,60 @@ export default {
   //   ...mapGetters(["getusuarios"]),
   // },
 
-
-
   methods: {
-      ...mapActions(["agregarusuarioLog"]),
+    ...mapActions(["agregarusuarioLog"]),
 
     // onSubmit(event) {
     async onSubmit() {
-    try {
-      const usuario = await this.buscarUser()
+      try {
+        const usuario = await this.buscarUser();
 
-      if (usuario && usuario.pass == this.form.pass ) {
+        if (usuario && usuario.pass == this.form.pass) {
+          console.log("usuario.pass ", usuario.pass);
+          console.log("usuario email", usuario.email);
+          console.log("form pass ", this.form.pass);
 
-        console.log('usuario.pass ', usuario.pass)
-        console.log('usuario email', usuario.email)
-        console.log('form pass ', this.form.pass)
-
-        this.agregarusuarioLog(usuario)
-        alert("bienvenido");
-        this.$router.push("/");
-
-        }else{
+          this.agregarusuarioLog(usuario);
+          alert("bienvenido");
+          this.$router.push("/");
+        } else {
           //agrego el else acá porque si encuentra el mail y la pass es incorrecta no lo estamos
           //agarrando
           alert("Usuario o clave incorrectos");
-      } 
-    } catch (error) {
-      alert("Usuario o clave incorrectos");
-    }
+        }
+      } catch (error) {
+        alert("Usuario o clave incorrectos");
+      }
     },
 
     // buscarUser() {
     //   return this.getusuarios.find((usuario) => usuario.mail == this.form.mail);
     // },
 
-    async buscarUser(){
+    async buscarUser() {
       // //const responsex = await service.get()
       // const response = await service.getById(7)
       // console.log(response)
       // const array = response.data
       // this.arrayPers = array
-      
+
       // // const persona  = array.find((usuario) => usuario.email == this.form.email);
       // // console.log(persona)
       // // return persona
       // return persona
-      const resuGet = await service.get()
-      const array = resuGet.data
-      this.arrayPers = resuGet.data
-      console.log("Array Personas ",this.arrayPers)
-      const persona  = array.find((usuario) => usuario.email == this.form.email);
-      return persona
+      const resuGet = await service.get();
+      const array = resuGet.data;
+      this.arrayPers = resuGet.data;
+      console.log("Array Personas ", this.arrayPers);
+      const persona = array.find((usuario) => usuario.email == this.form.email);
+      return persona;
     },
-    async verUser(){
-      this.resp = await service.get()
-      console.log(this.resp)
-      this.arrayPers = JSON.parse(this.resp)
-      console.log(this.arrayPers)
-    }
+    async verUser() {
+      this.resp = await service.get();
+      console.log(this.resp);
+      this.arrayPers = JSON.parse(this.resp);
+      console.log(this.arrayPers);
+    },
   },
 
   onReset(event) {

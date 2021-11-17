@@ -47,7 +47,7 @@ export default {
   },
   data() {
     return {
-      soliMostrar : [],
+      soliMostrar: [],
       solicitud: {
         id: "",
         nombremascota: "",
@@ -61,11 +61,8 @@ export default {
       missolicitudes: [],
     };
   },
-  computed: {
-    
-  },
+  computed: {},
 
-  
   methods: {
     ...mapGetters(["getusuariosLog"]),
 
@@ -76,7 +73,7 @@ export default {
     async buscarSolicitudes() {
       const usuarioLog = this.buscarUsuario();
       console.log("Metodo Buscar Solicitudes ");
-      console.log("Usuario Logueado ",usuarioLog);
+      console.log("Usuario Logueado ", usuarioLog);
       console.log(this.missolicitudes);
       const solisFiltradasapi = this.missolicitudes.filter(
         (soli) => (soli.idAdoptante = usuarioLog.id)
@@ -95,8 +92,8 @@ export default {
       const listaAdevolver = [];
       let idx = 0;
       for (const i of lista) {
-        const mascotaApi = await apiMascotas.getById(i.idMascota)
-        const mascota =  mascotaApi.data;
+        const mascotaApi = await apiMascotas.getById(i.idMascota);
+        const mascota = mascotaApi.data;
         listaAdevolver.push({
           id: idx,
           nombremascota: mascota.nombre,
@@ -106,9 +103,9 @@ export default {
           mascotacolor: mascota.color,
           mascotasexo: mascota.sexo,
         });
-        idx++
+        idx++;
       }
-      console.log("Lista A Devolver ",listaAdevolver)
+      console.log("Lista A Devolver ", listaAdevolver);
       console.log(listaAdevolver.length);
       return listaAdevolver;
     },
@@ -121,9 +118,8 @@ export default {
 
     console.log(this.missolicitudes.length);
 
-    this.soliMostrar = await this.buscarSolicitudes()
-    console.log("Soli Mostrar ", this.soliMostrar)
-
+    this.soliMostrar = await this.buscarSolicitudes();
+    console.log("Soli Mostrar ", this.soliMostrar);
   },
 };
 </script>

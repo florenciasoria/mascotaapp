@@ -15,7 +15,7 @@ export default new Vuex.Store({
     mutations: {
 
         agregarmascota(state, mascota) {
-           state.mascotas.push(mascota);
+            state.mascotas.push(mascota);
         },
         eliminarmascota(state, id) {
             state.mascotas = state.mascotas.filter((mascota) => mascota.id != id)
@@ -35,13 +35,13 @@ export default new Vuex.Store({
         }
     },
     actions: {
-        agregarusuarioLog({commit}, usuario) {
-            commit("agregarusuarioLog",usuario)
+        agregarusuarioLog({ commit }, usuario) {
+            commit("agregarusuarioLog", usuario)
         },
-        cerrarSesionStore({commit}) {
+        cerrarSesionStore({ commit }) {
             commit("eliminarusuarioLog")
         },
-        
+
     },
     getters: {
         getmascotas: (state) => {

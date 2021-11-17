@@ -5,29 +5,29 @@ const client = axios.create({
 })
 
 export default {
-    get(){
+    get() {
         return client.get()
     },
-    getById(id){
+    getById(id) {
         return client.get(`/${id}`)
     },
-    
+
     //get/solicitudes?solicitante="usuarioLogueado"
     //acá metí solicitante by id para no traernos toda la api cada vez que queramos traer a un solo solicitante
-    getBySolicitante(id){
+    getBySolicitante(id) {
         console.log(`/?idAdoptante=${id}`)
         return client.get(`/?idAdoptante=${id}`)
     },
 
     //get/solicitudes?publicador="usuarioLogueado"
 
-    delete(id){
+    delete(id) {
         return client.delete(`/${id}`)
     },
-    post(solicitud){
+    post(solicitud) {
         return client.post(this.baseURL, solicitud)
     },
-    put(solicitud){
-        return client.put(`/${solicitud.idSolicitud}`,solicitud)
+    put(solicitud) {
+        return client.put(`/${solicitud.idSolicitud}`, solicitud)
     }
 }

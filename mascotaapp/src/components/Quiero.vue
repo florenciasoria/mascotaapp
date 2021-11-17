@@ -23,19 +23,14 @@
       </b-row>
       <b-row style="margin-top: 50px">
         <b-col>
-          <b-button class="boton" @click="irABuscar"
-
-              >Quiero adoptar
-</b-button
-          >
+          <b-button class="boton" @click="irABuscar">Quiero adoptar </b-button>
         </b-col>
         <b-col>
           <b-button class="boton">
-            
             <router-link :to="'/subir-mascota'"
               >Quiero Dar en Adopción
-            </router-link></b-button>
-          
+            </router-link></b-button
+          >
         </b-col>
       </b-row>
     </b-container>
@@ -58,14 +53,13 @@ export default {
         class: "m1",
       },
     };
-
   },
-      methods:{
-      irABuscar(){
-        console.log("llega")
-        this.$router.push('/buscar')
-    }
-    }
+  methods: {
+    irABuscar() {
+      console.log("llega");
+      this.$router.push("/buscar");
+    },
+  },
 };
 </script>
 
@@ -93,7 +87,7 @@ a {
 }
 
 .boton {
-  background-color: #8969D3;
-  border-color: #8969D3;
+  background-color: #8969d3;
+  border-color: #8969d3;
 }
 </style>

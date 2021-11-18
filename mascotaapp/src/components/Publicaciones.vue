@@ -26,19 +26,15 @@
                     <h5>Solicitudes</h5>
 
                     <div v-for="solicitud in mascota.solis" :key="solicitud.id">
-                      <p>{{ solicitud.nombre }}</p>
-                      <b-button
-                        v-if="solicitud.estado == 'Pendiente'"
-                        variant="success"
-                        @click="aceptar(solicitud)"
-                        >aceptar</b-button
-                      >
-                      <b-button
-                        v-if="solicitud.estado == 'Pendiente'"
-                        variant="danger"
-                        @click="rechazar(solicitud)"
-                        >rechazar</b-button
-                      >
+                      <div v-if="solicitud.estado == 'Pendiente'">
+                        <p>{{ solicitud.nombre }}</p>
+                        <b-button variant="success" @click="aceptar(solicitud)"
+                          >aceptar</b-button
+                        >
+                        <b-button variant="danger" @click="rechazar(solicitud)"
+                          >rechazar
+                        </b-button>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -96,6 +92,7 @@ export default {
       console.log("mascotas:", this.usuarioLog.mascoPubli);
     },
 
+    // busca las solicitudes por el Id y las devuelve filtradas si coinciden con el id param. 
     buscarSolicitudes(idMascota) {
       console.log(idMascota);
       let solis = this.missolicitudes;
@@ -119,7 +116,11 @@ export default {
 
       for (let i = 0; i < this.usuarioLog.mascoPubli.length; i++) {
         console.log("el id de masc:", i);
-        misMascotas.push(await (await apiMascotas.getById(this.usuarioLog.mascoPubli[i])).data);
+        misMascotas.push(
+          await (
+            await apiMascotas.getById(this.usuarioLog.mascoPubli[i])
+          ).data
+        );
       }
       // for (const idMascota of this.usuarioLog.mascoPubli) {
       //   console.log("el id de masc:", idMascota);
@@ -132,7 +133,9 @@ export default {
     async buscarSolicitudesFiltradas(mascotasFiltradas) {
       for (const m of mascotasFiltradas) {
         //esto nos trae todas las solicitudes de una mascota
-        const solicitudes = await (await apiSolicitudes.getByMascota(m.id)).data;
+        const solicitudes = await (
+          await apiSolicitudes.getByMascota(m.id)
+        ).data;
         console.log("Solicitudes filtradas", solicitudes);
 
         let solis = [];
@@ -148,6 +151,7 @@ export default {
         }
 
         // MascotasMostrar: Agrega la mascota y solicitudes que posee
+        this.mascotasMostrar = []
         this.mascotasMostrar.push({
           ...m,
           solis,
@@ -163,12 +167,17 @@ export default {
       return apisoli.data;
     },
 
+    // Rechaza las solicitudes de los usuarios.
     async rechazar(solicitud) {
       console.log("solo soli:", solicitud);
       console.log(solicitud.soliId);
       const soli = await this.getSolicitudById(solicitud.soliId);
       soli.estado = valoresData.estadoSolicitud.cancelada;
       await this.actualizarSolicitud(soli);
+     // this.$forceUpdate();
+    // con esto me duplica la mascota.
+     this.misMascotas = await this.getMisMascotas();
+    // solicitud.estado = valoresData.estadoSolicitud.cancelada;
     },
 
     async actualizarSolicitud(solicitud) {
@@ -181,7 +190,7 @@ export default {
     //this.missolicitudes = await this.getByPublicante();
     await this.buscarUsuario();
     this.misMascotas = await this.getMisMascotas();
-  },
+  }
 };
 </script>
 

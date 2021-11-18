@@ -21,6 +21,7 @@ export default {
         return client.post(this.baseURL, mascota)
     },
     put(mascota){
-        return client.put(mascota)
+        //return client.put(persona)
+        return client.put(`/${mascota.id}`,mascota)
     }
 }

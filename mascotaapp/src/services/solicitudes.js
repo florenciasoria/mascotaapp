@@ -20,6 +20,15 @@ export default {
     },
 
     //get/solicitudes?publicador="usuarioLogueado"
+    getByPublicante(id) {
+      //  console.log(`/?idPublicador=${id}`)
+        return client.get(`/?idPublicador=${id}`)
+    },
+
+    getByMascota(id) {
+        console.log(`/?idMascota=${id}`)
+        return client.get(`/?idMascota=${id}`)
+    },
 
     delete(id) {
         return client.delete(`/${id}`)

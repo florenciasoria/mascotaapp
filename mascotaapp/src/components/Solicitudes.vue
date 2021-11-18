@@ -64,8 +64,7 @@ export default {
         mascotasexo: "",
         estado:""
       },
-      //usuarioLog:"",
-      missolicitudes: [],
+
     };
   },
   computed: {
@@ -118,8 +117,6 @@ export default {
 
   async created() {
     //llama a la API para traer la lista de mascotas y la guarda en variable local
-    this.missolicitudes = await this.getSolicitudes();
-
     this.soliMostrar = await this.buscarSolicitudes()
 
   },

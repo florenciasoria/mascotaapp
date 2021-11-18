@@ -77,7 +77,7 @@ export default {
         mascotasexo: "",
         estado: "",
       },
-      //usuarioLog:"",
+      usuarioLog:"",
       missolicitudes: [],
       misMascotas: [],
       mascotasMostrar: [],
@@ -88,18 +88,12 @@ export default {
   methods: {
     ...mapGetters(["getusuariosLog"]),
 
-    buscarUsuario() {
-      return this.getusuariosLog();
+    async buscarUsuario() {
+      //buscamos el usuario que está loggeado en la base de datos y nos quedamos con ese 
+      this.usuarioLog = await this.getUsuario(this.getusuariosLog().id)      
     },
 
     buscarSolicitudes(idMascota) {
-      // const usuarioLog = this.buscarUsuario();
-      // const solisFiltradasapi = this.missolicitudes.filter(
-      //   (soli) => (soli.idAdoptante = usuarioLog.id)
-      // );
-      // const solisFiltradas = await this.buscarMascotas(solisFiltradasapi);
-
-      // return solisFiltradas;
       console.log(idMascota);
       let solis = this.missolicitudes;
       const soliDeLaMascota = solis.filter((s) => s.idMascota == idMascota);
@@ -117,22 +111,17 @@ export default {
     },
 
     async getMisMascotas() {
-      const misMascotas = await apiMascotas.get();
-      const usuarioLog = this.buscarUsuario();
-
-      //capaz deberia ser con un for sobre el mascopubli de usuario
-      const mascotasFiltradas = misMascotas.data.filter(
-        (m) => m.idPublicador == usuarioLog.id
-      );
-
-      //console.log("Mascotas filtradas ", mascotasFiltradas)
-
-      await this.buscarSolicitudesFiltradas(mascotasFiltradas);
+      const misMascotas = []
+      for (const idMascota in this.usuarioLog.mascoPubli) {
+        misMascotas.push(await apiMascotas.getById(idMascota))
+      }
+      await this.buscarSolicitudesFiltradas(misMascotas);
     },
 
     async buscarSolicitudesFiltradas(mascotasFiltradas) {
       for (const m of mascotasFiltradas) {
-        const solicitudes = this.buscarSolicitudes(m.id);
+        //esto nos trae todas las solicitudes de una mascota 
+        const solicitudes = await apiSolicitudes.getByMascota(m.id);
         console.log("Solicitudes filtradas", solicitudes);
 
         let solis = [];
@@ -177,8 +166,9 @@ export default {
 
   async created() {
     //llama a la API para traer la lista de mascotas y la guarda en variable local
-    this.missolicitudes = await this.getSolicitudes();
+    //this.missolicitudes = await this.getByPublicante();
     this.misMascotas = await this.getMisMascotas();
+    await this.buscarUsuario();
   },
 };
 </script>

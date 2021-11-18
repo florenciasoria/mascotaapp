@@ -11,6 +11,9 @@ export default {
     getById(id){
         return client.get(`/${id}`)
     },
+    // getByIdPublicante(id){
+    //     return client.get(`/${id}`)
+    // },
     delete(id){
         return client.delete(`/${id}`)
     },

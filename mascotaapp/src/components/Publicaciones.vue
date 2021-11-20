@@ -99,14 +99,10 @@ export default {
     async buscarUsuario() {
       //buscamos el usuario que está loggeado en la base de datos y nos quedamos con ese
       this.usuarioLog = await this.getUsuario(this.getusuariosLog().id);
-      console.log("id usuarioLog store:", this.getusuariosLog().id);
-      console.log("usuario log: ", this.usuarioLog);
-      console.log("mascotas:", this.usuarioLog.mascoPubli);
     },
 
     // busca las solicitudes por el Id y las devuelve filtradas si coinciden con el id param.
     buscarSolicitudes(idMascota) {
-      console.log(idMascota);
       let solis = this.missolicitudes;
       const soliDeLaMascota = solis.filter((s) => s.idMascota == idMascota);
       return soliDeLaMascota;
@@ -124,21 +120,14 @@ export default {
 
     async getMisMascotas() {
       const misMascotas = [];
-      //     console.log("this: ", this.usuarioLog.mas);
 
       for (let i = 0; i < this.usuarioLog.mascoPubli.length; i++) {
-        //console.log("el id de masc:", i);
         misMascotas.push(
           await (
             await apiMascotas.getById(this.usuarioLog.mascoPubli[i])
           ).data
         );
       }
-      // for (const idMascota of this.usuarioLog.mascoPubli) {
-      //   console.log("el id de masc:", idMascota);
-      //   misMascotas.push(await (await apiMascotas.getById(idMascota)).data)
-      // }
-      console.log("misMascotas: ", misMascotas);
       await this.buscarSolicitudesFiltradas(misMascotas);
     },
 
@@ -148,28 +137,32 @@ export default {
         const solicitudes = await (
           await apiSolicitudes.getByMascota(m.id)
         ).data;
-        //console.log("Solicitudes filtradas", solicitudes);
 
-        let solis = [];
-        for (const s of solicitudes) {
-          const persona = await this.getUsuario(s.idAdoptante);
-          //console.log("Persona solicitante", persona, s.id);
-          //console.log("este es s: ", s);
-          solis.push({
-            nombre: persona.nombre,
-            estado: s.estado,
-            soliId: s.idSolicitud,
-          });
-        }
+        let solis = await this.cargarDatosSolicitud(solicitudes);
 
         // MascotasMostrar: Agrega la mascota y solicitudes que posee
         this.mascotasMostrar.push({
+          // ... carga todos los datos de la mascota
           ...m,
           solis,
         });
       }
+    },
 
-      console.log("Mascotas para mostrar ", this.mascotasMostrar);
+    // para cada solicitud, busca el estado, nombre de la persona y ID de la solicitud
+    async cargarDatosSolicitud(solicitudes) {
+      let solis = [];
+
+      for (const s of solicitudes) {
+        const persona = await this.getUsuario(s.idAdoptante);
+        solis.push({
+          nombre: persona.nombre,
+          estado: s.estado,
+          soliId: s.idSolicitud,
+        });
+      }
+
+      return solis;
     },
 
     async getSolicitudById(id) {
@@ -180,39 +173,45 @@ export default {
 
     // Rechaza las solicitudes de los usuarios.
     async rechazar(solicitud) {
-      //console.log("solo soli:", solicitud);
-      //console.log(solicitud.soliId);
       const soli = await this.getSolicitudById(solicitud.soliId);
       soli.estado = valoresData.estadoSolicitud.rechazada;
       await this.actualizarSolicitud(soli);
-      // this.$forceUpdate();
-      // con esto me duplica la mascota.
-      this.mascotasMostrar = [];
-      this.misMascotas = await this.getMisMascotas();
-      // solicitud.estado = valoresData.estadoSolicitud.cancelada;
     },
+
     async aceptar(solicitud) {
       const soli = await this.getSolicitudById(solicitud.soliId);
       soli.estado = valoresData.estadoSolicitud.aceptada;
-      const solicitudesARechazar = await apiSolicitudes.getByMascota(
-        soli.idMascota
-      );
+
+      await this.cambiarEstadoMascota(soli);
+      await this.agregarMascotasAdoptante(soli);
+      await this.rechazarRemanentes(soli);
+      await this.actualizarSolicitud(soli);
+    },
+
+    async cambiarEstadoMascota(soli) {
       // cambio el estado de la mascota a adoptado
       const masco = await apiMascotas.getById(soli.idMascota);
       masco.data.estado = valoresData.estadoMascota.adoptado;
       await apiMascotas.put(masco.data);
+    },
 
+    async agregarMascotasAdoptante(soli) {
       // obtengo adoptante y le actualizo la lista de mascotas propias
       const adoptante = await apiPersonas.getById(soli.idAdoptante);
       adoptante.data.mascoPropias.push(soli.idMascota);
-      //console.log("muestro adoptante!!!:", adoptante.data);
       await apiPersonas.put(adoptante.data);
+    },
 
+    async rechazarRemanentes(soli) {
+      const solicitudesARechazar = await apiSolicitudes.getByMascota(
+        soli.idMascota
+      );
       //obtengo el indice de la solicitud que acepte
       const indiceSoli = solicitudesARechazar.data.findIndex(
         (s) =>
           s.idMascota == soli.idMascota && s.idAdoptante == soli.idAdoptante
       );
+      // slice: te devuelve todas menos la que le estas pasando.
       solicitudesARechazar.data.slice(indiceSoli);
 
       // cancelo todas los solicitudes menos la que acepte
@@ -220,10 +219,6 @@ export default {
         soliR.estado = valoresData.estadoSolicitud.rechazada;
         await this.actualizarSolicitud(soliR);
       }
-
-      await this.actualizarSolicitud(soli);
-      this.mascotasMostrar = [];
-      this.misMascotas = await this.getMisMascotas();
     },
 
     async actualizarSolicitud(solicitud) {
@@ -231,12 +226,13 @@ export default {
       const hoy = new Date(tiempoTranscurrido);
       solicitud.fechaRespuesta = hoy.toLocaleDateString();
       await apiSolicitudes.put(solicitud);
+      this.mascotasMostrar = [];
+      this.misMascotas = await this.getMisMascotas();
     },
   },
 
   async created() {
     //llama a la API para traer la lista de mascotas y la guarda en variable local
-    //this.missolicitudes = await this.getByPublicante();
     await this.buscarUsuario();
     this.misMascotas = await this.getMisMascotas();
   },

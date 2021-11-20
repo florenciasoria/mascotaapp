@@ -144,7 +144,7 @@ export default {
 
           const usuario = await apiPersonas.getById(id);
           console.log("Usuario", usuario);
-          usuario.data.mascoPubli.push(mascota.data.id);
+          usuario.data.mascoPubli.push(+mascota.id);
           console.log("Usuario despues del Push", usuario.data);
           const resultadoPut = await apiPersonas.put(usuario.data);
           console.log(resultadoPut);
@@ -159,7 +159,7 @@ export default {
     async agregarMascota(mascota) {
       const resu = await apiMascotas.post(mascota);
       console.log("resu agregar mascota", resu.data);
-    },
+      return resu.data    },
 
     onReset(event) {
       event.preventDefault();

@@ -2,35 +2,39 @@
   <div class="quiero">
     <b-container fluid class="m-auto margenes">
       <b-row class="m-auto">
-        <b-col>
-          <img
-            alt="chihuahua_1"
-            v-bind="mainProps"
-            rounded="circle"
-            class="rounded-circle"
-            src="../assets/chihuahua_1.jpg"
-          />
+        <b-col class="m-auto" v-if="esAdoptante">
+          <b-row class="m-auto">
+            <img
+              alt="chihuahua_1"
+              v-bind="mainProps"
+              rounded="circle"
+              class="rounded-circle m-auto"
+              src="../assets/chihuahua_1.jpg"
+            />
+          </b-row>
+          <b-row style="margin-top: 50px" class="m-auto">
+            <b-button class="boton m-auto" @click="irABuscar"
+              >Quiero adoptar
+            </b-button>
+          </b-row>
         </b-col>
-        <b-col>
-          <img
-            alt="gatito_1"
-            v-bind="mainProps"
-            rounded="circle"
-            class="rounded-circle"
-            src="../assets/gatito_1.jpg"
-          />
-        </b-col>
-      </b-row>
-      <b-row style="margin-top: 50px">
-        <b-col>
-          <b-button class="boton" @click="irABuscar">Quiero adoptar </b-button>
-        </b-col>
-        <b-col>
-          <b-button class="boton">
-            <router-link :to="'/subir-mascota'"
-              >Quiero Dar en Adopción
-            </router-link></b-button
-          >
+        <b-col class="m-auto" v-if="esPublicador">
+          <b-row class="m-auto">
+            <img
+              alt="gatito_1"
+              v-bind="mainProps"
+              rounded="circle"
+              class="rounded-circle m-auto"
+              src="../assets/gatito_1.jpg" 
+            />
+          </b-row>
+          <b-row style="margin-top: 50px" class="m-auto">
+              <b-button class="boton m-auto">
+                <router-link :to="'/subir-mascota'"
+                  >Quiero Dar en Adopción
+                </router-link></b-button
+              >
+          </b-row>
         </b-col>
       </b-row>
     </b-container>
@@ -38,7 +42,9 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 export default {
+  
   name: "Grilla",
   props: {
     msg: String,
@@ -52,13 +58,36 @@ export default {
         height: 175,
         class: "m1",
       },
+      usuario: {}
     };
   },
   methods: {
+    ...mapGetters(["getusuariosLog"]),
     irABuscar() {
-      console.log("llega");
       this.$router.push("/buscar");
     },
+    buscarUsuario(){
+      return this.getusuariosLog()
+    }
+  },
+    computed: {
+    esAdoptante() {
+      return this.usuario.rol === undefined
+        ? true
+        : this.usuario.rol == "a"
+        ? true
+        : false;
+    },
+    esPublicador() {
+      return this.usuario.rol === undefined
+        ? true
+        : this.usuario.rol == "p"
+        ? true
+        : false;
+    },
+  },
+  created() {
+    this.usuario = this.buscarUsuario();
   },
 };
 </script>

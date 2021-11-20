@@ -144,7 +144,7 @@ export default {
 
           const usuario = await apiPersonas.getById(id);
           console.log("Usuario", usuario);
-          usuario.data.mascoPubli.push(+mascota.id);
+          usuario.data.mascoPubli.push(Number(mascota.id));
           console.log("Usuario despues del Push", usuario.data);
           const resultadoPut = await apiPersonas.put(usuario.data);
           console.log(resultadoPut);
@@ -153,7 +153,6 @@ export default {
           alert("error en el put");
         }
       }
-      //this.agregarusuario(this.form);
     },
 
     async agregarMascota(mascota) {

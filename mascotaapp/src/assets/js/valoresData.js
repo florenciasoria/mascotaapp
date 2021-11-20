@@ -20,10 +20,15 @@ export const valoresData = {
     { text: "Macho", value: "macho" },
     { text: "Hembra", value: "hembra" },
   ],
-  estado: [
-    { text: "Publicado", value: "publicado" },
-    { text: "Adoptado", value: "adoptado" },
-  ],
+  // estado: [
+  //   { text: "Publicado", value: "publicado" },
+  //   { text: "Adoptado", value: "adoptado" },
+  // ],
+  estadoMascota:
+  {
+    publicado: "publicado",
+    adoptado: "adoptado"
+  },
 
   estadoSolicitud:
   {

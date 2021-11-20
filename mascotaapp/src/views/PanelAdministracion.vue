@@ -62,6 +62,7 @@ export default {
     console.log("gatosarr en panel", this.datosMascotaAlta.perrosArr)
     this.datosMascotaAlta.gatosArr = this.cargarGraficoLineaPorEspecie("gato");
     console.log("perros arr en panel:",this.datosMascotaAlta.gatosArr)
+    this.datosCargados = true;
   },
 
   methods: {
@@ -98,7 +99,6 @@ export default {
 
       this.datosMascotaAlta.arrayDatos = arrayGrafico;
       this.datosMascotaAlta.tituloGrafico = "Mascotas publicadas Por Mes";
-      this.datosCargados = true;
     },
 
     async cargarGraficoEspecie() {

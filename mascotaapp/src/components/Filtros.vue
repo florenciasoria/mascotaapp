@@ -182,7 +182,7 @@ export default {
           idMascota: mascota.id,
           idAdoptante: usuario.id,
           idPublicador: mascota.idPublicador,
-          estado: "Pendiente",
+          estado: "pendiente",
         };
         this.agregarAdopcion(soli);
         this.$router.push("/misSolicitudes");
@@ -209,6 +209,7 @@ export default {
         console.log("usuario id", usuario.id)
         arrayDevolver = arrayMascotas.filter((m) => m.idPublicador != usuario.id)
       }
+      //sacar mascotas con solicitudes del usuario logueado
 
       console.log("array filtrado por usuario", arrayDevolver)
       //pasar a valores data

@@ -48,7 +48,7 @@ export default {
         tituloGrafico: "",
         arrayDatos: [],
       },
-
+      arrayFechas: [],
       datosCargados: false,
       datosCargados3: false,
     };
@@ -56,44 +56,52 @@ export default {
 
   async created() {
     this.mascotasInicial = await this.traerMascotasDeApi();
+    // obtengo mi array de fechas totales
+    await this.obtenerArrayFechas();
     await this.cargarGraficoPorMesPublicacion();
-    await this.cargarGraficoEspecie();
-    this.datosMascotaAlta.perrosArr = this.cargarGraficoLineaPorEspecie("perro");
-    console.log("gatosarr en panel", this.datosMascotaAlta.perrosArr)
+    await this.cargarGraficoEspecieTorta();
+    this.datosMascotaAlta.perrosArr =
+      this.cargarGraficoLineaPorEspecie("perro");
+    console.log("gatosarr en panel", this.datosMascotaAlta.perrosArr);
     this.datosMascotaAlta.gatosArr = this.cargarGraficoLineaPorEspecie("gato");
-    console.log("perros arr en panel:",this.datosMascotaAlta.gatosArr)
+    console.log("perros arr en panel:", this.datosMascotaAlta.gatosArr);
     this.datosCargados = true;
   },
 
   methods: {
     async cargarGraficoPorMesPublicacion() {
-      const arrayGrafico = [];
+    const arrayGrafico = this.arrayFechas
 
       for (const mascota of this.mascotasInicial) {
         //Guardamos el mes
-        const mes = new Date(mascota.createdAt);
-        const mes2 = ("0" + (mes.getMonth() + 1)).slice(-2);
+        const fechaCreacion = new Date(mascota.createdAt);
+        const mes2 = ("0" + (fechaCreacion.getMonth() + 1)).slice(-2);
 
         //Guardamos el año de publicacion
-        const anio = mes.getFullYear();
+        const anio = fechaCreacion.getFullYear();
 
         const fecha = `${anio}-${mes2}`;
 
-        const objeto = arrayGrafico.find((objeto) => objeto.nroMes == fecha);
+        const objeto = arrayGrafico.find(
+          (objeto) => objeto.fechaCreacion == fecha
+        );
 
-        if (objeto === undefined) {
-          arrayGrafico.push({ nroMes: fecha, cant: 1 });
-        } else {
-          const indice = arrayGrafico.findIndex((obj) => obj.nroMes == fecha);
+        if (objeto != undefined) {
+          const indice = arrayGrafico.findIndex(
+            (obj) => obj.fechaCreacion == fecha
+          );
           let cantidadNueva = objeto.cant + 1;
-          const nuevoObjeto = { nroMes: objeto.nroMes, cant: cantidadNueva };
+          const nuevoObjeto = {
+            fechaCreacion: objeto.fechaCreacion,
+            cant: cantidadNueva,
+          };
           arrayGrafico[indice] = nuevoObjeto;
         }
       }
-
+console.log("arraytotal",arrayGrafico)
       arrayGrafico.sort(function sort(a, b) {
-        const aa = a.nroMes.split("-"),
-          bb = b.nroMes.split("-");
+        const aa = a.fechaCreacion.split("-"),
+          bb = b.fechaCreacion.split("-");
         return aa[0] - bb[0] || aa[1] - bb[1];
       });
 
@@ -101,7 +109,7 @@ export default {
       this.datosMascotaAlta.tituloGrafico = "Mascotas publicadas Por Mes";
     },
 
-    async cargarGraficoEspecie() {
+    async cargarGraficoEspecieTorta() {
       const arrayGrafico = [];
       for (const mascota of this.mascotasInicial) {
         const especie = mascota.especie;
@@ -136,7 +144,7 @@ export default {
     },
 
     cargarGraficoLineaPorEspecie(especie) {
-      const arrayGrafico = [];
+      const arrayGrafico = this.arrayFechas;
 
       for (const mascota of this.mascotasInicial) {
         if (mascota.especie == especie) {
@@ -149,25 +157,48 @@ export default {
 
           const fecha = `${anio}-${mes2}`;
 
-          const objeto = arrayGrafico.find((objeto) => objeto.nroMes == fecha);
+          const objeto = arrayGrafico.find((objeto) => objeto.fechaCreacion == fecha);
 
-          if (objeto === undefined) {
-            arrayGrafico.push({ nroMes: fecha, cant: 1 });
-          } else {
-            const indice = arrayGrafico.findIndex((obj) => obj.nroMes == fecha);
+          if (objeto != undefined) {
+            const indice = arrayGrafico.findIndex((obj) => obj.fechaCreacion == fecha);
             let cantidadNueva = objeto.cant + 1;
-            const nuevoObjeto = { nroMes: objeto.nroMes, cant: cantidadNueva };
+            const nuevoObjeto = { fechaCreacion: objeto.fechaCreacion, cant: cantidadNueva };
             arrayGrafico[indice] = nuevoObjeto;
           }
         }
       }
+      console.log("array por especie",especie,arrayGrafico)
       arrayGrafico.sort(function sort(a, b) {
-        const aa = a.nroMes.split("-"),
-          bb = b.nroMes.split("-");
+        const aa = a.fechaCreacion.split("-"),
+          bb = b.fechaCreacion.split("-");
         return aa[0] - bb[0] || aa[1] - bb[1];
       });
       return arrayGrafico;
     },
+
+    obtenerArrayFechas() {
+      // 
+      for (const mascota of this.mascotasInicial) {
+        //Guardamos el mes
+        const fechaCreacion = new Date(mascota.createdAt);
+        const mes2 = ("0" + (fechaCreacion.getMonth() + 1)).slice(-2);
+
+        //Guardamos el año de publicacion
+        const anio = fechaCreacion.getFullYear();
+
+        const fecha = `${anio}-${mes2}`;
+
+        const objeto = this.arrayFechas.find(
+          (objeto) => objeto.fechaCreacion == fecha
+        );
+
+        if (objeto === undefined) {
+          this.arrayFechas.push({ fechaCreacion: fecha, cant: 0 });
+        }
+
+
+    }
   },
+},
 };
 </script>

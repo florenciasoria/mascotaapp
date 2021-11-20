@@ -31,7 +31,6 @@
                       @click="cancelar(solicitud)"
                       >cancelar</b-button
                     >
-                    
                   </div>
                 </div>
               </b-card>
@@ -80,39 +79,52 @@ export default {
     },
 
     async buscarSolicitudes() {
-      const usuarioLog = this.buscarUsuario();
-      const soliDelSolicitante = await apiSolicitudes.getBySolicitante(
-        usuarioLog.id
-      );
-      const solisFiltradas = await this.buscarMascotas(soliDelSolicitante.data);
-
-      return solisFiltradas;
+      try {
+        const usuarioLog = this.buscarUsuario();
+        const soliDelSolicitante = await apiSolicitudes.getBySolicitante(
+          usuarioLog.id
+        );
+        const solisFiltradas = await this.buscarMascotas(
+          soliDelSolicitante.data
+        );
+        return solisFiltradas;
+      } catch (error) {
+        console.log(error.message);
+      }
     },
 
     async getSolicitudes() {
-      const apisoli = await apiSolicitudes.get();
-      return apisoli.data;
+      try {
+        const apisoli = await apiSolicitudes.get();
+        return apisoli.data;
+      } catch (error) {
+        console.log(error.message);
+      }
     },
     async buscarMascotas(lista) {
-      const listaAdevolver = [];
-      let idx = 0;
-      for (const i of lista) {
-        const mascotaApi = await apiMascotas.getById(i.idMascota);
-        const mascota = mascotaApi.data;
-        listaAdevolver.push({
-          id: idx,
-          nombremascota: mascota.nombre,
-          mascotafoto: mascota.foto,
-          mascotaedad: mascota.edad,
-          mascotaespecie: mascota.especie,
-          mascotacolor: mascota.color,
-          mascotasexo: mascota.sexo,
-          estado: i.estado,
-          idApi: i.idSolicitud,
-        });
-        idx++;
+      try {
+        const listaAdevolver = [];
+        let idx = 0;
+        for (const i of lista) {
+          const mascotaApi = await apiMascotas.getById(i.idMascota);
+          const mascota = mascotaApi.data;
+          listaAdevolver.push({
+            id: idx,
+            nombremascota: mascota.nombre,
+            mascotafoto: mascota.foto,
+            mascotaedad: mascota.edad,
+            mascotaespecie: mascota.especie,
+            mascotacolor: mascota.color,
+            mascotasexo: mascota.sexo,
+            estado: i.estado,
+            idApi: i.idSolicitud,
+          });
+          idx++;
+        }
+        return listaAdevolver;
+      } catch (error) {
+        console.log(error.message);
       }
-      return listaAdevolver;
     },
 
     async cancelar(solicitud) {
@@ -124,15 +136,23 @@ export default {
     },
 
     async getSolicitudById(id) {
-      const apisoli = await apiSolicitudes.getById(id);
-      return apisoli.data;
+      try {
+        const apisoli = await apiSolicitudes.getById(id);
+        return apisoli.data;
+      } catch (error) {
+        console.log(error.message);
+      }
     },
 
     async actualizarSolicitud(solicitud) {
-      const tiempoTranscurrido = Date.now();
-      const hoy = new Date(tiempoTranscurrido);
-      solicitud.fechaRespuesta = hoy.toLocaleDateString();
-      await apiSolicitudes.put(solicitud);
+      try {
+        const tiempoTranscurrido = Date.now();
+        const hoy = new Date(tiempoTranscurrido);
+        solicitud.fechaRespuesta = hoy.toLocaleDateString();
+        await apiSolicitudes.put(solicitud);
+      } catch (error) {
+        console.log(error.message);
+      }
     },
   },
 

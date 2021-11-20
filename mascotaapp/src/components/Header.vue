@@ -15,14 +15,20 @@
             v-if="esAdoptante || esAdmin"
             to="/misSolicitudes"
             class="px-2"
-            >Solicitudes <b-badge variant="success" v-if="notificacionesSolicitud >= 0">{{notificacionesSolicitud}}</b-badge> </router-link
-          >
+            >Solicitudes
+            <b-badge variant="success" v-if="notificacionesSolicitud >= 0">{{
+              notificacionesSolicitud
+            }}</b-badge>
+          </router-link>
           |
           <router-link
             to="/misPublicaciones"
             class="px-2"
             v-if="esPublicador || esAdmin"
-            >Publicaciones <b-badge variant="success" v-if="notificacionesPublicacion >= 0">{{notificacionesPublicacion}}</b-badge></router-link
+            >Publicaciones
+            <b-badge variant="success" v-if="notificacionesPublicacion >= 0">{{
+              notificacionesPublicacion
+            }}</b-badge></router-link
           >
           |
 
@@ -72,8 +78,8 @@ export default {
       show: true,
       usuario: {},
       // para el uso del badge
-      notificacionesSolicitud : 0,
-      notificacionesPublicacion: 0
+      notificacionesSolicitud: 0,
+      notificacionesPublicacion: 0,
     };
   },
 
@@ -98,7 +104,6 @@ export default {
 
     async verUsuarioLogueado() {
       //const usuario = this.getusuariosLog.find((usuario) => usuario.id != null );
-      console.log("Usuario unico: ", this.getusuariosLog);
       if (this.getusuariosLog.id != "") {
         this.usuario = this.getusuariosLog;
       }

@@ -109,43 +109,59 @@ export default {
     },
 
     async getSolicitudes() {
-      const apisoli = await apiSolicitudes.get();
-      return apisoli.data;
+      try {
+        const apisoli = await apiSolicitudes.get();
+        return apisoli.data;
+      } catch (error) {
+        //alert("Por favor, refresque la página")
+        console.log("holis");
+      }
     },
 
     async getUsuario(id) {
-      const apiPers = await apiPersonas.getById(id);
-      return apiPers.data;
+      try {
+        const apiPers = await apiPersonas.getById(id);
+        return apiPers.data;
+      } catch (error) {
+        console.log(error.message);
+      }
     },
 
     async getMisMascotas() {
       const misMascotas = [];
-
-      for (let i = 0; i < this.usuarioLog.mascoPubli.length; i++) {
-        misMascotas.push(
-          await (
-            await apiMascotas.getById(this.usuarioLog.mascoPubli[i])
-          ).data
-        );
+      try {
+        for (let i = 0; i < this.usuarioLog.mascoPubli.length; i++) {
+          misMascotas.push(
+            await (
+              await apiMascotas.getById(this.usuarioLog.mascoPubli[i])
+            ).data
+          );
+        }
+        await this.buscarSolicitudesFiltradas(misMascotas);
+      } catch (error) {
+        console.log(error.message);
       }
-      await this.buscarSolicitudesFiltradas(misMascotas);
     },
 
     async buscarSolicitudesFiltradas(mascotasFiltradas) {
-      for (const m of mascotasFiltradas) {
-        //esto nos trae todas las solicitudes de una mascota
-        const solicitudes = await (
-          await apiSolicitudes.getByMascota(m.id)
-        ).data;
+      try {
+        for (const m of mascotasFiltradas) {
+          //esto nos trae todas las solicitudes de una mascota
+          const solicitudes = await (
+            await apiSolicitudes.getByMascota(m.id)
+          ).data;
 
-        let solis = await this.cargarDatosSolicitud(solicitudes);
+          let solis = await this.cargarDatosSolicitud(solicitudes);
 
-        // MascotasMostrar: Agrega la mascota y solicitudes que posee
-        this.mascotasMostrar.push({
-          // ... carga todos los datos de la mascota
-          ...m,
-          solis,
-        });
+          // MascotasMostrar: Agrega la mascota y solicitudes que posee
+          this.mascotasMostrar.push({
+            // ... carga todos los datos de la mascota
+            ...m,
+            solis,
+          });
+        }
+      } catch (error) {
+        console.log(error.message);
       }
     },
 
@@ -166,9 +182,12 @@ export default {
     },
 
     async getSolicitudById(id) {
-      console.log(id);
-      const apisoli = await apiSolicitudes.getById(id);
-      return apisoli.data;
+      try {
+        const apisoli = await apiSolicitudes.getById(id);
+        return apisoli.data;
+      } catch (error) {
+        console.log(error.message);
+      }
     },
 
     // Rechaza las solicitudes de los usuarios.
@@ -190,44 +209,60 @@ export default {
 
     async cambiarEstadoMascota(soli) {
       // cambio el estado de la mascota a adoptado
-      const masco = await apiMascotas.getById(soli.idMascota);
-      masco.data.estado = valoresData.estadoMascota.adoptado;
-      await apiMascotas.put(masco.data);
+      try {
+        const masco = await apiMascotas.getById(soli.idMascota);
+        masco.data.estado = valoresData.estadoMascota.adoptado;
+        await apiMascotas.put(masco.data);
+      } catch (error) {
+        console.log(error.message);
+      }
     },
 
     async agregarMascotasAdoptante(soli) {
       // obtengo adoptante y le actualizo la lista de mascotas propias
-      const adoptante = await apiPersonas.getById(soli.idAdoptante);
-      adoptante.data.mascoPropias.push(soli.idMascota);
-      await apiPersonas.put(adoptante.data);
+      try {
+        const adoptante = await apiPersonas.getById(soli.idAdoptante);
+        adoptante.data.mascoPropias.push(soli.idMascota);
+        await apiPersonas.put(adoptante.data);
+      } catch (error) {
+        console.log(error.message);
+      }
     },
 
     async rechazarRemanentes(soli) {
-      const solicitudesARechazar = await apiSolicitudes.getByMascota(
-        soli.idMascota
-      );
-      //obtengo el indice de la solicitud que acepte
-      const indiceSoli = solicitudesARechazar.data.findIndex(
-        (s) =>
-          s.idMascota == soli.idMascota && s.idAdoptante == soli.idAdoptante
-      );
-      // slice: te devuelve todas menos la que le estas pasando.
-      solicitudesARechazar.data.slice(indiceSoli);
+      try {
+        const solicitudesARechazar = await apiSolicitudes.getByMascota(
+          soli.idMascota
+        );
+        //obtengo el indice de la solicitud que acepte
+        const indiceSoli = solicitudesARechazar.data.findIndex(
+          (s) =>
+            s.idMascota == soli.idMascota && s.idAdoptante == soli.idAdoptante
+        );
+        // slice: te devuelve todas menos la que le estas pasando.
+        solicitudesARechazar.data.slice(indiceSoli);
 
-      // cancelo todas los solicitudes menos la que acepte
-      for (const soliR of solicitudesARechazar.data) {
-        soliR.estado = valoresData.estadoSolicitud.rechazada;
-        await this.actualizarSolicitud(soliR);
+        // cancelo todas los solicitudes menos la que acepte
+        for (const soliR of solicitudesARechazar.data) {
+          soliR.estado = valoresData.estadoSolicitud.rechazada;
+          await this.actualizarSolicitud(soliR);
+        }
+      } catch (error) {
+        console.log(error.message);
       }
     },
 
     async actualizarSolicitud(solicitud) {
-      const tiempoTranscurrido = Date.now();
-      const hoy = new Date(tiempoTranscurrido);
-      solicitud.fechaRespuesta = hoy.toLocaleDateString();
-      await apiSolicitudes.put(solicitud);
-      this.mascotasMostrar = [];
-      this.misMascotas = await this.getMisMascotas();
+      try {
+        const tiempoTranscurrido = Date.now();
+        const hoy = new Date(tiempoTranscurrido);
+        solicitud.fechaRespuesta = hoy.toLocaleDateString();
+        await apiSolicitudes.put(solicitud);
+        this.mascotasMostrar = [];
+        this.misMascotas = await this.getMisMascotas();
+      } catch (error) {
+        console.log(error.message);
+      }
     },
   },
 

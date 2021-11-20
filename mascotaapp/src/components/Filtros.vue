@@ -57,7 +57,8 @@
               :img-src="mascota.foto"
               img-top
               style="width: 17rem"
-              class="m-2" body-class="d-flex flex-column "
+              class="m-2"
+              body-class="d-flex flex-column "
             >
               <p>{{ mascota.edad }}</p>
               <p>{{ mascota.especie }}</p>
@@ -74,7 +75,7 @@
               <b-btn
                 v-b-modal.my-modal
                 v-else
-                class="mt-auto" 
+                class="mt-auto"
                 @click="asignarMascota(mascota)"
                 >¡Quiero adoptarlo!</b-btn
               >
@@ -147,27 +148,12 @@ export default {
         )
       );
     },
-
-    // mascotasFiltradas() {
-
-    //   let mascotasF = this.traerMascotas();
-    //   console.log("devuelve array de mascotas ", mascotasF)
-
-    //   return  this.filtrarAnimalesPorEspecie(
-    //           this.filtrarAnimalesPorColor(
-    //           this.filtrarAnimalesPorEdad(
-    //           this.filtrarAnimalesPorSexo(mascotasF))))
-    // },
-    //...mapGetters([
-    //  'getmascotas',
-    //]),
   },
 
   async created() {
     //llama a la API para traer la lista de mascotas y la guarda en variable local
     this.mascotasInicial = await this.traerMascotasDeApi();
     this.valores = valoresData;
-    console.log("Valores Data", valoresData);
     //Filtrar por estado
   },
 
@@ -176,7 +162,6 @@ export default {
 
     confirmarAdopcion(mascota) {
       const usuario = this.getusuariosLog();
-      console.log("Usuario logueado ", usuario.id);
       if (usuario.id != undefined) {
         const soli = {
           idMascota: mascota.id,
@@ -196,27 +181,34 @@ export default {
     },
 
     async agregarAdopcion(soli) {
-      await apiSolicitudes.post(soli);
+      try {
+        await apiSolicitudes.post(soli);
+      } catch (error) {
+        console.log(error.message);
+      }
     },
 
     async traerMascotasDeApi() {
-      const resuGet = await apiMascotas.get();
-      const arrayMascotas = resuGet.data;
-      const usuario = this.getusuariosLog();
+      try {
+        const resuGet = await apiMascotas.get();
+        const arrayMascotas = resuGet.data;
+        const usuario = this.getusuariosLog();
 
-      let arrayDevolver = arrayMascotas
-      if (usuario.id != undefined) {
-        console.log("usuario id", usuario.id)
-        arrayDevolver = arrayMascotas.filter((m) => m.idPublicador != usuario.id)
+        let arrayDevolver = arrayMascotas;
+        if (usuario.id != undefined) {
+          arrayDevolver = arrayMascotas.filter(
+            (m) => m.idPublicador != usuario.id
+          );
+        }
+        //sacar mascotas con solicitudes del usuario logueado
+
+        //pasar a valores data
+        arrayDevolver = arrayDevolver.filter((m) => m.estado == "publicado");
+
+        return arrayDevolver;
+      } catch (error) {
+        console.log(error.message);
       }
-      //sacar mascotas con solicitudes del usuario logueado
-
-      console.log("array filtrado por usuario", arrayDevolver)
-      //pasar a valores data
-      arrayDevolver = arrayDevolver.filter((m) => m.estado == "publicado")
-      console.log("array filtrado por estado", arrayDevolver)
-
-      return arrayDevolver;
     },
 
     filtrarAnimalesPorEspecie: function (mascotas) {

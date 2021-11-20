@@ -6,21 +6,21 @@ const client = axios.create({
 
 export default {
 
-    get(){
+    get() {
         return client.get()
     },
-    getById(id){
+    getById(id) {
         return client.get(`/${id}`)
     },
 
-    delete(id){
-        return client.delete(`/${id}`)  
+    delete(id) {
+        return client.delete(`/${id}`)
     },
-    post(persona){
+    post(persona) {
         return client.post(this.baseURL, persona)
     },
-    put(persona){
+    put(persona) {
         //return client.put(persona)
-        return client.put(`/${persona.id}`,persona)
+        return client.put(`/${persona.id}`, persona)
     }
 }

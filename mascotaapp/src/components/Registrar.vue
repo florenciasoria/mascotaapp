@@ -90,7 +90,7 @@
 
 <script>
 //import { mapActions } from "vuex";
-import service from "../services/personas";
+import apiPersonas from "../services/personas";
 export default {
   name: "Home",
   props: {
@@ -123,7 +123,6 @@ export default {
     };
   },
   methods: {
-
     onSubmit(event) {
       event.preventDefault();
       //this.agregarusuario(this.form);
@@ -136,7 +135,11 @@ export default {
     },
 
     async agregarPersona(persona) {
-      await service.post(persona);
+      try {
+        await apiPersonas.post(persona);
+      } catch (error) {
+        console.log(error.message);
+      }
     },
 
     onReset(event) {

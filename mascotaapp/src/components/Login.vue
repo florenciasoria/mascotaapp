@@ -37,7 +37,9 @@
           <b-button type="submit" variant="primary"> Submit</b-button>
           <b-button type="reset" variant="danger">Reset</b-button>
           <b-button type="" variant="success"
-            ><router-link :to="'/Registrar'">Crear Usuario</router-link></b-button
+            ><router-link :to="'/Registrar'"
+              >Crear Usuario</router-link
+            ></b-button
           >
         </b-form>
         <b-card class="mt-3" header="Form Data Result">
@@ -54,7 +56,7 @@
 <script>
 import { mapActions } from "vuex";
 
-import service from "../services/personas";
+import apiPersonas from "../services/personas";
 
 export default {
   name: "Login",
@@ -110,15 +112,25 @@ export default {
     },
 
     async buscarUser() {
-      const resuGet = await service.get();
-      const array = resuGet.data;
-      this.arrayPers = resuGet.data;
-      const persona = array.find((usuario) => usuario.email == this.form.email);
-      return persona;
+      try {
+        const resuGet = await apiPersonas.get();
+        const array = resuGet.data;
+        this.arrayPers = resuGet.data;
+        const persona = array.find(
+          (usuario) => usuario.email == this.form.email
+        );
+        return persona;
+      } catch (error) {
+        console.log(error.message);
+      }
     },
     async verUser() {
-      this.resp = await service.get();
-      this.arrayPers = JSON.parse(this.resp);
+      try {
+        this.resp = await apiPersonas.get();
+        this.arrayPers = JSON.parse(this.resp);
+      } catch (error) {
+        console.log(error.message);
+      }
     },
   },
 

@@ -84,30 +84,36 @@ export default {
     },
 
     async getSolicitudes() {
-      const apisoli = await apiSolicitudes.get();
-      const arraysoli = apisoli.data;
-      return arraysoli;
+      try {
+        const apisoli = await apiSolicitudes.get();
+        const arraysoli = apisoli.data;
+        return arraysoli;
+      } catch (error) {
+        console.log(error.message);
+      }
     },
     async buscarMascotas(lista) {
-      const listaAdevolver = [];
-      let idx = 0;
-      for (const i of lista) {
-        const mascotaApi = await apiMascotas.getById(i.idMascota);
-        const mascota = mascotaApi.data;
-        listaAdevolver.push({
-          id: idx,
-          nombremascota: mascota.nombre,
-          mascotafoto: mascota.foto,
-          mascotaedad: mascota.edad,
-          mascotaespecie: mascota.especie,
-          mascotacolor: mascota.color,
-          mascotasexo: mascota.sexo,
-        });
-        idx++;
+      try {
+        const listaAdevolver = [];
+        let idx = 0;
+        for (const i of lista) {
+          const mascotaApi = await apiMascotas.getById(i.idMascota);
+          const mascota = mascotaApi.data;
+          listaAdevolver.push({
+            id: idx,
+            nombremascota: mascota.nombre,
+            mascotafoto: mascota.foto,
+            mascotaedad: mascota.edad,
+            mascotaespecie: mascota.especie,
+            mascotacolor: mascota.color,
+            mascotasexo: mascota.sexo,
+          });
+          idx++;
+        }
+        return listaAdevolver;
+      } catch (error) {
+        console.log(error.message);
       }
-      console.log("Lista A Devolver ", listaAdevolver);
-      console.log(listaAdevolver.length);
-      return listaAdevolver;
     },
   },
 

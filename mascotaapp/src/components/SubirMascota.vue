@@ -149,17 +149,21 @@ export default {
           const resultadoPut = await apiPersonas.put(usuario.data);
           console.log(resultadoPut);
           this.$router.push("/");
-        } catch {
-          alert("error en el put");
+        } catch(error) {
+          console.log(error.message);
         }
       }
     },
 
     async agregarMascota(mascota) {
-      const resu = await apiMascotas.post(mascota);
-      console.log("resu agregar mascota", resu.data);
-      return resu.data    },
-
+      try {
+        const resu = await apiMascotas.post(mascota);
+        console.log("resu agregar mascota", resu.data);
+        return resu.data;
+      } catch (error) {
+        console.log(error.message);
+      }
+    },
     onReset(event) {
       event.preventDefault();
       this.form.nombre = "";

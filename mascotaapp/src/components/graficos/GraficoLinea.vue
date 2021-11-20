@@ -19,6 +19,22 @@ export default {
             backgroundColor: "#8969D3",
             borderWidth: 1,
           },
+          {
+            label: "perros",
+            data: [],
+            fill: false,
+            borderColor: "#8969D7",
+            backgroundColor: "#8969D7",
+            borderWidth: 1,
+          },
+          {
+            label: "gatos",
+            data: [],
+            fill: false,
+            borderColor: "#8969D0",
+            backgroundColor: "#8969D0",
+            borderWidth: 1,
+          },
         ],
       },
       options: {
@@ -51,15 +67,24 @@ export default {
     };
   },
   async mounted() {
-    this.cargarGrafico();
     //metodo del grafico para mostrar
+    this.cargarDatos();
     this.renderChart(this.chartData, this.options);
   },
 
   methods: {
-    cargarGrafico() {
+    cargarDatos(){
+      console.log("agus 1")
+      this.cargarGrafico(this.datos.arrayDatos,0);
+      console.log("agus 2")
+      this.cargarGrafico(this.datos.perrosArr,1);
+      console.log("agus 3")
+      this.cargarGrafico(this.datos.gatosArr,2);
+      
+    },
+    cargarGrafico(arrayGrafico,i) {
       //this.datos es lo que pasamos en el v-bind del componente padre
-      const arrayGrafico = this.datos.arrayDatos;
+      //const arrayGrafico = this.datos.arrayDatos;
 
       console.log("Array recibido de padre", arrayGrafico);
 
@@ -71,9 +96,12 @@ export default {
       console.log("Array de Mes", nroMes);
 
       //datos del grafico
-      this.chartData.datasets[0].label = this.datos.tituloGrafico;
-      this.chartData.datasets[0].data = cant;
+      this.chartData.datasets[i].label = this.datos.tituloGrafico;
+      this.chartData.datasets[i].data = cant;
+      console.log("cant",cant)
       this.chartData.labels = nroMes;
+      
+      
     },
   },
 };

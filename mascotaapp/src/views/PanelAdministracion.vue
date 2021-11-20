@@ -7,10 +7,16 @@
       </b-row>
       <b-row>
         <b-col class="col-6">
-          <grafico-linea v-if="datosCargados" v-bind:datos="datosMascotaAlta"></grafico-linea>
+          <grafico-linea
+            v-if="datosCargados"
+            v-bind:datos="datosMascotaAlta"
+          ></grafico-linea>
         </b-col>
         <b-col class="col-6">
-          <grafico-torta v-if="datosCargados3" v-bind:datos="datosMascotaEspecie"></grafico-torta>
+          <grafico-torta
+            v-if="datosCargados3"
+            v-bind:datos="datosMascotaEspecie"
+          ></grafico-torta>
         </b-col>
       </b-row>
     </div>
@@ -26,7 +32,7 @@ import apiMascotas from "../services/mascotas";
 export default {
   components: {
     GraficoLinea,
-    GraficoTorta
+    GraficoTorta,
   },
 
   data() {
@@ -34,6 +40,8 @@ export default {
       datosMascotaAlta: {
         tituloGrafico: "",
         arrayDatos: [],
+        perrosArr: [],
+        gatosArr: [],
       },
 
       datosMascotaEspecie: {
@@ -50,6 +58,10 @@ export default {
     this.mascotasInicial = await this.traerMascotasDeApi();
     await this.cargarGraficoPorMesPublicacion();
     await this.cargarGraficoEspecie();
+    this.datosMascotaAlta.perrosArr = this.cargarGraficoLineaPorEspecie("perro");
+    console.log("gatosarr en panel", this.datosMascotaAlta.perrosArr)
+    this.datosMascotaAlta.gatosArr = this.cargarGraficoLineaPorEspecie("gato");
+    console.log("perros arr en panel:",this.datosMascotaAlta.gatosArr)
   },
 
   methods: {
@@ -108,9 +120,9 @@ export default {
       }
 
       this.datosMascotaEspecie.arrayDatos = arrayGrafico;
-      this.datosMascotaEspecie.tituloGrafico = "Mascotas publicadas por Especie";
+      this.datosMascotaEspecie.tituloGrafico =
+        "Mascotas publicadas por Especie";
       this.datosCargados3 = true;
-
     },
 
     async traerMascotasDeApi() {
@@ -121,7 +133,40 @@ export default {
       } catch (error) {
         console.log(error.message);
       }
+    },
 
+    cargarGraficoLineaPorEspecie(especie) {
+      const arrayGrafico = [];
+
+      for (const mascota of this.mascotasInicial) {
+        if (mascota.especie == especie) {
+          //Guardamos el mes
+          const mes = new Date(mascota.createdAt);
+          const mes2 = ("0" + (mes.getMonth() + 1)).slice(-2);
+
+          //Guardamos el año de publicacion
+          const anio = mes.getFullYear();
+
+          const fecha = `${anio}-${mes2}`;
+
+          const objeto = arrayGrafico.find((objeto) => objeto.nroMes == fecha);
+
+          if (objeto === undefined) {
+            arrayGrafico.push({ nroMes: fecha, cant: 1 });
+          } else {
+            const indice = arrayGrafico.findIndex((obj) => obj.nroMes == fecha);
+            let cantidadNueva = objeto.cant + 1;
+            const nuevoObjeto = { nroMes: objeto.nroMes, cant: cantidadNueva };
+            arrayGrafico[indice] = nuevoObjeto;
+          }
+        }
+      }
+      arrayGrafico.sort(function sort(a, b) {
+        const aa = a.nroMes.split("-"),
+          bb = b.nroMes.split("-");
+        return aa[0] - bb[0] || aa[1] - bb[1];
+      });
+      return arrayGrafico;
     },
   },
 };

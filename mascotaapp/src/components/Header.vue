@@ -15,7 +15,7 @@
             v-if="esAdoptante || esAdmin"
             to="/misSolicitudes"
             class="px-2"
-            >Solicitudes</router-link
+            >Solicitudes<b-badge variant="light">4</b-badge> </router-link
           >
           |
           <router-link

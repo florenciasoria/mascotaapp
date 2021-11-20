@@ -3,24 +3,17 @@
     <h3>Datos MascotaAPP</h3>
     <div class="container">
       <b-row>
+        <h4 class="mx-auto">Publicaciones</h4>
+      </b-row>
+      <b-row>
         <b-col class="col-6">
-          <grafico-linea
-            v-if="datosCargados"
-            v-bind:datos="datosMascotaAlta"
-          ></grafico-linea>
+          <grafico-linea v-if="datosCargados" v-bind:datos="datosMascotaAlta"></grafico-linea>
         </b-col>
         <b-col class="col-6">
-          <grafico-torta
-            v-if="datosCargados3"
-            v-bind:datos="datosMascotaEspecie"
-          ></grafico-torta>
+          <grafico-torta v-if="datosCargados3" v-bind:datos="datosMascotaEspecie"></grafico-torta>
         </b-col>
       </b-row>
     </div>
-
-    <!-- <line-chart v-if="datosCargados2" v-bind:datos="datosMascotaEstado"></line-chart> -->
-
-    <!--     -->
   </div>
 </template>
 
@@ -49,18 +42,14 @@ export default {
       },
 
       datosCargados: false,
-      datosCargados2: false,
       datosCargados3: false,
     };
   },
 
   async created() {
-    //await this.cargarGraficoPorMesPublicacion()
-    console.log("Llega a created");
     this.mascotasInicial = await this.traerMascotasDeApi();
     await this.cargarGraficoPorMesPublicacion();
     await this.cargarGraficoEspecie();
-    console.log("Sale de cargar grafico");
   },
 
   methods: {
@@ -68,15 +57,13 @@ export default {
       const arrayGrafico = [];
 
       for (const mascota of this.mascotasInicial) {
+        //Guardamos el mes
         const mes = new Date(mascota.createdAt);
         const mes2 = ("0" + (mes.getMonth() + 1)).slice(-2);
-        //const mes2 = mes.getMonth() + 1;
 
-        // MyDateString = ('0' + MyDate.getDate()).slice(-2) + '/'
-        //              + ('0' + (MyDate.getMonth()+1)).slice(-2) + '/'
-        //              + MyDate.getFullYear();
-
+        //Guardamos el año de publicacion
         const anio = mes.getFullYear();
+
         const fecha = `${anio}-${mes2}`;
 
         const objeto = arrayGrafico.find((objeto) => objeto.nroMes == fecha);
@@ -90,17 +77,15 @@ export default {
           arrayGrafico[indice] = nuevoObjeto;
         }
       }
-      arrayGrafico.sort(function sort(a, b) {
-        var aa = a.nroMes.split("-"),
-          bb = b.nroMes.split("-");
-        console.log("aa", aa, "bb", aa);
 
+      arrayGrafico.sort(function sort(a, b) {
+        const aa = a.nroMes.split("-"),
+          bb = b.nroMes.split("-");
         return aa[0] - bb[0] || aa[1] - bb[1];
       });
 
       this.datosMascotaAlta.arrayDatos = arrayGrafico;
       this.datosMascotaAlta.tituloGrafico = "Mascotas publicadas Por Mes";
-      console.log("Se devuelven ls datos: ", this.datosMascotaAlta);
       this.datosCargados = true;
     },
 
@@ -123,20 +108,20 @@ export default {
       }
 
       this.datosMascotaEspecie.arrayDatos = arrayGrafico;
-      this.datosMascotaEspecie.tituloGrafico =
-        "Mascotas publicadas por Especie";
-      console.log("Se devuelven ls datos: ", this.datosMascotaAlta);
+      this.datosMascotaEspecie.tituloGrafico = "Mascotas publicadas por Especie";
       this.datosCargados3 = true;
 
-      console.log("Array Pie", arrayGrafico);
     },
 
     async traerMascotasDeApi() {
-      console.log("Traer Mascotas de Api");
-      const resuGet = await apiMascotas.get();
-      const arrayMascotas = resuGet.data;
-      console.log("array Mascotas de Api", arrayMascotas);
-      return arrayMascotas;
+      try {
+        const resuGet = await apiMascotas.get();
+        const arrayMascotas = resuGet.data;
+        return arrayMascotas;
+      } catch (error) {
+        console.log(error.message);
+      }
+
     },
   },
 };

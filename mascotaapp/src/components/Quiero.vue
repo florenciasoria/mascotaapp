@@ -12,7 +12,7 @@
               src="../assets/chihuahua_1.jpg"
             />
           </b-row>
-          <b-row style="margin-top: 50px" class="m-auto">
+          <b-row style="margin-top: 50px" class="m-auto py-5">
             <b-button class="boton m-auto" @click="irABuscar"
               >Quiero adoptar
             </b-button>
@@ -28,7 +28,7 @@
               src="../assets/gatito_1.jpg" 
             />
           </b-row>
-          <b-row style="margin-top: 50px" class="m-auto">
+          <b-row style="margin-top: 50px" class="m-auto py-5">
               <b-button class="boton m-auto">
                 <router-link :to="'/subir-mascota'"
                   >Quiero Dar en Adopción

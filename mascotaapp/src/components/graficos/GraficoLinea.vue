@@ -26,7 +26,6 @@ export default {
           yAxes: [
             {
               ticks: {
-                // suggestedMax: 0,
                 stepSize: 1,
                 beginAtZero: true,
               },
@@ -52,7 +51,6 @@ export default {
     };
   },
   async mounted() {
-    console.log("Mounted");
     this.cargarGrafico();
     //metodo del grafico para mostrar
     this.renderChart(this.chartData, this.options);
@@ -76,8 +74,6 @@ export default {
       this.chartData.datasets[0].label = this.datos.tituloGrafico;
       this.chartData.datasets[0].data = cant;
       this.chartData.labels = nroMes;
-      // const c = cant + 1
-      // this.options.scales.yAxes[0].ticks.suggestedMax = c;
     },
   },
 };

@@ -12,7 +12,7 @@
 
         <b-collapse id="nav-collapse" is-nav>
           <router-link
-            v-if="esAdoptante || esAdmin"
+            v-if="esAdoptante "
             to="/misSolicitudes"
             class="px-2"
             >Solicitudes
@@ -24,7 +24,7 @@
           <router-link
             to="/misPublicaciones"
             class="px-2"
-            v-if="esPublicador || esAdmin"
+            v-if="esPublicador"
             >Publicaciones
             <b-badge variant="success" v-if="notificacionesPublicacion >= 0">{{
               notificacionesPublicacion

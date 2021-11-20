@@ -62,15 +62,15 @@ export default {
     await this.cargarGraficoEspecieTorta();
     this.datosMascotaAlta.perrosArr =
       this.cargarGraficoLineaPorEspecie("perro");
-    console.log("gatosarr en panel", this.datosMascotaAlta.perrosArr);
+    //console.log("gatosarr en panel", this.datosMascotaAlta.perrosArr);
     this.datosMascotaAlta.gatosArr = this.cargarGraficoLineaPorEspecie("gato");
-    console.log("perros arr en panel:", this.datosMascotaAlta.gatosArr);
+    //console.log("perros arr en panel:", this.datosMascotaAlta.gatosArr);
     this.datosCargados = true;
   },
 
   methods: {
     async cargarGraficoPorMesPublicacion() {
-    const arrayGrafico = this.arrayFechas
+      const arrayGrafico = this.arrayFechas;
 
       for (const mascota of this.mascotasInicial) {
         //Guardamos el mes
@@ -98,7 +98,7 @@ export default {
           arrayGrafico[indice] = nuevoObjeto;
         }
       }
-console.log("arraytotal",arrayGrafico)
+      console.log("arraytotal", arrayGrafico);
       arrayGrafico.sort(function sort(a, b) {
         const aa = a.fechaCreacion.split("-"),
           bb = b.fechaCreacion.split("-");
@@ -157,17 +157,24 @@ console.log("arraytotal",arrayGrafico)
 
           const fecha = `${anio}-${mes2}`;
 
-          const objeto = arrayGrafico.find((objeto) => objeto.fechaCreacion == fecha);
+          const objeto = arrayGrafico.find(
+            (objeto) => objeto.fechaCreacion == fecha
+          );
 
           if (objeto != undefined) {
-            const indice = arrayGrafico.findIndex((obj) => obj.fechaCreacion == fecha);
+            const indice = arrayGrafico.findIndex(
+              (obj) => obj.fechaCreacion == fecha
+            );
             let cantidadNueva = objeto.cant + 1;
-            const nuevoObjeto = { fechaCreacion: objeto.fechaCreacion, cant: cantidadNueva };
+            const nuevoObjeto = {
+              fechaCreacion: objeto.fechaCreacion,
+              cant: cantidadNueva,
+            };
             arrayGrafico[indice] = nuevoObjeto;
           }
         }
       }
-      console.log("array por especie",especie,arrayGrafico)
+      console.log("array por especie", especie, arrayGrafico);
       arrayGrafico.sort(function sort(a, b) {
         const aa = a.fechaCreacion.split("-"),
           bb = b.fechaCreacion.split("-");
@@ -177,7 +184,7 @@ console.log("arraytotal",arrayGrafico)
     },
 
     obtenerArrayFechas() {
-      // 
+      //
       for (const mascota of this.mascotasInicial) {
         //Guardamos el mes
         const fechaCreacion = new Date(mascota.createdAt);
@@ -195,10 +202,8 @@ console.log("arraytotal",arrayGrafico)
         if (objeto === undefined) {
           this.arrayFechas.push({ fechaCreacion: fecha, cant: 0 });
         }
-
-
-    }
+      }
+    },
   },
-},
 };
 </script>

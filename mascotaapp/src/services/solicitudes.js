@@ -15,7 +15,7 @@ export default {
     //get/solicitudes?solicitante="usuarioLogueado"
     //acá metí solicitante by id para no traernos toda la api cada vez que queramos traer a un solo solicitante
     getBySolicitante(id) {
-        console.log(`/?idAdoptante=${id}`)
+       // console.log(`/?idAdoptante=${id}`)
         return client.get(`/?idAdoptante=${id}`)
     },
 
@@ -26,7 +26,7 @@ export default {
     },
 
     getByMascota(id) {
-        console.log(`/?idMascota=${id}`)
+       // console.log(`/?idMascota=${id}`)
         return client.get(`/?idMascota=${id}`)
     },
 

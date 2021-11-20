@@ -112,34 +112,26 @@ export default {
         });
         idx++;
       }
-      console.log("Lista A Devolver ", listaAdevolver);
-      console.log(listaAdevolver.length);
       return listaAdevolver;
     },
 
     async cancelar(solicitud) {
-      console.log("Id solicitud", solicitud.idApi);
       const soli = await this.getSolicitudById(solicitud.idApi);
-      console.log("solicitud",soli);
       soli.estado = valoresData.estadoSolicitud.cancelada;
-      console.log("estado solicitud", soli.estado);
       await this.actualizarSolicitud(soli);
       this.soliMostrar = [];
       this.soliMostrar = await this.buscarSolicitudes();
     },
 
     async getSolicitudById(id) {
-      console.log(id);
       const apisoli = await apiSolicitudes.getById(id);
       return apisoli.data;
     },
 
     async actualizarSolicitud(solicitud) {
-      console.log("solicitud sin fecha",solicitud);
       const tiempoTranscurrido = Date.now();
       const hoy = new Date(tiempoTranscurrido);
       solicitud.fechaRespuesta = hoy.toLocaleDateString();
-      console.log("solicitud con fecha",solicitud)
       await apiSolicitudes.put(solicitud);
     },
   },

@@ -50,7 +50,7 @@
               </div>
               <div v-else>
                 <b-button size="sm" class="mx-4 my-sm-0" type="submit" right>
-                  <router-link to="/LoginU">Iniciar Sesión</router-link>
+                  <router-link to="/Login">Iniciar Sesión</router-link>
                 </b-button>
               </div>
             </b-nav-form>
@@ -65,7 +65,7 @@
 import { mapGetters } from "vuex";
 import { mapActions } from "vuex";
 export default {
-  name: "HelloWorld",
+  name: "Header",
   props: {},
   data() {
     return {

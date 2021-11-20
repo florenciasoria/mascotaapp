@@ -2,12 +2,11 @@
   <div class="container">
     <div class="row">
       <div class="col-6">
-        <b-form @submit="onSubmit" @reset="onReset" v-if="show">
+        <b-form v-if="show" @submit.prevent="onSubmit()">
           <b-form-group
             id="input-group-1"
             label="Direccion de Email:"
             label-for="input-1"
-            description="Su mail nunca sera distribuido con nadie."
           >
             <b-form-input
               id="input-1"
@@ -29,58 +28,22 @@
               size="sm"
               v-model="form.pass"
               placeholder="Ingresar Contraseña:"
+              type="password"
               required
             ></b-form-input>
           </b-form-group>
 
-          <b-form-group id="input-group-3" label="Nombre:" label-for="input-3">
-            <b-form-input
-              id="input-3"
-              v-model="form.nombre"
-              placeholder="Ingresar Nombre:"
-              size="sm"
-              required
-            ></b-form-input>
-          </b-form-group>
-
-          <b-form-group
-            id="input-group-4"
-            label="Apellido:"
-            label-for="input-4"
-          >
-            <b-form-input
-              id="input-4"
-              v-model="form.apellido"
-              placeholder="Ingresar Apellido:"
-              required
-            ></b-form-input>
-          </b-form-group>
-
-          <b-form-group id="input-group-5" label="Genero:" label-for="input-5">
-            <b-form-select
-              id="input-5"
-              v-model="form.Genero"
-              :options="Genero"
-              required
-            ></b-form-select>
-          </b-form-group>
-
-          <b-form-group id="input-group-6" v-slot="{ ariaDescribedby }">
-            <b-form-radio-group
-              v-model="form.rol"
-              id="radios-5"
-              :aria-describedby="ariaDescribedby"
-              :options="roles"
-            ></b-form-radio-group>
-          </b-form-group>
-
-          <b-button type="submit" variant="primary" v-on:click="onSubmit"
-            >Submit</b-button
-          >
+          <!-- <b-button type="submit" variant="primary" @click="onSubmit()"> -->
+          <b-button type="submit" variant="primary"> Submit</b-button>
           <b-button type="reset" variant="danger">Reset</b-button>
+          <b-button type="" variant="success"
+            ><router-link :to="'/Registrar'">Crear Usuario</router-link></b-button
+          >
         </b-form>
         <b-card class="mt-3" header="Form Data Result">
           <pre class="m-0">{{ form }}</pre>
+          <pre class="m-0">{{ this.resp }}</pre>
+          <pre class="m-0">{{ this.arrayPers }}</pre>
         </b-card>
       </div>
     </div>
@@ -89,71 +52,87 @@
 
 
 <script>
-//import { mapActions } from "vuex";
+import { mapActions } from "vuex";
+
 import service from "../services/personas";
+
 export default {
-  name: "Home",
+  name: "Login",
   props: {
     msg: String,
   },
+
   data() {
     return {
       form: {
         email: "",
         pass: "",
-        nombre: "",
-        apellido: "",
-        genero: "",
-        rol: "",
-        mascoPropias: [],
-        mascoPubli: [],
       },
-      Genero: [
-        { text: "Select One", value: null },
-        { value: "f", text: "femele" },
-        { value: "m", text: "Male" },
-        { value: "nb", text: "No Binarie" },
-      ],
-      roles: [
-        { value: "p", text: "Postulante" },
-        { value: "z", text: "Administrador" },
-        { value: "a", text: "Adoptante" },
-      ],
+      user: {
+        //-> este hay q pasarlo al store
+        email: "",
+        pass: "",
+      },
       show: true,
+      acceso: true,
+
+      //temporal para debug
+      resp: "",
+      arrayPers: [],
+      nomTest: "",
     };
   },
-  methods: {
 
-    onSubmit(event) {
-      event.preventDefault();
-      //this.agregarusuario(this.form);
+  // computed: {
+  //   ...mapGetters(["getusuarios"]),
+  // },
+
+  methods: {
+    ...mapActions(["agregarusuarioLog"]),
+
+    // onSubmit(event) {
+    async onSubmit() {
       try {
-        this.agregarPersona(this.form);
-        this.$router.push("/LoginU");
-      } catch {
-        alert("error en el put");
+        const usuario = await this.buscarUser();
+
+        if (usuario && usuario.pass == this.form.pass) {
+          this.agregarusuarioLog(usuario);
+          alert("bienvenido");
+          this.$router.push("/");
+        } else {
+          //agrego el else acá porque si encuentra el mail y la pass es incorrecta no lo estamos
+          //agarrando
+          alert("Usuario o clave incorrectos");
+        }
+      } catch (error) {
+        alert("Usuario o clave incorrectos");
       }
     },
 
-    async agregarPersona(persona) {
-      await service.post(persona);
+    async buscarUser() {
+      const resuGet = await service.get();
+      const array = resuGet.data;
+      this.arrayPers = resuGet.data;
+      const persona = array.find((usuario) => usuario.email == this.form.email);
+      return persona;
     },
+    async verUser() {
+      this.resp = await service.get();
+      this.arrayPers = JSON.parse(this.resp);
+    },
+  },
 
-    onReset(event) {
-      event.preventDefault();
-      // Reset our form values
-      this.form.email = "";
-      this.form.pass = "";
-      this.form.nombre = "";
-      this.form.apellido = "";
-      this.form.Genero = null;
-      this.form.rol = [];
-      // Trick to reset/clear native browser form validation state
-      this.show = false;
-      this.$nextTick(() => {
-        this.show = true;
-      });
-    },
+  onReset(event) {
+    event.preventDefault();
+    // Reset our form values
+    this.form.email = "";
+    this.form.pass = "";
+
+    // Trick to reset/clear native browser form validation state
+    this.show = false;
+    this.$nextTick(() => {
+      this.show = true;
+    });
   },
 };
 </script>
@@ -163,15 +142,23 @@ export default {
 h3 {
   margin: 40px 0 0;
 }
+
 ul {
   list-style-type: none;
   padding: 0;
 }
+
 li {
   display: inline-block;
   margin: 0 10px;
 }
+
 a {
   color: #a3e3dc;
+}
+
+.margenes {
+  padding-top: 100px;
+  padding-bottom: 100px;
 }
 </style>

@@ -1,15 +1,9 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Home from '../views/Home.vue'
 
 Vue.use(VueRouter)
 
 const routes = [
-  {
-    path: '/home',
-    name: 'Home',
-    component: Home
-  },
   {
     path: '/about',
     name: 'About',
@@ -32,23 +26,19 @@ const routes = [
     component: () => import('../views/MisPublicaciones.vue')
   },
   {
-    path: '/LoginF',
-    name: 'Login',
-    component: () => import('../views/LoginF.vue')
+    path: '/Registrar',
+    name: 'Registrar',
+    component: () => import('../views/Registrar.vue')
   },
   {
-    path: '/LoginU',
-    name: 'LoginUser',
-    component: () => import('../views/LoginU.vue')
+    path: '/Login',
+    name: 'Login',
+    component: () => import('../views/Login.vue')
   },
   {
     path: '/buscar',
     name: 'Buscar',
     component: () => import('../views/Buscar.vue')
-  },
-  {
-    path: '/form-adopcion/:id',
-    component: () => import('../views/FormAdopcion.vue')
   },
   {
     path: '/subir-mascota/',

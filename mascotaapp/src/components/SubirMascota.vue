@@ -119,7 +119,7 @@ export default {
     const usuario = this.getusuariosLog();
     console.log("Usuario logueado ", usuario.id);
     if (usuario.id == undefined) {
-      this.$router.push("/LoginU");
+      this.$router.push("/Login");
     }
   },
   methods: {

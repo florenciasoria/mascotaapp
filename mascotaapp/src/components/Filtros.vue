@@ -187,7 +187,7 @@ export default {
         this.agregarAdopcion(soli);
         this.$router.push("/misSolicitudes");
       } else {
-        this.$router.push("/LoginU");
+        this.$router.push("/Login");
       }
     },
 

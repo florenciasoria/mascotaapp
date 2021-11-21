@@ -53,7 +53,7 @@ export default {
     };
   },
   async mounted() {
-    console.log("Mounted");
+    
     this.cargarGrafico();
     //metodo del grafico para mostrar
     this.renderChart(this.chartData, this.options);
@@ -64,15 +64,13 @@ export default {
       //this.datos es lo que pasamos en el v-bind del componente padre
       const arrayGrafico = this.datos.arrayDatos;
 
-      console.log("Array recibido de padre", arrayGrafico);
+     
 
       //map para separar el array en dos arrays (meses y cant por mes)
       const cant = arrayGrafico.map((item) => item.cant);
       const especie = arrayGrafico.map((item) => item.especie);
 
-      console.log("Array de Cantidades", cant);
-      console.log("Array de especie", especie);
-
+      
       //datos del grafico
       this.chartData.datasets[0].label = this.datos.tituloGrafico;
       this.chartData.datasets[0].data = cant;

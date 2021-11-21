@@ -222,9 +222,10 @@ export default {
       );
 
       //solicitudes
-      this.datosMascotaEspecieAdopciones.arrayDatos =
+      this.datosMascotaEspecieSolicitudes.arrayDatos =
         this.cargarGraficoEspecieTorta(this.mascotasSolicitadas);
 
+console.log("datos torta solicitadas",this.datosMascotaEspecieAdopciones.arrayDatos);
       this.datosMascotaSolicitudes.mascotasDatos.array =
         this.cargarGraficoLineaTotal(this.mascotasSolicitadas);
 
@@ -252,7 +253,7 @@ export default {
       this.datosMascotaAdopcion.mascotasDatos.array =
         this.cargarGraficoLineaTotal(this.mascotasAdoptadas);
 
-      this.datosMascotaEspecieSolicitudes.arrayDatos =
+      this.datosMascotaEspecieAdopciones.arrayDatos =
         this.cargarGraficoEspecieTorta(this.mascotasAdoptadas);
 
       this.datosMascotaAdopcion.perrosDatos.array =

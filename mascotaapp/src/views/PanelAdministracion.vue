@@ -38,11 +38,20 @@ export default {
   data() {
     return {
       datosMascotaAlta: {
-        tituloGrafico: "",
-        arrayDatos: [],
-        perrosArr: [],
-        gatosArr: [],
-        arrayFechas:[]
+        mascotasDatos: {
+          array: [],
+          tituloGrafico: "",
+        },
+
+        perrosDatos: {
+          array: [],
+          tituloGrafico: "Perros publicadas Por Mes",
+        },
+        gatosDatos: {
+          array: [],
+          tituloGrafico: "Gatos publicadas Por Mes",
+        },
+        arrayFechas: [],
       },
 
       datosMascotaEspecie: {
@@ -62,44 +71,44 @@ export default {
     await this.obtenerArrayFechasCompleto();
     await this.cargarGraficoPorMesPublicacion();
     await this.cargarGraficoEspecieTorta();
-    this.datosMascotaAlta.perrosArr =
+    this.datosMascotaAlta.perrosDatos.array =
       this.cargarGraficoLineaPorEspecie("perro");
-    //console.log("gatosarr en panel", this.datosMascotaAlta.perrosArr);
-    this.datosMascotaAlta.gatosArr = this.cargarGraficoLineaPorEspecie("gato");
-    //console.log("perros arr en panel:", this.datosMascotaAlta.gatosArr);
+    console.log("gatosarr en panel", this.datosMascotaAlta.perrosDatos);
+    this.datosMascotaAlta.gatosDatos.array =
+      this.cargarGraficoLineaPorEspecie("gato");
+    console.log(
+      "perros arr en panel:",
+      this.datosMascotaAlta.gatosDatos.gatosArr
+    );
     this.datosCargados = true;
   },
 
   methods: {
-
-
     async obtenerArrayFechasCompleto() {
-      const primerFecha = await apiMascotas.getPrimerFecha()
-      let fechaPrueba = new Date(primerFecha)
+      const primerFecha = await apiMascotas.getPrimerFecha();
+      let fechaPrueba = new Date(primerFecha);
 
-      console.log("Primer mascota en axios", primerFecha)
+      //console.log("Primer mascota en axios", primerFecha)
 
       const fechaActual = new Date();
 
-      console.log("Fecha prueba", fechaPrueba)
-      console.log("Fecha actual", fechaActual)
+      //console.log("Fecha prueba", fechaPrueba)
+      //console.log("Fecha actual", fechaActual)
 
       while (fechaPrueba < fechaActual) {
-
-        fechaPrueba = new Date(fechaPrueba.setMonth(fechaPrueba.getMonth() + 1));
-        console.log("Funciona agregar un mes ?", fechaPrueba)
+        fechaPrueba = new Date(
+          fechaPrueba.setMonth(fechaPrueba.getMonth() + 1)
+        );
+        //console.log("Funciona agregar un mes ?", fechaPrueba)
         const mesActual = ("0" + (fechaPrueba.getMonth() + 1)).slice(-2);
         const anioActual = fechaPrueba.getFullYear();
         const fecha = `${anioActual}-${mesActual}`;
 
-        this.datosMascotaAlta.arrayFechas.push(fecha)
+        this.datosMascotaAlta.arrayFechas.push(fecha);
       }
 
-      console.log("Array de fechas sin vacios", this.datosMascotaAlta.arrayFechas)
-
+      //console.log("Array de fechas sin vacios", this.datosMascotaAlta.arrayFechas)
     },
-	
-	
 
     async cargarGraficoPorMesPublicacion() {
       const arrayGrafico = this.arrayFechas;
@@ -137,8 +146,8 @@ export default {
         return aa[0] - bb[0] || aa[1] - bb[1];
       });
 
-      this.datosMascotaAlta.arrayDatos = arrayGrafico;
-      this.datosMascotaAlta.tituloGrafico = "Mascotas publicadas Por Mes";
+      this.datosMascotaAlta.mascotasDatos.array = arrayGrafico;
+      this.datosMascotaAlta.mascotasDatos.tituloGrafico = "Mascotas publicadas Por Mes";
     },
 
     async cargarGraficoEspecieTorta() {

@@ -256,7 +256,7 @@ export default {
       try {
         const tiempoTranscurrido = Date.now();
         const hoy = new Date(tiempoTranscurrido);
-        solicitud.fechaRespuesta = hoy.toLocaleDateString();
+        solicitud.fechaRespuesta = hoy.toJSON();
         await apiSolicitudes.put(solicitud);
         this.mascotasMostrar = [];
         this.misMascotas = await this.getMisMascotas();

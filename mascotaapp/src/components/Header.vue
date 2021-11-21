@@ -90,16 +90,7 @@ export default {
     cerrarSesion() {
       this.cerrarSesionStore();
       //Inicializamos los datos del usuario (si no da error cuando buscamos el rol para seleccionar los links)
-      this.usuario = {
-        email: "",
-        pass: "",
-        nombre: "",
-        apellido: "",
-        genero: "",
-        rol: "",
-        mascoPropias: [],
-        mascoPubli: [],
-      };
+      this.usuario = {};
     },
 
     async verUsuarioLogueado() {
@@ -115,6 +106,9 @@ export default {
   },
 
   computed: {
+    usuarioLogueado(){
+      return this.usuario
+    },
     ...mapGetters(["getusuariosLog"]),
     esAdoptante() {
       return this.usuario === undefined

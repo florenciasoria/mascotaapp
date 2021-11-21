@@ -7,31 +7,22 @@
           <b-button class="mx-2 botonVioleta" @click="cargarGraficosPublicaciones">Publicaciones</b-button>
           <b-button class="mx-2 botonVioleta" @click="cargarGraficosSolicitudes">Solicitudes</b-button>
           <b-button class="mx-2 botonVioleta" @click="cargarGraficosAdopciones">Adopciones</b-button>
-
-
-
         </b-col>
       </b-row>
-      <div  class="mt-5" v-if="vistaPublicaciones">
+      <div class="mt-5" v-if="vistaPublicaciones">
         <b-row>
           <h4 class="mx-auto">Publicaciones</h4>
         </b-row>
         <b-row>
           <b-col class="col-6">
-            <grafico-linea
-              v-if="datosCargados"
-              v-bind:datos="datosMascotaAlta"
-            ></grafico-linea>
+            <grafico-linea v-if="datosCargados" v-bind:datos="datosMascotaAlta"></grafico-linea>
           </b-col>
           <b-col class="col-6">
-            <grafico-torta
-              v-if="datosCargados3"
-              v-bind:datos="datosMascotaEspecie"
-            ></grafico-torta>
+            <grafico-torta v-if="datosCargados3" v-bind:datos="datosMascotaEspecie"></grafico-torta>
           </b-col>
         </b-row>
       </div>
-      <div  class="mt-5" v-if="vistaSolicitudes">
+      <div class="mt-5" v-if="vistaSolicitudes">
         <b-row>
           <h4 class="mx-auto">Solicitudes</h4>
         </b-row>
@@ -56,10 +47,7 @@
         </b-row>
         <b-row>
           <b-col class="col-6">
-            <grafico-linea
-              v-if="datosCargadosLineaAdopcion"
-              v-bind:datos="datosMascotaAdopcion"
-            ></grafico-linea>
+            <grafico-linea v-if="datosCargadosLineaAdopcion" v-bind:datos="datosMascotaAdopcion"></grafico-linea>
           </b-col>
           <b-col class="col-6">
             <grafico-torta
@@ -79,6 +67,7 @@ import GraficoTorta from "@/components/graficos/GraficoTorta.vue";
 import { valoresData } from "../assets/js/valoresData.js";
 import apiMascotas from "../services/mascotas";
 import apiSolictudes from "../services/solicitudes";
+import { mapGetters } from "vuex";
 
 export default {
   components: {
@@ -172,13 +161,14 @@ export default {
   },
 
   async created() {
-    //Si el usuario no es admin nos deriva directo al home.
-    // if (!this.validarRolDeUsuario()) {
-    //   this.$router.push({
-    //     name: "Error",
-    //     params: { codError: "errorPermisos" },
-    //   });
-    // }
+    // Si el usuario no es admin nos deriva directo al home.
+    if (!this.validarRolDeUsuario()) {
+      this.$router.push({
+        name: "Error",
+        params: { codError: "errorPermisos" },
+      });
+    }
+    
     //CARGA DE DATOS
     // obtengo mi array de fechas totales
 
@@ -192,10 +182,10 @@ export default {
   },
 
   methods: {
-    //    ...mapGetters(["getusuariosLog"]),
-    // validarRolDeUsuario() {
-    //   return this.getusuariosLog().rol === 'z'
-    // },
+    ...mapGetters(["getusuariosLog"]),
+    validarRolDeUsuario() {
+      return this.getusuariosLog().rol === 'z'
+    },
 
     async cargarGraficosPublicaciones() {
       //datos
@@ -228,7 +218,7 @@ export default {
       this.datosMascotaEspecieSolicitudes.arrayDatos =
         this.cargarGraficoEspecieTorta(this.mascotasSolicitadas);
 
-console.log("datos torta solicitadas",this.datosMascotaEspecieAdopciones.arrayDatos);
+      console.log("datos torta solicitadas", this.datosMascotaEspecieAdopciones.arrayDatos);
       this.datosMascotaSolicitudes.mascotasDatos.array =
         this.cargarGraficoLineaTotal(this.mascotasSolicitadas);
 
@@ -236,7 +226,7 @@ console.log("datos torta solicitadas",this.datosMascotaEspecieAdopciones.arrayDa
         this.cargarGraficoLineaPorEspecie("perro", this.mascotasSolicitadas);
       this.datosMascotaSolicitudes.gatosDatos.array =
         this.cargarGraficoLineaPorEspecie("gato", this.mascotasSolicitadas);
-      this.vistaSolicitudes = !this.vistaSolicitudes ;
+      this.vistaSolicitudes = !this.vistaSolicitudes;
       this.datosCargadosLineaSolicitudes = true;
       this.datosCargadosTortaSolicitudes = true;
     },

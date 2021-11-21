@@ -48,6 +48,11 @@ const routes = [
     path: '/admin',
     name: 'PanelAdministracion',
     component: () => import('../views/PanelAdministracion.vue')
+  },
+  {
+    path: '/Error',
+    name: 'Error',
+    component: () => import('../views/Error.vue')
   }
 
 ]

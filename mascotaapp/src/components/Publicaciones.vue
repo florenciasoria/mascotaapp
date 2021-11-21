@@ -101,6 +101,52 @@ export default {
       this.usuarioLog = await this.getUsuario(this.getusuariosLog().id);
     },
 
+    async getMisMascotas() {
+      const misMascotas = [];
+      try {
+        for (let i = 0; i < this.usuarioLog.mascoPubli.length; i++) {
+          misMascotas.push(
+            await (
+              await apiMascotas.getById(this.usuarioLog.mascoPubli[i])
+            ).data
+          );
+        }
+        await this.buscarSolicitudesFiltradas(misMascotas);
+      } catch (error) {
+        console.log(error.message);
+      }
+    },
+    // filtro solicitudes para cada mascota
+    async buscarSolicitudesFiltradas(mascotasFiltradas) {
+      try {
+        for (const m of mascotasFiltradas) {
+          //esto nos trae todas las solicitudes de una mascota
+          console.log("id mascota", m.id);
+          const solicitudes = await (
+            await apiSolicitudes.getByMascota(m.id)
+          ).data;
+          //mockapi devuelve todos las solicitudes que contengan el id
+          //filtramos por el error de mockapi!!!! ( gaspar pensalo!!!)
+         
+         const soliFiltradas =solicitudes.filter(s=>s.idMascota == m.id)
+
+          console.log("SOLICITUDES X MASCOTAs FILTRADAS", soliFiltradas);
+
+
+          let solis = await this.cargarDatosSolicitud(soliFiltradas);
+
+          // MascotasMostrar: Agrega la mascota y solicitudes que posee
+          this.mascotasMostrar.push({
+            // ... carga todos los datos de la mascota
+            ...m,
+            solis,
+          });
+        }
+      } catch (error) {
+        console.log(error.message);
+      }
+    },
+
     // busca las solicitudes por el Id y las devuelve filtradas si coinciden con el id param.
     buscarSolicitudes(idMascota) {
       let solis = this.missolicitudes;
@@ -122,44 +168,6 @@ export default {
       try {
         const apiPers = await apiPersonas.getById(id);
         return apiPers.data;
-      } catch (error) {
-        console.log(error.message);
-      }
-    },
-
-    async getMisMascotas() {
-      const misMascotas = [];
-      try {
-        for (let i = 0; i < this.usuarioLog.mascoPubli.length; i++) {
-          misMascotas.push(
-            await (
-              await apiMascotas.getById(this.usuarioLog.mascoPubli[i])
-            ).data
-          );
-        }
-        await this.buscarSolicitudesFiltradas(misMascotas);
-      } catch (error) {
-        console.log(error.message);
-      }
-    },
-
-    async buscarSolicitudesFiltradas(mascotasFiltradas) {
-      try {
-        for (const m of mascotasFiltradas) {
-          //esto nos trae todas las solicitudes de una mascota
-          const solicitudes = await (
-            await apiSolicitudes.getByMascota(m.id)
-          ).data;
-
-          let solis = await this.cargarDatosSolicitud(solicitudes);
-
-          // MascotasMostrar: Agrega la mascota y solicitudes que posee
-          this.mascotasMostrar.push({
-            // ... carga todos los datos de la mascota
-            ...m,
-            solis,
-          });
-        }
       } catch (error) {
         console.log(error.message);
       }
@@ -234,16 +242,18 @@ export default {
         const solicitudesARechazar = await apiSolicitudes.getByMascota(
           soli.idMascota
         );
+        //Mockapi vevuelve todas las solis que tienen algo del id
+        const solicitudesARechazarFiltradas = solicitudesARechazar.data.filter(s=> s.idMascota ==soli.idMascota)
         //obtengo el indice de la solicitud que acepte
-        const indiceSoli = solicitudesARechazar.data.findIndex(
+        const indiceSoli = solicitudesARechazarFiltradas.data.findIndex(
           (s) =>
             s.idMascota == soli.idMascota && s.idAdoptante == soli.idAdoptante
         );
         // slice: te devuelve todas menos la que le estas pasando.
-        solicitudesARechazar.data.slice(indiceSoli);
+        solicitudesARechazarFiltradas.data.slice(indiceSoli);
 
         // cancelo todas los solicitudes menos la que acepte
-        for (const soliR of solicitudesARechazar.data) {
+        for (const soliR of solicitudesARechazarFiltradas.data) {
           soliR.estado = valoresData.estadoSolicitud.rechazada;
           await this.actualizarSolicitud(soliR);
         }

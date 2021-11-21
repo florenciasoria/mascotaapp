@@ -7,7 +7,7 @@ export default {
   data() {
     return {
       bar: null,
-      mascotasInicial: {},
+      //mascotasInicial: {},
       chartData: {
         labels: [],
         datasets: [

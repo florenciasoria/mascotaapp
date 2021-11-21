@@ -7,7 +7,7 @@ export default {
   data() {
     return {
       bar: null,
-      mascotasInicial: {},
+      //mascotasInicial: {},
       chartData: {
         labels: [],
         datasets: [
@@ -74,33 +74,22 @@ export default {
 
   methods: {
     cargarDatos() {
-      //console.log("agus 1")
       this.cargarGrafico(this.datos.mascotasDatos, 0);
-      console.log("agus 2", this.datos.perrosDatos);
       this.cargarGrafico(this.datos.perrosDatos, 1);
-      console.log("agus 3", this.datos.gatosDatos);
       this.cargarGrafico(this.datos.gatosDatos, 2);
     },
     cargarGrafico(datosM, i) {
       //this.datos es lo que pasamos en el v-bind del componente padre
-      //const datosM = this.datos.arrayDatos;
-
-      //console.log("Array recibido de padre", datosM);
-
       //map para separar el array en dos arrays (meses y cant por mes)
-      console.log("hola", datosM);
       const cant = datosM.array.map((item) => item.cant);
-      console.log(cant);
-      const nroMes = datosM.array.map((item) => item.fechaCreacion);
-      console.log(nroMes);
-      //console.log("Array de Cantidades", cant);
-      //console.log("Array de Mes", nroMes);
-
+      const fechaCreacion = datosM.array.map((item) => item.fechaCreacion);
+      
+      console.log("fechafecha", fechaCreacion)
       //datos del grafico
       this.chartData.datasets[i].label = datosM.tituloGrafico;
       this.chartData.datasets[i].data = cant;
-      //console.log("cant",cant)
-      this.chartData.labels = nroMes;
+      this.chartData.labels = fechaCreacion;
+      console.log("holaaaaaaaaa",this.chartData.labels)
     },
   },
 };

@@ -29,6 +29,9 @@ export default {
         // console.log(`/?idMascota=${id}`)
         return client.get(`/?idMascota=${id}`)
     },
+    getByEstado(estado) {
+        return client.get(`/?estado=${estado}`)
+    },
 
     delete(id) {
         return client.delete(`/${id}`)

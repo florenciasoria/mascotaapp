@@ -1,46 +1,37 @@
 <template>
   <div class="container">
     <div class="row">
-      <div class="col-6">
-        <b-form v-if="show" @submit.prevent="onSubmit()">
-          <b-form-group
-            id="input-group-1"
-            label="Direccion de Email:"
-            label-for="input-1"
-          >
+      <div class="col-6 pt-5 mx-auto">
+        <b-form v-if="show" @submit.prevent="onSubmit()" class="p-4 border rounded">
+                                  <b-form-invalid-feedback :state="validationUser">Usuario o contraseña incorrectos</b-form-invalid-feedback>
+          <b-form-group id="input-group-1" label="Direccion de Email:" label-for="input-1">
             <b-form-input
               id="input-1"
               v-model="form.email"
               type="email"
               placeholder="Ingresar Mail:"
-              size="sm"
-              required
+
             ></b-form-input>
+                        <b-form-invalid-feedback :state="validationEmail">Debes ingresar un email</b-form-invalid-feedback>
           </b-form-group>
 
-          <b-form-group
-            id="input-group-2"
-            label="Contraseña:"
-            label-for="input-2"
-          >
+          <b-form-group id="input-group-2" label="Contraseña:" label-for="input-2">
             <b-form-input
               id="input-2"
-              size="sm"
               v-model="form.pass"
               placeholder="Ingresar Contraseña:"
               type="password"
-              required
+
             ></b-form-input>
+            <b-form-invalid-feedback :state="validationPass">Debes ingresar una contraseña</b-form-invalid-feedback>
           </b-form-group>
 
-          <!-- <b-button type="submit" variant="primary" @click="onSubmit()"> -->
-          <b-button type="submit" variant="primary"> Submit</b-button>
-          <b-button type="reset" variant="danger">Reset</b-button>
-          <b-button type="" variant="success"
-            ><router-link :to="'/Registrar'"
-              >Crear Usuario</router-link
-            ></b-button
-          >
+          <b-button type="reset" class="mx-2" variant="outline-danger">Limpiar formulario</b-button>
+          <b-button type="submit" variant="primary" class="mx-2 botonVioleta">Iniciar Sesión</b-button>
+          <b-row>
+            
+            <router-link :to="'/Registrar'" class="mx-auto mt-5">Crear Usuario</router-link>
+          </b-row>
         </b-form>
         <b-card class="mt-3" header="Form Data Result">
           <pre class="m-0">{{ form }}</pre>
@@ -82,6 +73,9 @@ export default {
       resp: "",
       arrayPers: [],
       nomTest: "",
+            validationEmail: true,
+      validationPass: true,
+      validationUser: true,
     };
   },
 
@@ -94,6 +88,11 @@ export default {
 
     // onSubmit(event) {
     async onSubmit() {
+            this.form.email.length < 1 ? this.validationEmail = false : this.validationEmail = true
+      this.form.pass.length < 1 ? this.validationPass = false : this.validationPass = true
+
+            //Si no hubo ningun error, hacemos el PUT
+      if (this.validationEmail && this.validationPass ) {
       try {
         const usuario = await this.buscarUser();
 
@@ -104,10 +103,11 @@ export default {
         } else {
           //agrego el else acá porque si encuentra el mail y la pass es incorrecta no lo estamos
           //agarrando
-          alert("Usuario o clave incorrectos");
+                  this.validationUser = false
         }
       } catch (error) {
-        alert("Usuario o clave incorrectos");
+        this.validationUser = false
+      }
       }
     },
 
@@ -151,26 +151,9 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-h3 {
-  margin: 40px 0 0;
-}
-
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-
-a {
-  color: #a3e3dc;
-}
-
-.margenes {
-  padding-top: 100px;
-  padding-bottom: 100px;
+.botonVioleta {
+  background-color: #8969d3;
+  border-color: #8969d3;
+  text-align: center;
 }
 </style>

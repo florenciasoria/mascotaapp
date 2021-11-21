@@ -21,6 +21,17 @@ export const valoresData = {
     { text: "Macho", value: "macho" },
     { text: "Hembra", value: "hembra" },
   ],
+  rol: [
+    { value: "p", text: "Postulante" },
+    { value: "z", text: "Administrador" },
+    { value: "a", text: "Adoptante" },
+  ],
+  genero: [
+    { value: "f", text: "Femenino" },
+    { value: "m", text: "Masculino" },
+    { value: "nb", text: "No Binarie" },
+    { value: "na", text: "Prefiero no decirlo" },
+  ],
   // estado: [
   //   { text: "Publicado", value: "publicado" },
   //   { text: "Adoptado", value: "adoptado" },

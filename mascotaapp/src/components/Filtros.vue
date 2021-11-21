@@ -233,8 +233,6 @@ export default {
     },
 
     openModal(mascota) {
-      console.log("Abre el modal");
-      console.log(mascota);
       this.modalData = mascota;
       this.modalVisible = true;
     },

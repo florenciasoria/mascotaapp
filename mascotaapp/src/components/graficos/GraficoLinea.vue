@@ -88,7 +88,7 @@ export default {
       //console.log("Array recibido de padre", datosM);
 
       //map para separar el array en dos arrays (meses y cant por mes)
-      console.log("hola",datosM)
+      console.log("hola", datosM);
       const cant = datosM.array.map((item) => item.cant);
       console.log(cant);
       const nroMes = datosM.array.map((item) => item.fechaCreacion);

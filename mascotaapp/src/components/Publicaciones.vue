@@ -242,16 +242,18 @@ export default {
         const solicitudesARechazar = await apiSolicitudes.getByMascota(
           soli.idMascota
         );
+        //Mockapi vevuelve todas las solis que tienen algo del id
+        const solicitudesARechazarFiltradas = solicitudesARechazar.data.filter(s=> s.idMascota ==soli.idMascota)
         //obtengo el indice de la solicitud que acepte
-        const indiceSoli = solicitudesARechazar.data.findIndex(
+        const indiceSoli = solicitudesARechazarFiltradas.data.findIndex(
           (s) =>
             s.idMascota == soli.idMascota && s.idAdoptante == soli.idAdoptante
         );
         // slice: te devuelve todas menos la que le estas pasando.
-        solicitudesARechazar.data.slice(indiceSoli);
+        solicitudesARechazarFiltradas.data.slice(indiceSoli);
 
         // cancelo todas los solicitudes menos la que acepte
-        for (const soliR of solicitudesARechazar.data) {
+        for (const soliR of solicitudesARechazarFiltradas.data) {
           soliR.estado = valoresData.estadoSolicitud.rechazada;
           await this.actualizarSolicitud(soliR);
         }

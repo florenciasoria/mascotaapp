@@ -84,12 +84,12 @@ export default {
       const cant = datosM.array.map((item) => item.cant);
       const fechaCreacion = datosM.array.map((item) => item.fechaCreacion);
       
-      console.log("fechafecha", fechaCreacion)
+      
       //datos del grafico
       this.chartData.datasets[i].label = datosM.tituloGrafico;
       this.chartData.datasets[i].data = cant;
       this.chartData.labels = fechaCreacion;
-      console.log("holaaaaaaaaa",this.chartData.labels)
+      
     },
   },
 };

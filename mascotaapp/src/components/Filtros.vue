@@ -168,6 +168,7 @@ export default {
           idAdoptante: usuario.id,
           idPublicador: mascota.idPublicador,
           estado: "pendiente",
+          fechaRespuesta: "",
         };
         this.agregarAdopcion(soli);
         this.$router.push("/misSolicitudes");

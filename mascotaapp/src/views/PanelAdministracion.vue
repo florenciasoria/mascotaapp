@@ -76,16 +76,16 @@ export default {
       datosMascotaAlta: {
         mascotasDatos: {
           array: [],
-          tituloGrafico: "",
+          tituloGrafico: "Mascotas publicadas Por Mes",
         },
 
         perrosDatos: {
           array: [],
-          tituloGrafico: "Perros publicadas Por Mes",
+          tituloGrafico: "Perros publicados Por Mes",
         },
         gatosDatos: {
           array: [],
-          tituloGrafico: "Gatos publicadas Por Mes",
+          tituloGrafico: "Gatos publicados Por Mes",
         },
       },
 
@@ -98,7 +98,7 @@ export default {
       datosMascotaSolicitudes: {
         mascotasDatos: {
           array: [],
-          tituloGrafico: "",
+          tituloGrafico: "Mascotas solicitadas Por Mes",
         },
 
         perrosDatos: {
@@ -119,7 +119,7 @@ export default {
       datosMascotaAdopcion: {
         mascotasDatos: {
           array: [],
-          tituloGrafico: "",
+          tituloGrafico: "Mascotas Adoptadas Por Mes",
         },
 
         perrosDatos: {
@@ -152,6 +152,13 @@ export default {
   },
 
   async created() {
+    //Si el usuario no es admin nos deriva directo al home.
+    // if (!this.validarRolDeUsuario()) {
+    //   this.$router.push({
+    //     name: "Error",
+    //     params: { codError: "errorPermisos" },
+    //   });
+    // }
     //CARGA DE DATOS
     // obtengo mi array de fechas totales
     await this.obtenerArrayFechasCompleto();
@@ -182,34 +189,40 @@ export default {
     this.datosMascotaEspecie.arrayDatos = this.cargarGraficoEspecieTorta(
       this.mascotasInicial
     );
-    this.cargarGraficoPorMesPublicacion();
+    this.datosMascotaAlta.mascotasDatos.array = this.cargarGraficoLineaTotal(
+      this.mascotasInicial
+    );
+
     this.datosMascotaAlta.perrosDatos.array =
-      this.cargarGraficoLineaPorEspecie("perro");
+      this.cargarGraficoLineaPorEspecie("perro",this.mascotasInicial);
 
     this.datosMascotaAlta.gatosDatos.array =
-      this.cargarGraficoLineaPorEspecie("gato");
+      this.cargarGraficoLineaPorEspecie("gato",this.mascotasInicial);
 
     //solicitudes
     this.datosMascotaEspecieAdopciones.arrayDatos =
       this.cargarGraficoEspecieTorta(this.mascotasSolicitadas);
 
-    this.cargarGraficoPorMesSolicitudes();
+    this.datosMascotaSolicitudes.mascotasDatos.array =
+      this.cargarGraficoLineaTotal(this.mascotasSolicitadas);
 
     this.datosMascotaSolicitudes.perrosDatos.array =
-      this.cargarGraficoLineaSolicitudesPorEspecie("perro");
+      this.cargarGraficoLineaPorEspecie("perro",this.mascotasSolicitadas);
     this.datosMascotaSolicitudes.gatosDatos.array =
-      this.cargarGraficoLineaSolicitudesPorEspecie("gato");
+      this.cargarGraficoLineaPorEspecie("gato",this.mascotasSolicitadas);
 
     //ADOPCIONES
-    this.cargarGraficoPorMesAdopcion();
-    this.datosMascotaAdopcion.perrosDatos.array =
-      this.cargarGraficoLineaAdopcionPorEspecie("perro");
+    this.datosMascotaAdopcion.mascotasDatos.array =
+      this.cargarGraficoLineaTotal(this.mascotasAdoptadas);
 
-    this.datosMascotaAdopcion.gatosDatos.array =
-      this.cargarGraficoLineaAdopcionPorEspecie("gato");
     this.datosMascotaEspecieSolicitudes.arrayDatos =
       this.cargarGraficoEspecieTorta(this.mascotasAdoptadas);
-   
+
+    this.datosMascotaAdopcion.perrosDatos.array =
+      this.cargarGraficoLineaPorEspecie("perro",this.mascotasAdoptadas);
+
+    this.datosMascotaAdopcion.gatosDatos.array =
+      this.cargarGraficoLineaPorEspecie("gato",this.mascotasAdoptadas);
 
     this.datosCargados = true;
     this.datosCargadosLineaAdopcion = true;
@@ -220,6 +233,11 @@ export default {
   },
 
   methods: {
+    //    ...mapGetters(["getusuariosLog"]),
+    // validarRolDeUsuario() {
+    //   return this.getusuariosLog().rol === 'z'
+    // },
+
     async obtenerArrayFechasCompleto() {
       const primerFecha = await apiMascotas.getPrimerFecha();
       let fechaPrueba = new Date(primerFecha);
@@ -258,10 +276,10 @@ export default {
       return arrayGrafico;
     },
 
-    cargarGraficoPorMesPublicacion() {
+    cargarGraficoLineaTotal(arrayMascotas) {
       const arrayGrafico = this.arrayFechas.slice();
 
-      for (const mascota of this.mascotasInicial) {
+      for (const mascota of arrayMascotas) {
         //Guardamos el mes
         const fechaCreacion = new Date(mascota.createdAt);
         const mes2 = ("0" + (fechaCreacion.getMonth() + 1)).slice(-2);
@@ -287,85 +305,13 @@ export default {
           arrayGrafico[indice] = nuevoObjeto;
         }
       }
-      this.datosMascotaAlta.mascotasDatos.array = arrayGrafico;
-      this.datosMascotaAlta.mascotasDatos.tituloGrafico =
-        "Mascotas publicadas Por Mes";
-    },
-
-    cargarGraficoLineaPorEspecie(especie) {
-      const arrayGrafico = this.arrayFechas.slice();
-
-      for (const mascota of this.mascotasInicial) {
-        if (mascota.especie == especie) {
-          //Guardamos el mes
-          const mes = new Date(mascota.createdAt);
-          const mes2 = ("0" + (mes.getMonth() + 1)).slice(-2);
-
-          //Guardamos el año de publicacion
-          const anio = mes.getFullYear();
-
-          const fecha = `${anio}-${mes2}`;
-
-          const objeto = arrayGrafico.find(
-            (objeto) => objeto.fechaCreacion == fecha
-          );
-
-          if (objeto != undefined) {
-            const indice = arrayGrafico.findIndex(
-              (obj) => obj.fechaCreacion == fecha
-            );
-            let cantidadNueva = objeto.cant + 1;
-            const nuevoObjeto = {
-              fechaCreacion: objeto.fechaCreacion,
-              cant: cantidadNueva,
-            };
-            arrayGrafico[indice] = nuevoObjeto;
-          }
-        }
-      }
-
       return arrayGrafico;
     },
-    //metodos graficos adopciones
-    cargarGraficoPorMesAdopcion() {
+
+    cargarGraficoLineaPorEspecie(especie, arrayMascotas) {
       const arrayGrafico = this.arrayFechas.slice();
 
-      for (const mascota of this.mascotasAdoptadas) {
-        //Guardamos el mes
-
-        const fechaCreacion = new Date(mascota.fechaRespuesta);
-        const mes2 = ("0" + (fechaCreacion.getMonth() + 1)).slice(-2);
-
-        //Guardamos el año de publicacion
-        const anio = fechaCreacion.getFullYear();
-
-        const fecha = `${anio}-${mes2}`;
-
-        const objeto = arrayGrafico.find(
-          (objeto) => objeto.fechaCreacion == fecha
-        );
-
-        if (objeto != undefined) {
-          const indice = arrayGrafico.findIndex(
-            (obj) => obj.fechaCreacion == fecha
-          );
-          let cantidadNueva = objeto.cant + 1;
-          const nuevoObjeto = {
-            fechaCreacion: objeto.fechaCreacion,
-            cant: cantidadNueva,
-          };
-          arrayGrafico[indice] = nuevoObjeto;
-        }
-      }
-      console.log("ARRAY ADOPCION TOTAL", arrayGrafico);
-      this.datosMascotaAdopcion.mascotasDatos.array = arrayGrafico;
-      this.datosMascotaAdopcion.mascotasDatos.tituloGrafico =
-        "Mascotas Adoptadas Por Mes";
-    },
-    cargarGraficoLineaAdopcionPorEspecie(especie) {
-      const arrayGrafico = this.arrayFechas.slice();
-
-      for (const mascota of this.mascotasAdoptadas) {
+      for (const mascota of arrayMascotas) {
         if (mascota.especie == especie) {
           //Guardamos el mes
           const mes = new Date(mascota.createdAt);
@@ -393,79 +339,7 @@ export default {
           }
         }
       }
-      console.log("array mascota especie", especie, arrayGrafico);
-      return arrayGrafico;
-    },
-   
 
-    // metodos graficos solicitudes
-
-    
-    cargarGraficoPorMesSolicitudes() {
-      const arrayGrafico = this.arrayFechas.slice();
-
-      for (const mascota of this.mascotasSolicitadas) {
-        //Guardamos el mes
-        const fechaCreacion = new Date(mascota.createdAt);
-        const mes2 = ("0" + (fechaCreacion.getMonth() + 1)).slice(-2);
-
-        //Guardamos el año de publicacion
-        const anio = fechaCreacion.getFullYear();
-
-        const fecha = `${anio}-${mes2}`;
-
-        const objeto = arrayGrafico.find(
-          (objeto) => objeto.fechaCreacion == fecha
-        );
-
-        if (objeto != undefined) {
-          const indice = arrayGrafico.findIndex(
-            (obj) => obj.fechaCreacion == fecha
-          );
-          let cantidadNueva = objeto.cant + 1;
-          const nuevoObjeto = {
-            fechaCreacion: objeto.fechaCreacion,
-            cant: cantidadNueva,
-          };
-          arrayGrafico[indice] = nuevoObjeto;
-        }
-      }
-      this.datosMascotaSolicitudes.mascotasDatos.array = arrayGrafico;
-      this.datosMascotaSolicitudes.mascotasDatos.tituloGrafico =
-        "Mascotas Solicitadas Por Mes";
-    },
-    cargarGraficoLineaSolicitudesPorEspecie(especie) {
-      const arrayGrafico = this.arrayFechas.slice();
-
-      for (const mascota of this.mascotasSolicitadas) {
-        if (mascota.especie == especie) {
-          //Guardamos el mes
-          const mes = new Date(mascota.createdAt);
-          const mes2 = ("0" + (mes.getMonth() + 1)).slice(-2);
-
-          //Guardamos el año de publicacion
-          const anio = mes.getFullYear();
-
-          const fecha = `${anio}-${mes2}`;
-
-          const objeto = arrayGrafico.find(
-            (objeto) => objeto.fechaCreacion == fecha
-          );
-
-          if (objeto != undefined) {
-            const indice = arrayGrafico.findIndex(
-              (obj) => obj.fechaCreacion == fecha
-            );
-            let cantidadNueva = objeto.cant + 1;
-            const nuevoObjeto = {
-              fechaCreacion: objeto.fechaCreacion,
-              cant: cantidadNueva,
-            };
-            arrayGrafico[indice] = nuevoObjeto;
-          }
-        }
-      }
-      //console.log("array mascota especie", especie, arrayGrafico);
       return arrayGrafico;
     },
 
@@ -488,6 +362,7 @@ export default {
         console.log(error.message);
       }
     },
+    
     async buscarMascotasDeSolicitud(arraySolicitudes, arrayMascotas) {
       try {
         for (const s of arraySolicitudes) {

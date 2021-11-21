@@ -5,7 +5,7 @@
       <div class="row" style="margin-top: 50px">
         <div class="col"></div>
         <b-col class="col-lg-10">
-          <div class="">
+          <div class>
             <b-row>
               <b-card
                 v-for="mascota in mascotasMostrar"
@@ -35,16 +35,8 @@
                         <p>Nombre: {{ solicitud.nombre }}</p>
                         <p>Estado: {{ solicitud.estado }}</p>
                         <div v-if="solicitud.estado == 'pendiente'">
-                          <b-button
-                            variant="success"
-                            @click="aceptar(solicitud)"
-                            >aceptar</b-button
-                          >
-                          <b-button
-                            variant="danger"
-                            @click="rechazar(solicitud)"
-                            >rechazar
-                          </b-button>
+                          <b-button variant="success" @click="aceptar(solicitud)">aceptar</b-button>
+                          <b-button variant="danger" @click="rechazar(solicitud)">rechazar</b-button>
                         </div>
                       </div>
                     </div>
@@ -127,8 +119,8 @@ export default {
           ).data;
           //mockapi devuelve todos las solicitudes que contengan el id
           //filtramos por el error de mockapi!!!! ( gaspar pensalo!!!)
-         
-         const soliFiltradas =solicitudes.filter(s=>s.idMascota == m.id)
+
+          const soliFiltradas = solicitudes.filter(s => s.idMascota == m.id)
 
           console.log("SOLICITUDES X MASCOTAs FILTRADAS", soliFiltradas);
 
@@ -143,6 +135,7 @@ export default {
           });
         }
       } catch (error) {
+        console.log("Mensaje de error ", error)
         console.log(error.message);
       }
     },
@@ -159,6 +152,7 @@ export default {
         const apisoli = await apiSolicitudes.get();
         return apisoli.data;
       } catch (error) {
+        console.log("Mensaje de error ", error)
         //alert("Por favor, refresque la página")
         console.log("holis");
       }
@@ -169,6 +163,7 @@ export default {
         const apiPers = await apiPersonas.getById(id);
         return apiPers.data;
       } catch (error) {
+        console.log("Mensaje de error ", error)
         console.log(error.message);
       }
     },
@@ -194,6 +189,7 @@ export default {
         const apisoli = await apiSolicitudes.getById(id);
         return apisoli.data;
       } catch (error) {
+        console.log("Mensaje de error ", error)
         console.log(error.message);
       }
     },
@@ -222,6 +218,7 @@ export default {
         masco.data.estado = valoresData.estadoMascota.adoptado;
         await apiMascotas.put(masco.data);
       } catch (error) {
+        console.log("Mensaje de error ", error)
         console.log(error.message);
       }
     },
@@ -243,7 +240,7 @@ export default {
           soli.idMascota
         );
         //Mockapi vevuelve todas las solis que tienen algo del id
-        const solicitudesARechazarFiltradas = solicitudesARechazar.data.filter(s=> s.idMascota ==soli.idMascota)
+        const solicitudesARechazarFiltradas = solicitudesARechazar.data.filter(s => s.idMascota == soli.idMascota)
         //obtengo el indice de la solicitud que acepte
         const indiceSoli = solicitudesARechazarFiltradas.data.findIndex(
           (s) =>
@@ -280,6 +277,7 @@ export default {
     //llama a la API para traer la lista de mascotas y la guarda en variable local
     await this.buscarUsuario();
     this.misMascotas = await this.getMisMascotas();
+            this.$emit('estamosOk', true)
   },
 };
 </script>

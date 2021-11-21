@@ -179,7 +179,9 @@ export default {
     );
 
     //PUBLICACIONES
-    this.cargarGraficoEspecieTorta();
+    this.datosMascotaEspecie.arrayDatos = this.cargarGraficoEspecieTorta(
+      this.mascotasInicial
+    );
     this.cargarGraficoPorMesPublicacion();
     this.datosMascotaAlta.perrosDatos.array =
       this.cargarGraficoLineaPorEspecie("perro");
@@ -188,26 +190,33 @@ export default {
       this.cargarGraficoLineaPorEspecie("gato");
 
     //solicitudes
+    this.datosMascotaEspecieAdopciones.arrayDatos =
+      this.cargarGraficoEspecieTorta(this.mascotasSolicitadas);
+
     this.cargarGraficoPorMesSolicitudes();
-    this.cargarGraficoEspecieTortaSolicitudes();
 
     this.datosMascotaSolicitudes.perrosDatos.array =
       this.cargarGraficoLineaSolicitudesPorEspecie("perro");
     this.datosMascotaSolicitudes.gatosDatos.array =
       this.cargarGraficoLineaSolicitudesPorEspecie("gato");
-   
-   //ADOPCIONES
+
+    //ADOPCIONES
     this.cargarGraficoPorMesAdopcion();
     this.datosMascotaAdopcion.perrosDatos.array =
       this.cargarGraficoLineaAdopcionPorEspecie("perro");
 
     this.datosMascotaAdopcion.gatosDatos.array =
       this.cargarGraficoLineaAdopcionPorEspecie("gato");
-    this.cargarGraficoEspecieTortaAdopciones();
+    this.datosMascotaEspecieSolicitudes.arrayDatos =
+      this.cargarGraficoEspecieTorta(this.mascotasAdoptadas);
+   
 
     this.datosCargados = true;
     this.datosCargadosLineaAdopcion = true;
     this.datosCargadosLineaSolicitudes = true;
+    this.datosCargadosTortaAdopciones = true;
+    this.datosCargados3 = true;
+    this.datosCargadosTortaSolicitudes = true;
   },
 
   methods: {
@@ -229,9 +238,9 @@ export default {
     },
 
     // metodos graficos publicaciones
-    cargarGraficoEspecieTorta() {
+    cargarGraficoEspecieTorta(arrayMascotas) {
       const arrayGrafico = [];
-      for (const mascota of this.mascotasInicial) {
+      for (const mascota of arrayMascotas) {
         const especie = mascota.especie;
         const objeto = arrayGrafico.find((objeto) => objeto.especie == especie);
 
@@ -246,10 +255,7 @@ export default {
           arrayGrafico[indice] = nuevoObjeto;
         }
       }
-      this.datosMascotaEspecie.arrayDatos = arrayGrafico;
-      // this.datosMascotaEspecie.tituloGrafico =
-      //   "Mascotas publicadas por Especie";
-      this.datosCargados3 = true;
+      return arrayGrafico;
     },
 
     cargarGraficoPorMesPublicacion() {
@@ -390,50 +396,11 @@ export default {
       console.log("array mascota especie", especie, arrayGrafico);
       return arrayGrafico;
     },
-    cargarGraficoEspecieTortaAdopciones() {
-      const arrayGrafico = [];
-      for (const mascota of this.mascotasAdoptadas) {
-        const especie = mascota.especie;
-        const objeto = arrayGrafico.find((objeto) => objeto.especie == especie);
+   
 
-        if (objeto === undefined) {
-          arrayGrafico.push({ especie: especie, cant: 1 });
-        } else {
-          const indice = arrayGrafico.findIndex(
-            (obj) => obj.especie == especie
-          );
-          let cantidadNueva = objeto.cant + 1;
-          const nuevoObjeto = { especie: objeto.especie, cant: cantidadNueva };
-          arrayGrafico[indice] = nuevoObjeto;
-        }
-      }
-      this.datosMascotaEspecieSolicitudes.arrayDatos = arrayGrafico;
-      // this.datosMascotaEspecie.tituloGrafico =
-      //   "Mascotas publicadas por Especie";
-      this.datosCargadosTortaAdopciones = true;
-    },
     // metodos graficos solicitudes
 
-    cargarGraficoEspecieTortaSolicitudes() {
-      const arrayGrafico = [];
-      for (const mascota of this.mascotasSolicitadas) {
-        const especie = mascota.especie;
-        const objeto = arrayGrafico.find((objeto) => objeto.especie == especie);
-
-        if (objeto === undefined) {
-          arrayGrafico.push({ especie: especie, cant: 1 });
-        } else {
-          const indice = arrayGrafico.findIndex(
-            (obj) => obj.especie == especie
-          );
-          let cantidadNueva = objeto.cant + 1;
-          const nuevoObjeto = { especie: objeto.especie, cant: cantidadNueva };
-          arrayGrafico[indice] = nuevoObjeto;
-        }
-      }
-      this.datosMascotaEspecieAdopciones.arrayDatos = arrayGrafico;
-      this.datosCargadosTortaSolicitudes = true;
-    },
+    
     cargarGraficoPorMesSolicitudes() {
       const arrayGrafico = this.arrayFechas.slice();
 

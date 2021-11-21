@@ -160,7 +160,7 @@ export default {
   methods: {
     ...mapGetters(["getusuariosLog"]),
 
-    confirmarAdopcion(mascota) {
+    async confirmarAdopcion(mascota) {
       const usuario = this.getusuariosLog();
       if (usuario.id != undefined) {
         const soli = {
@@ -170,7 +170,7 @@ export default {
           estado: "pendiente",
           fechaRespuesta: "",
         };
-        this.agregarAdopcion(soli);
+        await this.agregarAdopcion(soli);
         this.$router.push("/misSolicitudes");
       } else {
         this.$router.push("/Login");

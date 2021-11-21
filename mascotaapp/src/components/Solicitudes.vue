@@ -85,7 +85,7 @@ export default {
           usuarioLog.id
         );
         //Arreglo error mockapi que me trae solicitudes que contengan el id ( mal query)        
-        const soliDelSolicitanteFiltradas = soliDelSolicitante.data.filter(s=> s.idAdoptante ==usuarioLog.id)
+        const soliDelSolicitanteFiltradas = soliDelSolicitante.data.filter(s => s.idAdoptante == usuarioLog.id)
         const solisFiltradas = await this.buscarMascotas(
           soliDelSolicitanteFiltradas
         );
@@ -161,6 +161,7 @@ export default {
   async created() {
     //llama a la API para traer la lista de mascotas y la guarda en variable local
     this.soliMostrar = await this.buscarSolicitudes();
+    this.$emit('estamosOk', true)
   },
 };
 </script>

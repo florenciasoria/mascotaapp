@@ -50,8 +50,8 @@ export default {
       mainProps: {
         blank: true,
         blankColor: "#777",
-        width: 175,
-        height: 175,
+        width: 300,
+        height: 300,
         class: "m1",
       },
       usuario: {}
@@ -119,10 +119,12 @@ a {
 .margenes {
   padding-top: 100px;
   padding-bottom: 100px;
+  width:80%
 }
 
 .boton {
   background-color: #8969d3;
   border-color: #8969d3;
+  
 }
 </style>

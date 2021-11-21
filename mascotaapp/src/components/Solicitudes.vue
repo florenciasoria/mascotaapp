@@ -84,8 +84,10 @@ export default {
         const soliDelSolicitante = await apiSolicitudes.getBySolicitante(
           usuarioLog.id
         );
+        //Arreglo error mockapi que me trae solicitudes que contengan el id ( mal query)        
+        const soliDelSolicitanteFiltradas = soliDelSolicitante.data.filter(s=> s.idAdoptante ==usuarioLog.id)
         const solisFiltradas = await this.buscarMascotas(
-          soliDelSolicitante.data
+          soliDelSolicitanteFiltradas
         );
         return solisFiltradas;
       } catch (error) {

@@ -6,33 +6,35 @@ export default {
   props: ["datos"],
   data() {
     return {
+      gradient: "",
       bar: null,
+      
       //mascotasInicial: {},
       chartData: {
         labels: [],
         datasets: [
           {
-            label: "",
             data: [],
-            fill: false,
-            borderColor: "#8969D3",
-            backgroundColor: "#8969D3",
+            fill: true,
+            borderColor: "rgba(39, 176, 245, 1)",
+            backgroundColor: "rgba(39, 176, 245, 0.1)",
+            
             borderWidth: 1,
           },
           {
             label: "perros",
             data: [],
-            fill: false,
-            borderColor: "green",
-            backgroundColor: "green",
+            fill: true,
+            borderColor: "rgba(137, 105, 211, 1)",
+            backgroundColor: "rgba(137, 105, 211, 0.2)",
             borderWidth: 1,
           },
           {
             label: "gatos",
             data: [],
-            fill: false,
-            borderColor: "red",
-            backgroundColor: "red",
+            fill: true,
+            borderColor: "rgba(66, 185, 131, 1)",
+            backgroundColor: "rgba(66, 185, 131, 0.2)",
             borderWidth: 1,
           },
         ],
@@ -68,6 +70,7 @@ export default {
   },
   async mounted() {
     //metodo del grafico para mostrar
+
     this.cargarDatos();
     this.renderChart(this.chartData, this.options);
   },
@@ -83,13 +86,13 @@ export default {
       //map para separar el array en dos arrays (meses y cant por mes)
       const cant = datosM.array.map((item) => item.cant);
       const fechaCreacion = datosM.array.map((item) => item.fechaCreacion);
-      
-      
+
+
       //datos del grafico
       this.chartData.datasets[i].label = datosM.tituloGrafico;
       this.chartData.datasets[i].data = cant;
       this.chartData.labels = fechaCreacion;
-      
+
     },
   },
 };

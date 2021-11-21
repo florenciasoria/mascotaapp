@@ -4,12 +4,15 @@
     <div class="container">
       <b-row>
         <b-col class="mx-auto">
-          <button @click="cargarGraficosPublicaciones">Publicaciones</button>
-          <button @click="cargarGraficosSolicitudes">Solicitudes</button>
-          <button @click="cargarGraficosAdopciones">Adopciones</button>
+          <b-button class="mx-2 botonVioleta" @click="cargarGraficosPublicaciones">Publicaciones</b-button>
+          <b-button class="mx-2 botonVioleta" @click="cargarGraficosSolicitudes">Solicitudes</b-button>
+          <b-button class="mx-2 botonVioleta" @click="cargarGraficosAdopciones">Adopciones</b-button>
+
+
+
         </b-col>
       </b-row>
-      <div v-if="vistaPublicaciones">
+      <div  class="mt-5" v-if="vistaPublicaciones">
         <b-row>
           <h4 class="mx-auto">Publicaciones</h4>
         </b-row>
@@ -28,7 +31,7 @@
           </b-col>
         </b-row>
       </div>
-      <div v-if="vistaSolicitudes">
+      <div  class="mt-5" v-if="vistaSolicitudes">
         <b-row>
           <h4 class="mx-auto">Solicitudes</h4>
         </b-row>
@@ -47,7 +50,7 @@
           </b-col>
         </b-row>
       </div>
-      <div v-if="vistaAdopciones">
+      <div class="mt-5" v-if="vistaAdopciones">
         <b-row>
           <h4 class="mx-auto">Adopciones</h4>
         </b-row>
@@ -210,7 +213,7 @@ export default {
 
       this.datosMascotaAlta.gatosDatos.array =
         this.cargarGraficoLineaPorEspecie("gato", this.mascotasInicial);
-      this.vistaPublicaciones = true;
+      this.vistaPublicaciones = !this.vistaPublicaciones;
       this.datosCargados = true;
       this.datosCargados3 = true;
     },
@@ -233,7 +236,7 @@ console.log("datos torta solicitadas",this.datosMascotaEspecieAdopciones.arrayDa
         this.cargarGraficoLineaPorEspecie("perro", this.mascotasSolicitadas);
       this.datosMascotaSolicitudes.gatosDatos.array =
         this.cargarGraficoLineaPorEspecie("gato", this.mascotasSolicitadas);
-      this.vistaSolicitudes = true;
+      this.vistaSolicitudes = !this.vistaSolicitudes ;
       this.datosCargadosLineaSolicitudes = true;
       this.datosCargadosTortaSolicitudes = true;
     },
@@ -261,7 +264,7 @@ console.log("datos torta solicitadas",this.datosMascotaEspecieAdopciones.arrayDa
 
       this.datosMascotaAdopcion.gatosDatos.array =
         this.cargarGraficoLineaPorEspecie("gato", this.mascotasAdoptadas);
-      this.vistaAdopciones = true;
+      this.vistaAdopciones = !this.vistaAdopciones;
       this.datosCargadosLineaAdopcion = true;
       this.datosCargadosTortaAdopciones = true;
     },
@@ -409,3 +412,10 @@ console.log("datos torta solicitadas",this.datosMascotaEspecieAdopciones.arrayDa
   },
 };
 </script>
+<style scoped>
+.botonVioleta {
+  background-color: #8969d3;
+  border-color: #8969d3;
+  text-align: center;
+}
+</style>

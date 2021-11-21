@@ -205,7 +205,7 @@ export default {
 
         //pasar a valores data
         arrayDevolver = arrayDevolver.filter((m) => m.estado == "publicado");
-
+        this.$emit('estamosOk', true)
         return arrayDevolver;
       } catch (error) {
         console.log(error.message);

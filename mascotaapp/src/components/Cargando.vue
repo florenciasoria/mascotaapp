@@ -35,8 +35,8 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .loader {
-    background: #000;
-    background: radial-gradient(#222, #000);
+    background: #fff;
+    background: radial-gradient(#fff, #fff);
     bottom: 0;
     left: 0;
     overflow: hidden;

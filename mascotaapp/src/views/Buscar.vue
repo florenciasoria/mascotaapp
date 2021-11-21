@@ -1,7 +1,7 @@
 <template>
   <div class="home">
-
-      <Filtros/>
+      <Cargando v-if="yaCargo == false"> </Cargando>
+      <Filtros v-on:estamosOk="mostrar"/>
 
   </div>
 </template>
@@ -10,11 +10,24 @@
 // @ is an alias to /src
 
 import Filtros from '@/components/Filtros.vue'
+import Cargando from '@/components/Cargando.vue'
 
 export default {
   name: 'Buscar',
   components: {
-    Filtros 
+    Filtros , 
+    Cargando
+  },
+    data() {
+      return {
+        yaCargo: false
+      }
+  },
+  methods: {
+    mostrar(){
+      console.log("ya cargo")
+      this.yaCargo = true
+    }
   }
 }
 </script>

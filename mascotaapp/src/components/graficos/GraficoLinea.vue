@@ -73,16 +73,15 @@ export default {
   },
 
   methods: {
-    cargarDatos(){
+    cargarDatos() {
       //console.log("agus 1")
-      this.cargarGrafico(this.datos.arrayDatos,0);
-      //console.log("agus 2")
-      this.cargarGrafico(this.datos.perrosArr,1);
-      //console.log("agus 3")
-      this.cargarGrafico(this.datos.gatosArr,2);
-      
+      this.cargarGrafico(this.datos.arrayDatos, 0);
+      console.log("agus 2", this.datos.perrosArr);
+      this.cargarGrafico(this.datos.perrosArr, 1);
+      console.log("agus 3", this.datos.gatosArr);
+      this.cargarGrafico(this.datos.gatosArr, 2);
     },
-    cargarGrafico(arrayGrafico,i) {
+    cargarGrafico(arrayGrafico, i) {
       //this.datos es lo que pasamos en el v-bind del componente padre
       //const arrayGrafico = this.datos.arrayDatos;
 
@@ -90,8 +89,9 @@ export default {
 
       //map para separar el array en dos arrays (meses y cant por mes)
       const cant = arrayGrafico.map((item) => item.cant);
-      const nroMes = arrayGrafico.map((item) => item.nroMes);
-
+      console.log(cant);
+      const nroMes = arrayGrafico.map((item) => item.fechaCreacion);
+      console.log(nroMes);
       //console.log("Array de Cantidades", cant);
       //console.log("Array de Mes", nroMes);
 
@@ -100,8 +100,6 @@ export default {
       this.chartData.datasets[i].data = cant;
       //console.log("cant",cant)
       this.chartData.labels = nroMes;
-      
-      
     },
   },
 };

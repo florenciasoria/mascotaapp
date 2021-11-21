@@ -16,9 +16,6 @@
             to="/misSolicitudes"
             class="px-2"
             >Solicitudes
-            <b-badge variant="success" v-if="notificacionesSolicitud >= 0">{{
-              notificacionesSolicitud
-            }}</b-badge>
           </router-link>
           |
           <router-link
@@ -26,9 +23,8 @@
             class="px-2"
             v-if="esPublicador"
             >Publicaciones
-            <b-badge variant="success" v-if="notificacionesPublicacion >= 0">{{
-              notificacionesPublicacion
-            }}</b-badge></router-link
+
+            </router-link
           >
           |
 
@@ -77,9 +73,6 @@ export default {
     return {
       show: true,
       usuario: {},
-      // para el uso del badge
-      notificacionesSolicitud: 0,
-      notificacionesPublicacion: 0,
     };
   },
 

@@ -19,7 +19,7 @@ export default {
 <style scoped>
 .home {
     background-color: #e1cde7;
-    /* height: 100%; */
+     height: 93%; 
 
 }
 

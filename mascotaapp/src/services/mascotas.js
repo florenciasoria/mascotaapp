@@ -10,7 +10,12 @@ export default {
     },
     getById(id){
         return client.get(`/${id}`)
+    },    
+    getPrimerFecha(){
+        const primerFecha = client.get(`?orderBy=createdAt`).then(response => response.data[0].createdAt)     
+        return primerFecha
     },
+    
     // getByIdPublicante(id){
     //     return client.get(`/${id}`)
     // },

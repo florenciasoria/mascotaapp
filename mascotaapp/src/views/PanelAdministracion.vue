@@ -42,6 +42,7 @@ export default {
         arrayDatos: [],
         perrosArr: [],
         gatosArr: [],
+        arrayFechas:[]
       },
 
       datosMascotaEspecie: {
@@ -58,6 +59,7 @@ export default {
     this.mascotasInicial = await this.traerMascotasDeApi();
     // obtengo mi array de fechas totales
     await this.obtenerArrayFechas();
+    await this.obtenerArrayFechasCompleto();
     await this.cargarGraficoPorMesPublicacion();
     await this.cargarGraficoEspecieTorta();
     this.datosMascotaAlta.perrosArr =
@@ -69,6 +71,36 @@ export default {
   },
 
   methods: {
+
+
+    async obtenerArrayFechasCompleto() {
+      const primerFecha = await apiMascotas.getPrimerFecha()
+      let fechaPrueba = new Date(primerFecha)
+
+      console.log("Primer mascota en axios", primerFecha)
+
+      const fechaActual = new Date();
+
+      console.log("Fecha prueba", fechaPrueba)
+      console.log("Fecha actual", fechaActual)
+
+      while (fechaPrueba < fechaActual) {
+
+        fechaPrueba = new Date(fechaPrueba.setMonth(fechaPrueba.getMonth() + 1));
+        console.log("Funciona agregar un mes ?", fechaPrueba)
+        const mesActual = ("0" + (fechaPrueba.getMonth() + 1)).slice(-2);
+        const anioActual = fechaPrueba.getFullYear();
+        const fecha = `${anioActual}-${mesActual}`;
+
+        this.datosMascotaAlta.arrayFechas.push(fecha)
+      }
+
+      console.log("Array de fechas sin vacios", this.datosMascotaAlta.arrayFechas)
+
+    },
+	
+	
+
     async cargarGraficoPorMesPublicacion() {
       const arrayGrafico = this.arrayFechas;
 

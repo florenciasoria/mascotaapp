@@ -111,7 +111,7 @@ export default {
     },
 
     async cargarGraficoPorMesPublicacion() {
-      const arrayGrafico = this.arrayFechas;
+      const arrayGrafico = this.arrayFechas.slice();
 
       for (const mascota of this.mascotasInicial) {
         //Guardamos el mes
@@ -185,7 +185,7 @@ export default {
     },
 
     cargarGraficoLineaPorEspecie(especie) {
-      const arrayGrafico = this.arrayFechas;
+      const arrayGrafico = this.arrayFechas.slice();
 
       for (const mascota of this.mascotasInicial) {
         if (mascota.especie == especie) {

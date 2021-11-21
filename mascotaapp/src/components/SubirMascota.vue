@@ -11,48 +11,34 @@
               placeholder="Ingresar Nombre:"
               required
             ></b-form-input>
-            <b-form-invalid-feedback :state="validation">
-              Debes ingresar el nombre de la mascota
-            </b-form-invalid-feedback>
+            <b-form-invalid-feedback
+              :state="validationNombre"
+            >Debes ingresar el nombre de la mascota</b-form-invalid-feedback>
           </b-form-group>
+
           <b-form-group id="input-group-3" label="Especie:" label-for="input-3">
-            <b-form-radio-group
-              v-model="form.especie"
-              id="radios-3"
-              :options="especie"
-            ></b-form-radio-group>
+            <b-form-radio-group v-model="form.especie" id="radios-3" :options="especie"></b-form-radio-group>
+            <b-form-invalid-feedback
+              :state="validationEspecie"
+            >Debes ingresar la especie de la mascota</b-form-invalid-feedback>
           </b-form-group>
+
           <b-form-group id="input-group-2" label="Edad:" label-for="input-2">
-            <b-form-select
-              id="input-2"
-              v-model="form.edad"
-              :options="edad"
-              required
-            ></b-form-select>
+            <b-form-select id="input-2" v-model="form.edad" :options="edad" required></b-form-select>
+            <b-form-invalid-feedback :state="validationEdad">Debes ingresar la edad de la mascota</b-form-invalid-feedback>
           </b-form-group>
 
           <b-form-group id="input-group-4" label="Color:" label-for="input-4">
-            <b-form-select
-              id="input-4"
-              v-model="form.color"
-              :options="color"
-              required
-            ></b-form-select>
+            <b-form-select id="input-4" v-model="form.color" :options="color" required></b-form-select>
+            <b-form-invalid-feedback :state="validationColor">Debes ingresar el color de la mascota</b-form-invalid-feedback>
           </b-form-group>
 
-          <b-form-group id="input-group-5" label="Sexo:" label-for="input-4">
-            <b-form-radio-group
-              v-model="form.sexo"
-              id="radios-5"
-              :options="sexo"
-            ></b-form-radio-group>
+          <b-form-group id="input-group-5" label="Sexo:" label-for="input-5">
+            <b-form-radio-group v-model="form.sexo" id="radios-5" :options="sexo"></b-form-radio-group>
+            <b-form-invalid-feedback :state="validationSexo">Debes ingresar el sexo de de la mascota</b-form-invalid-feedback>
           </b-form-group>
 
-          <b-form-group
-            id="input-group-6"
-            label="Link a imagen:"
-            label-for="input-6"
-          >
+          <b-form-group id="input-group-6" label="Link a imagen:" label-for="input-6">
             <b-form-input
               id="input-6"
               v-model="form.foto"
@@ -63,9 +49,7 @@
 
           <b-button type="reset" variant="danger">Borrar formulario</b-button>
 
-          <b-button type="submit" variant="primary" v-on:click="onSubmit"
-            >Enviar</b-button
-          >
+          <b-button type="submit" variant="primary" v-on:click="onSubmit">Enviar</b-button>
         </b-form>
         <b-card class="mt-3" header="Form Data Result">
           <pre class="m-0">{{ form }}</pre>
@@ -89,7 +73,11 @@ export default {
   data() {
     return {
       //   otroid: 6,
-      validation: true,
+      validationNombre: true,
+      validationColor: true,
+      validationEdad: true,
+      validationSexo: true,
+      validationEspecie: true,
       form: {
         // id: this.otroid,
         nombre: "",
@@ -128,42 +116,55 @@ export default {
 
     async onSubmit(event) {
       event.preventDefault();
-      if (this.form.nombre.length < 1) {
-        this.validation = false;
-      } else {
+
+
+      //Validamos que todos los campos salvo la foto (se autocompleta) estén completos.
+      this.form.nombre.length < 1 ? this.validationNombre = false : this.validationNombre = true
+      this.form.color.length < 1 ? this.validationColor = false : this.validationColor = true
+      this.form.sexo.length < 1 ? this.validationSexo = false : this.validationSexo = true
+      this.form.edad.length < 1 ? this.validationEdad = false : this.validationEdad = true
+      this.form.especie.length < 1 ? this.validationEspecie = false : this.validationEspecie = true
+
+
+      //Si no hubo ningun error, hacemos el PUT
+      if (this.validationNombre && this.validationColor && this.validationEdad && this.validationEspecie && this.validationSexo) {
+
         try {
+          //Busca el usuario logueado para obtener su ID
           const publicador = await this.getusuariosLog();
           const id = publicador.id;
           this.form.idPublicador = id;
 
+          //Si no se ingreso una foto, la actualizamos
           if (this.form.foto == "") {
             this.form.foto = "https://i.ibb.co/fHF2BS9/relleno-foto-02.png";
           }
 
+          //publicamos la mascota
           const mascota = await this.agregarMascota(this.form);
 
+          //traemos el usuario completo para agregar mascota y actualizarlo
           const usuario = await apiPersonas.getById(id);
-          console.log("Usuario", usuario);
           usuario.data.mascoPubli.push(Number(mascota.id));
-          console.log("Usuario despues del Push", usuario.data);
-          const resultadoPut = await apiPersonas.put(usuario.data);
-          console.log(resultadoPut);
+          await apiPersonas.put(usuario.data);
+
           this.$router.push("/");
-        } catch(error) {
+        } catch (error) {
           console.log(error.message);
         }
       }
     },
 
+
     async agregarMascota(mascota) {
       try {
         const resu = await apiMascotas.post(mascota);
-        console.log("resu agregar mascota", resu.data);
         return resu.data;
       } catch (error) {
         console.log(error.message);
       }
     },
+
     onReset(event) {
       event.preventDefault();
       this.form.nombre = "";
@@ -176,8 +177,7 @@ export default {
         this.show = true;
       });
     },
-  },
+  }
+
 };
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->

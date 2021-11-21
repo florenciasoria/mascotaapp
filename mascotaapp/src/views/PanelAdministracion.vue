@@ -255,7 +255,7 @@ export default {
       console.log("FECHAS", this.arrayFechas, "ACA!!!");
     },
 
-    // metodos graficos publicaciones
+ 
     cargarGraficoEspecieTorta(arrayMascotas) {
       const arrayGrafico = [];
       for (const mascota of arrayMascotas) {
@@ -362,7 +362,7 @@ export default {
         console.log(error.message);
       }
     },
-    
+
     async buscarMascotasDeSolicitud(arraySolicitudes, arrayMascotas) {
       try {
         for (const s of arraySolicitudes) {

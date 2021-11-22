@@ -12,22 +12,22 @@ export default {
         return client.get(`/${id}`)
     },
 
-    //get/solicitudes?solicitante="usuarioLogueado"
+
     //acá metí solicitante by id para no traernos toda la api cada vez que queramos traer a un solo solicitante
    async getBySolicitante(id) {
-        // console.log(`/?idAdoptante=${id}`)
+
         return client.get(`/?idAdoptante=${id}`)
         
     },
 
     //get/solicitudes?publicador="usuarioLogueado"
     getByPublicante(id) {
-        //  console.log(`/?idPublicador=${id}`)
+     
         return client.get(`/?idPublicador=${id}`)
     },
 
     getByMascota(id) {
-        // console.log(`/?idMascota=${id}`)
+     
         return client.get(`/?idMascota=${id}`)
     },
     getByEstado(estado) {

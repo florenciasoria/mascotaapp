@@ -4,9 +4,17 @@
     <div class="container">
       <b-row>
         <b-col class="mx-auto">
-          <b-button class="mx-2 botonVioleta" @click="cargarGraficosPublicaciones">Publicaciones</b-button>
-          <b-button class="mx-2 botonVioleta" @click="cargarGraficosSolicitudes">Solicitudes</b-button>
-          <b-button class="mx-2 botonVioleta" @click="cargarGraficosAdopciones">Adopciones</b-button>
+          <b-button
+            class="mx-2 botonVioleta"
+            @click="cargarGraficosPublicaciones"
+            >Publicaciones</b-button
+          >
+          <b-button class="mx-2 botonVioleta" @click="cargarGraficosSolicitudes"
+            >Solicitudes</b-button
+          >
+          <b-button class="mx-2 botonVioleta" @click="cargarGraficosAdopciones"
+            >Adopciones</b-button
+          >
         </b-col>
       </b-row>
       <div class="mt-5" v-if="vistaPublicaciones">
@@ -15,10 +23,16 @@
         </b-row>
         <b-row>
           <b-col class="col-6">
-            <grafico-linea v-if="datosCargados" v-bind:datos="datosMascotaAlta"></grafico-linea>
+            <grafico-linea
+              v-if="datosCargados"
+              v-bind:datos="datosMascotaAlta"
+            ></grafico-linea>
           </b-col>
           <b-col class="col-6">
-            <grafico-torta v-if="datosCargados3" v-bind:datos="datosMascotaEspecie"></grafico-torta>
+            <grafico-torta
+              v-if="datosCargados3"
+              v-bind:datos="datosMascotaEspecie"
+            ></grafico-torta>
           </b-col>
         </b-row>
       </div>
@@ -47,7 +61,10 @@
         </b-row>
         <b-row>
           <b-col class="col-6">
-            <grafico-linea v-if="datosCargadosLineaAdopcion" v-bind:datos="datosMascotaAdopcion"></grafico-linea>
+            <grafico-linea
+              v-if="datosCargadosLineaAdopcion"
+              v-bind:datos="datosMascotaAdopcion"
+            ></grafico-linea>
           </b-col>
           <b-col class="col-6">
             <grafico-torta
@@ -168,23 +185,22 @@ export default {
         params: { codError: "errorPermisos" },
       });
     }
-    
+
     //CARGA DE DATOS
     // obtengo mi array de fechas totales
 
     await this.obtenerArrayFechasCompleto();
     // obtengo todas las solicitudes
     this.solicitudesTotales = await this.traerSolicitudes();
-    console.log("solicitudesTotales", this.solicitudesTotales);
+
     // obtengo mascotas totales
     this.mascotasInicial = await this.traerMascotasDeApi();
-    console.log("mascotas", this.mascotasInicial);
   },
 
   methods: {
     ...mapGetters(["getusuariosLog"]),
     validarRolDeUsuario() {
-      return this.getusuariosLog().rol === 'z'
+      return this.getusuariosLog().rol === "z";
     },
 
     async cargarGraficosPublicaciones() {
@@ -218,7 +234,6 @@ export default {
       this.datosMascotaEspecieSolicitudes.arrayDatos =
         this.cargarGraficoEspecieTorta(this.mascotasSolicitadas);
 
-      console.log("datos torta solicitadas", this.datosMascotaEspecieAdopciones.arrayDatos);
       this.datosMascotaSolicitudes.mascotasDatos.array =
         this.cargarGraficoLineaTotal(this.mascotasSolicitadas);
 
@@ -238,7 +253,7 @@ export default {
       );
 
       // busca mascotas aceptadas de la solicitud
-      await this.buscarMascotasDeSolicitud(
+      this.buscarMascotasDeSolicitud(
         this.solicitudesAceptadas,
         this.mascotasAdoptadas
       );
@@ -273,7 +288,7 @@ export default {
 
         this.arrayFechas.push({ fechaCreacion: fecha, cant: 0 });
       }
-      console.log("FECHAS", this.arrayFechas, "ACA!!!");
+    
     },
 
     cargarGraficoEspecieTorta(arrayMascotas) {
@@ -377,7 +392,7 @@ export default {
       try {
         const resuGet = await apiMascotas.get();
         const arrayMascotas = resuGet.data;
-        //console.log("arrayMascotas", arrayMascotas);
+      
         return arrayMascotas;
       } catch (error) {
         console.log(error.message);
@@ -391,7 +406,7 @@ export default {
     buscarMascotasDeSolicitud(arraySolicitudes, arrayMascotas) {
       for (const s of arraySolicitudes) {
         //esto nos trae todas las solicitudes de una mascota
-        //const mascota = await (await apiMascotas.getById(s.idMascota)).data;
+
         const mascota = this.mascotasInicial.find((m) => m.id == s.idMascota);
         arrayMascotas.push({
           // ... carga todos los datos de la mascota

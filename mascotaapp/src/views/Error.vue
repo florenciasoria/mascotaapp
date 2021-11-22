@@ -32,7 +32,7 @@ export default {
 
     },
     created() {
-        console.log("Codigo de error ", this.$route.params.codError, this.$route.params.mensaje)
+        //console.log("Codigo de error ", this.$route.params.codError, this.$route.params.mensaje)
         switch (this.$route.params.codError) {
             case 'errorPermisos':
                 this.errorAMostrar = this.errorPermisos

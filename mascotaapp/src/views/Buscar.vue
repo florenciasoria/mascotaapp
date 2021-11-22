@@ -25,7 +25,7 @@ export default {
   },
   methods: {
     mostrar(){
-      console.log("ya cargo")
+
       this.yaCargo = true
     }
   }

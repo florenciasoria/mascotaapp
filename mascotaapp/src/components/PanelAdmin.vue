@@ -72,9 +72,6 @@ export default {
 
     async buscarSolicitudes() {
       const usuarioLog = this.buscarUsuario();
-      console.log("Metodo Buscar Solicitudes ");
-      console.log("Usuario Logueado ", usuarioLog);
-      console.log(this.missolicitudes);
       const solisFiltradasapi = this.missolicitudes.filter(
         (soli) => (soli.idAdoptante = usuarioLog.id)
       );
@@ -119,13 +116,9 @@ export default {
 
   async created() {
     //llama a la API para traer la lista de mascotas y la guarda en variable local
-    console.log("created");
     this.missolicitudes = await this.getSolicitudes();
-
-    console.log(this.missolicitudes.length);
-
     this.soliMostrar = await this.buscarSolicitudes();
-    console.log("Soli Mostrar ", this.soliMostrar);
+
   },
 };
 </script>

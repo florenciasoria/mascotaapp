@@ -135,9 +135,7 @@ export default {
     async buscarSolicitudesFiltradas(mascotasFiltradas) {
       try {
         for (const m of mascotasFiltradas) {
-          //console.log("idMascota", m.id);
           const soliFiltradas = this.buscarSolicitudes(m.id);
-          //console.log("solicitudes filtradas", soliFiltradas);
 
           let solis = await this.cargarDatosSolicitud(soliFiltradas);
 
@@ -150,12 +148,10 @@ export default {
           });
         }
       } catch (error) {
-        console.log("Mensaje de error ", error);
         console.log(error.message);
       }
     },
 
-    //nadie lo usa
     // busca las solicitudes por el Id y las devuelve filtradas si coinciden con el id param.
     buscarSolicitudes(idMascota) {
       const soliDeLaMascota = this.missolicitudes.filter(
@@ -164,15 +160,12 @@ export default {
       return soliDeLaMascota;
     },
 
-    //nadie lo usa
     async getSolicitudes() {
       try {
         const apisoli = await apiSolicitudes.get();
         return apisoli.data;
       } catch (error) {
         console.log("Mensaje de error ", error);
-        //alert("Por favor, refresque la página")
-        //console.log("holis");
       }
     },
     async getUsuario(id) {
@@ -180,7 +173,6 @@ export default {
         const apiPers = await apiPersonas.getById(id);
         return apiPers.data;
       } catch (error) {
-        console.log("Mensaje de error ", error);
         console.log(error.message);
       }
     },
@@ -206,7 +198,6 @@ export default {
         const apisoli = await apiSolicitudes.getById(id);
         return apisoli.data;
       } catch (error) {
-        console.log("Mensaje de error ", error);
         console.log(error.message);
       }
     },
@@ -229,21 +220,23 @@ export default {
       const soli = this.missolicitudes.find(
         (s) => s.idSolicitud == solicitud.soliId
       );
-      console.log(soli);
+     
       if (soli == undefined || soli == null) {
         console.log("no funciona!!!!");
       } else {
         soli.estado = valoresData.estadoSolicitud.aceptada;
 
+        // cambia el estado mascota
         await this.cambiarEstadoMascota(soli);
-        console.log("pase cambiar estado mascota");
+        // agrega a la Mascotas al array del Adoptante
         await this.agregarMascotasAdoptante(soli);
-        console.log("pase rechazar Remanentes");
+        // le agrego fecha a las solicitudes
         await this.actualizarSolicitud(soli);
-        console.log("pase agregarMascotasAdoptante");
+
+        // rechazo solicitudes Remanentes
         await this.rechazarRemanentes(soli);
 
-        console.log("termine");
+       //inicializo arrays para mostrar
         this.misMascotas = [];
         this.mascotasMostrar = [];
         await this.getMisMascotas();
@@ -254,11 +247,11 @@ export default {
       // cambio el estado de la mascota a adoptado
       try {
         const masco = this.misMascotas.find((m) => m.id == soli.idMascota);
-        // console.log("MASCO CAMBIAR ESTADO", masco);
+  
         masco.estado = valoresData.estadoMascota.adoptado;
         await apiMascotas.put(masco);
       } catch (error) {
-        console.log("Mensaje de error ", error);
+     
         console.log(error.message);
       }
     },
@@ -279,7 +272,7 @@ export default {
         const solicitudesARechazarFiltradas = this.missolicitudes.filter(
           (s) => s.idMascota == soli.idMascota
         );
-        console.log("solis FILTRADAS", solicitudesARechazarFiltradas);
+
 
         //obtengo el indice de la solicitud que acepte
 
@@ -287,12 +280,12 @@ export default {
           (s) =>
             s.idMascota == soli.idMascota && s.idAdoptante == soli.idAdoptante
         );
-        console.log("indice Soli !*!*!*", indiceSoli);
+  
 
         // splice: te devuelve todas menos la que le estas pasando.
         solicitudesARechazarFiltradas.splice(indiceSoli, 1);
 
-        console.log("solis FILTRADAS menos una", solicitudesARechazarFiltradas);
+   
 
         // cancelo todas los solicitudes menos la que acepte
         for (const soliR of solicitudesARechazarFiltradas) {
@@ -321,7 +314,7 @@ export default {
     this.missolicitudes = await this.getSolicitudes();
     this.usuarioLog = await this.buscarUsuario();
     await this.getMisMascotas();
-    //console.log("!!!MISMASCOTAS!!!", this.misMascotas);
+  
     this.$emit("estamosOk", true);
   },
 };

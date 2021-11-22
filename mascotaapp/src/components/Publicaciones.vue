@@ -118,30 +118,31 @@ export default {
 
     async getMisMascotas() {
       try {
+        const mascotasCompletas = await (await apiMascotas.get()).data;
         for (let i = 0; i < this.usuarioLog.mascoPubli.length; i++) {
           this.misMascotas.push(
-            await (
-              await apiMascotas.getById(this.usuarioLog.mascoPubli[i])
-            ).data
+            mascotasCompletas.find((m) => m.id == this.usuarioLog.mascoPubli[i])
           );
         }
         await this.buscarSolicitudesFiltradas(this.misMascotas);
       } catch (error) {
         console.log(error.message);
       }
+      // await (await apiMascotas.getById(this.usuarioLog.mascoPubli[i])).data
     },
 
     // filtro solicitudes para cada mascota
     async buscarSolicitudesFiltradas(mascotasFiltradas) {
       try {
         for (const m of mascotasFiltradas) {
-          console.log("idMascota", m.id);
+          //console.log("idMascota", m.id);
           const soliFiltradas = this.buscarSolicitudes(m.id);
-          console.log("solicitudes filtradas", soliFiltradas);
+          //console.log("solicitudes filtradas", soliFiltradas);
 
           let solis = await this.cargarDatosSolicitud(soliFiltradas);
 
           // MascotasMostrar: Agrega la mascota y solicitudes que posee
+
           this.mascotasMostrar.push({
             // ... carga todos los datos de la mascota
             ...m,
@@ -219,6 +220,7 @@ export default {
 
       soli.estado = valoresData.estadoSolicitud.rechazada;
       await this.actualizarSolicitud(soli);
+      this.misMascotas = [];
       this.mascotasMostrar = [];
       await this.getMisMascotas();
     },
@@ -236,11 +238,13 @@ export default {
         await this.cambiarEstadoMascota(soli);
         console.log("pase cambiar estado mascota");
         await this.agregarMascotasAdoptante(soli);
-        console.log("pase agregarMascotasAdoptante");
-        await this.rechazarRemanentes(soli);
         console.log("pase rechazar Remanentes");
         await this.actualizarSolicitud(soli);
+        console.log("pase agregarMascotasAdoptante");
+        await this.rechazarRemanentes(soli);
+
         console.log("termine");
+        this.misMascotas = [];
         this.mascotasMostrar = [];
         await this.getMisMascotas();
       }
@@ -250,7 +254,7 @@ export default {
       // cambio el estado de la mascota a adoptado
       try {
         const masco = this.misMascotas.find((m) => m.id == soli.idMascota);
-        console.log("MASCO CAMBIAR ESTADO", masco);
+        // console.log("MASCO CAMBIAR ESTADO", masco);
         masco.estado = valoresData.estadoMascota.adoptado;
         await apiMascotas.put(masco);
       } catch (error) {
@@ -283,10 +287,10 @@ export default {
           (s) =>
             s.idMascota == soli.idMascota && s.idAdoptante == soli.idAdoptante
         );
-        console.log("indice Soli !*!*!*",indiceSoli)
+        console.log("indice Soli !*!*!*", indiceSoli);
 
         // splice: te devuelve todas menos la que le estas pasando.
-        solicitudesARechazarFiltradas.splice(indiceSoli,1);
+        solicitudesARechazarFiltradas.splice(indiceSoli, 1);
 
         console.log("solis FILTRADAS menos una", solicitudesARechazarFiltradas);
 
@@ -295,10 +299,6 @@ export default {
           soliR.estado = valoresData.estadoSolicitud.rechazada;
           await this.actualizarSolicitud(soliR);
         }
-        console.log(
-          "solis FILTRADAS DESPUES DE RECHAZAR",
-          solicitudesARechazarFiltradas
-        );
       } catch (error) {
         console.log(error.message);
       }
@@ -321,7 +321,7 @@ export default {
     this.missolicitudes = await this.getSolicitudes();
     this.usuarioLog = await this.buscarUsuario();
     await this.getMisMascotas();
-    console.log("!!!MISMASCOTAS!!!", this.misMascotas);
+    //console.log("!!!MISMASCOTAS!!!", this.misMascotas);
     this.$emit("estamosOk", true);
   },
 };

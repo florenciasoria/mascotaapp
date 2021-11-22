@@ -69,7 +69,6 @@ export default {
   },
 
   methods: {
-    //...mapGetters(["getusuariosLog"]),
     ...mapActions(["cerrarSesionStore"]),
 
     cerrarSesion() {
@@ -79,14 +78,9 @@ export default {
     },
 
     async verUsuarioLogueado() {
-      //const usuario = this.getusuariosLog.find((usuario) => usuario.id != null );
       if (this.getusuariosLog.id != "") {
         this.usuario = this.getusuariosLog;
       }
-
-      //Pendiente: chequear si el usuario no esta vacio?
-
-      //return usuario != null ? (this.show = false) : (this.show = true);
     },
   },
 
@@ -94,6 +88,7 @@ export default {
     usuarioLogueado() {
       return this.usuario;
     },
+    // A: Adoptante Z: Administrador P: Publicador
     ...mapGetters(["getusuariosLog"]),
     esAdoptante() {
       return this.usuario === undefined

@@ -225,7 +225,7 @@ export default {
     },
     async cargarGraficosSolicitudes() {
       //busco mascotas de la solicitud
-      await this.buscarMascotasDeSolicitud(
+      this.buscarMascotasDeSolicitud(
         this.solicitudesTotales,
         this.mascotasSolicitadas
       );
@@ -288,7 +288,6 @@ export default {
 
         this.arrayFechas.push({ fechaCreacion: fecha, cant: 0 });
       }
-    
     },
 
     cargarGraficoEspecieTorta(arrayMascotas) {
@@ -392,7 +391,7 @@ export default {
       try {
         const resuGet = await apiMascotas.get();
         const arrayMascotas = resuGet.data;
-      
+
         return arrayMascotas;
       } catch (error) {
         console.log(error.message);
@@ -419,7 +418,6 @@ export default {
 };
 </script>
 <style scoped>
-
 .botonVioleta {
   background-color: #8969d3;
   border-color: #8969d3;

@@ -28,9 +28,9 @@
                       <div
                         v-for="solicitud in mascota.solis"
                         :key="solicitud.id"
-                        
                       >
-                        <div class="w-100"
+                        <div
+                          class="w-100"
                           v-if="
                             solicitud.estado == 'pendiente' ||
                             solicitud.estado == 'aceptada'
@@ -38,17 +38,31 @@
                         >
                           <p>Nombre: {{ solicitud.nombre }}</p>
                           <p>Estado: {{ solicitud.estado }}</p>
-                          <div v-if="solicitud.estado == 'pendiente'" class=" mb-4 mx-3">
+                          <div
+                            v-if="solicitud.estado == 'pendiente'"
+                            class="mb-4 mx-3"
+                          >
                             <div class="row">
-                            <b-button variant="outline-danger" class="px-3 mr-3" @click="rechazar(solicitud)">rechazar</b-button>
-                            <b-button variant="success" class="px-3  ml-3" @click="aceptar(solicitud)">aceptar</b-button>
-                              
+                              <b-button
+                                variant="outline-danger"
+                                class="px-3 mr-3"
+                                @click="rechazar(solicitud)"
+                                >rechazar</b-button
+                              >
+                              <b-button
+                                variant="success"
+                                class="px-3 ml-3"
+                                @click="aceptar(solicitud)"
+                                >aceptar</b-button
+                              >
                             </div>
                           </div>
                         </div>
                       </div>
                     </div>
-                    <div v-else> {{mascota.nombre}} todavía no tiene solicitudes </div>
+                    <div v-else>
+                      {{ mascota.nombre }} todavía no tiene solicitudes
+                    </div>
                   </div>
                 </div>
               </b-card>
@@ -99,40 +113,31 @@ export default {
 
     async buscarUsuario() {
       //buscamos el usuario que está loggeado en la base de datos y nos quedamos con ese
-      this.usuarioLog = await this.getUsuario(this.getusuariosLog().id);
+      return await this.getUsuario(this.getusuariosLog().id);
     },
 
     async getMisMascotas() {
-      const misMascotas = [];
       try {
         for (let i = 0; i < this.usuarioLog.mascoPubli.length; i++) {
-          misMascotas.push(
+          this.misMascotas.push(
             await (
               await apiMascotas.getById(this.usuarioLog.mascoPubli[i])
             ).data
           );
         }
-        await this.buscarSolicitudesFiltradas(misMascotas);
+        await this.buscarSolicitudesFiltradas(this.misMascotas);
       } catch (error) {
         console.log(error.message);
       }
     },
+
     // filtro solicitudes para cada mascota
     async buscarSolicitudesFiltradas(mascotasFiltradas) {
       try {
         for (const m of mascotasFiltradas) {
-          //esto nos trae todas las solicitudes de una mascota
-          console.log("id mascota", m.id);
-          const solicitudes = await (
-            await apiSolicitudes.getByMascota(m.id)
-          ).data;
-          //mockapi devuelve todos las solicitudes que contengan el id
-          //filtramos por el error de mockapi!!!! ( gaspar pensalo!!!)
-
-          const soliFiltradas = solicitudes.filter(s => s.idMascota == m.id)
-
-          console.log("SOLICITUDES X MASCOTAs FILTRADAS", soliFiltradas);
-
+          console.log("idMascota", m.id);
+          const soliFiltradas = this.buscarSolicitudes(m.id);
+          console.log("solicitudes filtradas", soliFiltradas);
 
           let solis = await this.cargarDatosSolicitud(soliFiltradas);
 
@@ -144,35 +149,37 @@ export default {
           });
         }
       } catch (error) {
-        console.log("Mensaje de error ", error)
+        console.log("Mensaje de error ", error);
         console.log(error.message);
       }
     },
 
+    //nadie lo usa
     // busca las solicitudes por el Id y las devuelve filtradas si coinciden con el id param.
     buscarSolicitudes(idMascota) {
-      let solis = this.missolicitudes;
-      const soliDeLaMascota = solis.filter((s) => s.idMascota == idMascota);
+      const soliDeLaMascota = this.missolicitudes.filter(
+        (s) => s.idMascota == idMascota
+      );
       return soliDeLaMascota;
     },
 
+    //nadie lo usa
     async getSolicitudes() {
       try {
         const apisoli = await apiSolicitudes.get();
         return apisoli.data;
       } catch (error) {
-        console.log("Mensaje de error ", error)
+        console.log("Mensaje de error ", error);
         //alert("Por favor, refresque la página")
-        console.log("holis");
+        //console.log("holis");
       }
     },
-
     async getUsuario(id) {
       try {
         const apiPers = await apiPersonas.getById(id);
         return apiPers.data;
       } catch (error) {
-        console.log("Mensaje de error ", error)
+        console.log("Mensaje de error ", error);
         console.log(error.message);
       }
     },
@@ -198,36 +205,56 @@ export default {
         const apisoli = await apiSolicitudes.getById(id);
         return apisoli.data;
       } catch (error) {
-        console.log("Mensaje de error ", error)
+        console.log("Mensaje de error ", error);
         console.log(error.message);
       }
     },
 
     // Rechaza las solicitudes de los usuarios.
     async rechazar(solicitud) {
-      const soli = await this.getSolicitudById(solicitud.soliId);
+      const soli = this.missolicitudes.find(
+        (s) => s.idSolicitud == solicitud.soliId
+      );
+      //await this.getSolicitudById(solicitud.soliId);
+
       soli.estado = valoresData.estadoSolicitud.rechazada;
       await this.actualizarSolicitud(soli);
+      this.mascotasMostrar = [];
+      await this.getMisMascotas();
     },
 
     async aceptar(solicitud) {
-      const soli = await this.getSolicitudById(solicitud.soliId);
-      soli.estado = valoresData.estadoSolicitud.aceptada;
+      const soli = this.missolicitudes.find(
+        (s) => s.idSolicitud == solicitud.soliId
+      );
+      console.log(soli);
+      if (soli == undefined || soli == null) {
+        console.log("no funciona!!!!");
+      } else {
+        soli.estado = valoresData.estadoSolicitud.aceptada;
 
-      await this.cambiarEstadoMascota(soli);
-      await this.agregarMascotasAdoptante(soli);
-      await this.rechazarRemanentes(soli);
-      await this.actualizarSolicitud(soli);
+        await this.cambiarEstadoMascota(soli);
+        console.log("pase cambiar estado mascota");
+        await this.agregarMascotasAdoptante(soli);
+        console.log("pase agregarMascotasAdoptante");
+        await this.rechazarRemanentes(soli);
+        console.log("pase rechazar Remanentes");
+        await this.actualizarSolicitud(soli);
+        console.log("termine");
+        this.mascotasMostrar = [];
+        await this.getMisMascotas();
+      }
     },
 
     async cambiarEstadoMascota(soli) {
       // cambio el estado de la mascota a adoptado
       try {
-        const masco = await apiMascotas.getById(soli.idMascota);
-        masco.data.estado = valoresData.estadoMascota.adoptado;
-        await apiMascotas.put(masco.data);
+        const masco = this.misMascotas.find((m) => m.id == soli.idMascota);
+        console.log("MASCO CAMBIAR ESTADO", masco);
+        masco.estado = valoresData.estadoMascota.adoptado;
+        await apiMascotas.put(masco);
       } catch (error) {
-        console.log("Mensaje de error ", error)
+        console.log("Mensaje de error ", error);
         console.log(error.message);
       }
     },
@@ -245,24 +272,33 @@ export default {
 
     async rechazarRemanentes(soli) {
       try {
-        const solicitudesARechazar = await apiSolicitudes.getByMascota(
-          soli.idMascota
+        const solicitudesARechazarFiltradas = this.missolicitudes.filter(
+          (s) => s.idMascota == soli.idMascota
         );
-        //Mockapi vevuelve todas las solis que tienen algo del id
-        const solicitudesARechazarFiltradas = solicitudesARechazar.data.filter(s => s.idMascota == soli.idMascota)
+        console.log("solis FILTRADAS", solicitudesARechazarFiltradas);
+
         //obtengo el indice de la solicitud que acepte
-        const indiceSoli = solicitudesARechazarFiltradas.data.findIndex(
+
+        const indiceSoli = solicitudesARechazarFiltradas.findIndex(
           (s) =>
             s.idMascota == soli.idMascota && s.idAdoptante == soli.idAdoptante
         );
+        console.log("indice Soli !*!*!*",indiceSoli)
+
         // slice: te devuelve todas menos la que le estas pasando.
-        solicitudesARechazarFiltradas.data.slice(indiceSoli);
+        solicitudesARechazarFiltradas.slice(indiceSoli);
+
+        console.log("solis FILTRADAS menos una", solicitudesARechazarFiltradas);
 
         // cancelo todas los solicitudes menos la que acepte
-        for (const soliR of solicitudesARechazarFiltradas.data) {
+        for (const soliR of solicitudesARechazarFiltradas) {
           soliR.estado = valoresData.estadoSolicitud.rechazada;
           await this.actualizarSolicitud(soliR);
         }
+        console.log(
+          "solis FILTRADAS DESPUES DE RECHAZAR",
+          solicitudesARechazarFiltradas
+        );
       } catch (error) {
         console.log(error.message);
       }
@@ -274,8 +310,6 @@ export default {
         const hoy = new Date(tiempoTranscurrido);
         solicitud.fechaRespuesta = hoy.toJSON();
         await apiSolicitudes.put(solicitud);
-        this.mascotasMostrar = [];
-        this.misMascotas = await this.getMisMascotas();
       } catch (error) {
         console.log(error.message);
       }
@@ -284,9 +318,11 @@ export default {
 
   async created() {
     //llama a la API para traer la lista de mascotas y la guarda en variable local
-    await this.buscarUsuario();
-    this.misMascotas = await this.getMisMascotas();
-            this.$emit('estamosOk', true)
+    this.missolicitudes = await this.getSolicitudes();
+    this.usuarioLog = await this.buscarUsuario();
+    await this.getMisMascotas();
+    console.log("!!!MISMASCOTAS!!!", this.misMascotas);
+    this.$emit("estamosOk", true);
   },
 };
 </script>
@@ -314,7 +350,9 @@ img {
   object-fit: cover;
 }
 
-p {margin-bottom: 0.5rem !important}
+p {
+  margin-bottom: 0.5rem !important;
+}
 
 .cardSolicitud {
   text-align: left;
@@ -322,8 +360,8 @@ p {margin-bottom: 0.5rem !important}
   /* height: 15vw; */
 }
 
-.publicaciones{
-    height: 100%;
-    background-color: #faf5f7;
+.publicaciones {
+  height: 100%;
+  background-color: #faf5f7;
 }
 </style>

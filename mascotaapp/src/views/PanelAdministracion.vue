@@ -329,6 +329,7 @@ export default {
     },
 
     cargarGraficoLineaPorEspecie(especie, arrayMascotas) {
+      // slice sin parametros copia el array
       const arrayGrafico = this.arrayFechas.slice();
 
       for (const mascota of arrayMascotas) {

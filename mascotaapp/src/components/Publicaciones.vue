@@ -128,7 +128,7 @@ export default {
       } catch (error) {
         console.log(error.message);
       }
-      // await (await apiMascotas.getById(this.usuarioLog.mascoPubli[i])).data
+    
     },
 
     // filtro solicitudes para cada mascota
@@ -207,7 +207,7 @@ export default {
       const soli = this.missolicitudes.find(
         (s) => s.idSolicitud == solicitud.soliId
       );
-      //await this.getSolicitudById(solicitud.soliId);
+    
 
       soli.estado = valoresData.estadoSolicitud.rechazada;
       await this.actualizarSolicitud(soli);

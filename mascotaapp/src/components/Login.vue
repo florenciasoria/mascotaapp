@@ -62,14 +62,14 @@ export default {
         pass: "",
       },
       user: {
-        //-> este hay q pasarlo al store
+      
         email: "",
         pass: "",
       },
       show: true,
       acceso: true,
 
-      //temporal para debug
+
       resp: "",
       arrayPers: [],
       nomTest: "",
@@ -79,14 +79,12 @@ export default {
     };
   },
 
-  // computed: {
-  //   ...mapGetters(["getusuarios"]),
-  // },
+
 
   methods: {
     ...mapActions(["agregarusuarioLog"]),
 
-    // onSubmit(event) {
+    
     async onSubmit() {
             this.form.email.length < 1 ? this.validationEmail = false : this.validationEmail = true
       this.form.pass.length < 1 ? this.validationPass = false : this.validationPass = true

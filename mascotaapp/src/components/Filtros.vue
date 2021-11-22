@@ -132,7 +132,7 @@ export default {
     //llama a la API para traer la lista de mascotas y la guarda en variable local
     this.mascotasInicial = await this.traerMascotasDeApi();
     this.valores = valoresData;
-    //Filtrar por estado
+    
   },
 
   methods: {
@@ -174,14 +174,14 @@ export default {
         const usuario = this.getusuariosLog();
 
         let arrayDevolver = arrayMascotas;
+          //Filter por estado publicado (no ADOPTADO) y q no sean del usuario logueado
         if (usuario.id != undefined) {
           arrayDevolver = arrayMascotas.filter(
             (m) => m.idPublicador != usuario.id
           );
         }
-        //sacar mascotas con solicitudes del usuario logueado
-        //pasar a valores data
-        //Filter por estado publicado (no ADOPTADO) y q no sean del usuario logueado
+     
+     
         arrayDevolver = arrayDevolver.filter((m) => m.estado == "publicado");
         this.$emit("estamosOk", true);
         return arrayDevolver;

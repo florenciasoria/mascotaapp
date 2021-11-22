@@ -33,7 +33,7 @@
         <b-card class="mt-3" header="Form Data Result">
           <pre class="m-0">{{ form }}</pre>
           <pre class="m-0">{{ this.resp }}</pre>
-          <pre class="m-0">{{ this.arrayPers }}</pre>
+          <!-- <pre class="m-0">{{ this.arrayPers }}</pre> -->
         </b-card>
       </div>
     </div>

@@ -102,8 +102,6 @@
 </template>
 
 <script>
-//import mascotas from "../assets/js/mascotas";
-
 import apiMascotas from "../services/mascotas";
 import apiSolicitudes from "../services/solicitudes";
 import { mapGetters } from "vuex";
@@ -202,7 +200,6 @@ export default {
           );
         }
         //sacar mascotas con solicitudes del usuario logueado
-
         //pasar a valores data
         arrayDevolver = arrayDevolver.filter((m) => m.estado == "publicado");
         this.$emit("estamosOk", true);

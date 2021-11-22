@@ -118,7 +118,7 @@ a {
 
 .margenes {
   padding-top: 100px;
-  padding-bottom: 100px;
+  /* padding-bottom: 100px; */
   width:80%
 }
 

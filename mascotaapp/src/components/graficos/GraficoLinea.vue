@@ -9,7 +9,6 @@ export default {
       gradient: "",
       bar: null,
       
-      //mascotasInicial: {},
       chartData: {
         labels: [],
         datasets: [
@@ -70,7 +69,6 @@ export default {
   },
   async mounted() {
     //metodo del grafico para mostrar
-
     this.cargarDatos();
     this.renderChart(this.chartData, this.options);
   },

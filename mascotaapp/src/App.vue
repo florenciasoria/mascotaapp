@@ -28,6 +28,12 @@ export default {
   min-height: 100vh;
 }
 
+
+
+.cajaBlanca {
+  background-color: #ffffff;
+}
+
 #nav a {
   font-weight: bold;
   color: #ffffff;

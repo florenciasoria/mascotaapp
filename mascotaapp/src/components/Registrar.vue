@@ -179,7 +179,6 @@ a {
   color: #a3e3dc;
 }
 
-
 .botonVioleta {
   background-color: #8969d3;
   border-color: #8969d3;

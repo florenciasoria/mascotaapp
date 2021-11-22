@@ -1,8 +1,8 @@
 <template>
   <div class="container">
     <div class="row">
-      <div class="col-6 my-2">
-        <b-form @reset="onReset" v-if="show" @submit.stop.prevent>
+      <div class="col-6 pt-5 mx-auto">
+        <b-form @reset="onReset" v-if="show" @submit.stop.prevent class="p-4 border rounded cajaBlanca">
           <b-form-group id="input-group-1" label="Nombre:" label-for="input-1">
             <b-form-input
               id="input-1"
@@ -47,9 +47,9 @@
             ></b-form-input>
           </b-form-group>
 
-          <b-button type="reset" variant="danger">Borrar formulario</b-button>
+          <b-button type="reset" class="px-3 mx-2 "  variant="outline-danger">Borrar formulario</b-button>
 
-          <b-button type="submit" variant="primary" v-on:click="onSubmit">Enviar</b-button>
+          <b-button type="submit" class="botonVioleta mx-2 px-3 " v-on:click="onSubmit">Enviar</b-button>
         </b-form>
         <b-card class="mt-3" header="Form Data Result">
           <pre class="m-0">{{ form }}</pre>
@@ -118,7 +118,7 @@ export default {
       event.preventDefault();
 
 
-      //Validamos que todos los campos salvo la foto (se autocompleta) estén completos.
+      //Validamos que todos los campos salvo la foto (se autocompleta si no mandamos nada) estén completos.
       this.form.nombre.length < 1 ? this.validationNombre = false : this.validationNombre = true
       this.form.color.length < 1 ? this.validationColor = false : this.validationColor = true
       this.form.sexo.length < 1 ? this.validationSexo = false : this.validationSexo = true
@@ -181,3 +181,14 @@ export default {
 
 };
 </script>
+
+<style >
+
+.botonVioleta {
+  background-color: #8969d3;
+  border-color: #8969d3;
+  text-align: center;
+  width: 30%
+}
+
+</style>

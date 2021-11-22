@@ -3,16 +3,15 @@
     <div class="row">
       <div class="col-6 pt-5 mx-auto">
         <b-form v-if="show" @submit.prevent="onSubmit()" class="p-4 border rounded">
-                                  <b-form-invalid-feedback :state="validationUser">Usuario o contraseña incorrectos</b-form-invalid-feedback>
+          <b-form-invalid-feedback :state="validationUser">Usuario o contraseña incorrectos</b-form-invalid-feedback>
           <b-form-group id="input-group-1" label="Direccion de Email:" label-for="input-1">
             <b-form-input
               id="input-1"
               v-model="form.email"
               type="email"
               placeholder="Ingresar Mail:"
-
             ></b-form-input>
-                        <b-form-invalid-feedback :state="validationEmail">Debes ingresar un email</b-form-invalid-feedback>
+            <b-form-invalid-feedback :state="validationEmail">Debes ingresar un email</b-form-invalid-feedback>
           </b-form-group>
 
           <b-form-group id="input-group-2" label="Contraseña:" label-for="input-2">
@@ -21,7 +20,6 @@
               v-model="form.pass"
               placeholder="Ingresar Contraseña:"
               type="password"
-
             ></b-form-input>
             <b-form-invalid-feedback :state="validationPass">Debes ingresar una contraseña</b-form-invalid-feedback>
           </b-form-group>
@@ -29,7 +27,6 @@
           <b-button type="reset" class="mx-2" variant="outline-danger">Limpiar formulario</b-button>
           <b-button type="submit" variant="primary" class="mx-2 botonVioleta">Iniciar Sesión</b-button>
           <b-row>
-            
             <router-link :to="'/Registrar'" class="mx-auto mt-5">Crear Usuario</router-link>
           </b-row>
         </b-form>
@@ -73,7 +70,7 @@ export default {
       resp: "",
       arrayPers: [],
       nomTest: "",
-            validationEmail: true,
+      validationEmail: true,
       validationPass: true,
       validationUser: true,
     };
@@ -86,26 +83,26 @@ export default {
 
     
     async onSubmit() {
-            this.form.email.length < 1 ? this.validationEmail = false : this.validationEmail = true
+      this.form.email.length < 1 ? this.validationEmail = false : this.validationEmail = true
       this.form.pass.length < 1 ? this.validationPass = false : this.validationPass = true
 
-            //Si no hubo ningun error, hacemos el PUT
-      if (this.validationEmail && this.validationPass ) {
-      try {
-        const usuario = await this.buscarUser();
+      //Si no hubo ningun error, hacemos el PUT
+      if (this.validationEmail && this.validationPass) {
+        try {
+          const usuario = await this.buscarUser();
 
-        if (usuario && usuario.pass == this.form.pass) {
-          this.agregarusuarioLog(usuario);
-          alert("bienvenido");
-          this.$router.push("/");
-        } else {
-          //agrego el else acá porque si encuentra el mail y la pass es incorrecta no lo estamos
-          //agarrando
-                  this.validationUser = false
+          if (usuario && usuario.pass == this.form.pass) {
+            this.agregarusuarioLog(usuario);
+            alert("bienvenido");
+            this.$router.push("/");
+          } else {
+            //agrego el else acá porque si encuentra el mail y la pass es incorrecta no lo estamos
+            //agarrando
+            this.validationUser = false
+          }
+        } catch (error) {
+          this.validationUser = false
         }
-      } catch (error) {
-        this.validationUser = false
-      }
       }
     },
 

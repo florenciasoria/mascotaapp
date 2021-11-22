@@ -419,6 +419,7 @@ export default {
 };
 </script>
 <style scoped>
+
 .botonVioleta {
   background-color: #8969d3;
   border-color: #8969d3;

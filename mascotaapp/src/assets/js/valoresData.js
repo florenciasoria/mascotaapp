@@ -32,10 +32,6 @@ export const valoresData = {
     { value: "nb", text: "No Binarie" },
     { value: "na", text: "Prefiero no decirlo" },
   ],
-  // estado: [
-  //   { text: "Publicado", value: "publicado" },
-  //   { text: "Adoptado", value: "adoptado" },
-  // ],
   estadoMascota:
   {
     publicado: "publicado",

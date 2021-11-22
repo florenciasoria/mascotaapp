@@ -11,21 +11,13 @@
         <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
         <b-collapse id="nav-collapse" is-nav>
-          <router-link
-            v-if="esAdoptante "
-            to="/misSolicitudes"
-            class="px-2"
+          <router-link v-if="esAdoptante" to="/misSolicitudes" class="px-2"
             >Solicitudes
           </router-link>
           |
-          <router-link
-            to="/misPublicaciones"
-            class="px-2"
-            v-if="esPublicador"
+          <router-link to="/misPublicaciones" class="px-2" v-if="esPublicador"
             >Publicaciones
-
-            </router-link
-          >
+          </router-link>
           |
 
           <router-link to="/admin" class="px-2" v-if="esAdmin"
@@ -99,8 +91,8 @@ export default {
   },
 
   computed: {
-    usuarioLogueado(){
-      return this.usuario
+    usuarioLogueado() {
+      return this.usuario;
     },
     ...mapGetters(["getusuariosLog"]),
     esAdoptante() {

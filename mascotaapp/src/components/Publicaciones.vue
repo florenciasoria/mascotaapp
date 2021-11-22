@@ -285,8 +285,8 @@ export default {
         );
         console.log("indice Soli !*!*!*",indiceSoli)
 
-        // slice: te devuelve todas menos la que le estas pasando.
-        solicitudesARechazarFiltradas.slice(indiceSoli);
+        // splice: te devuelve todas menos la que le estas pasando.
+        solicitudesARechazarFiltradas.splice(indiceSoli,1);
 
         console.log("solis FILTRADAS menos una", solicitudesARechazarFiltradas);
 

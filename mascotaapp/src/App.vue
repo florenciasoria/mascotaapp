@@ -2,7 +2,6 @@
   <div id="app">
     <div id="nav">
       <Header />
-
     </div>
     <router-view />
   </div>
@@ -24,8 +23,9 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  background-color: #ffffff;
-  height: 100vh;
+  background-color: #faf5f7;
+  height: 100%;
+  min-height: 100vh;
 }
 
 #nav a {
@@ -39,11 +39,15 @@ export default {
 
 body,
 html {
+  height: 100%;
+  min-height: 100vh;
   margin: 0;
   padding: 0;
-  height: 100%;
 }
 
+h1 {
+  padding-top: 30px;
+}
 img {
   object-fit: cover;
 }

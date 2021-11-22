@@ -3,39 +3,35 @@
     <h1>{{ msg }}</h1>
     <div class="container">
       <div class="row" style="margin-top: 50px">
-        <div class="col"></div>
-        <b-col class="col-lg-10">
-          <div class="">
-            <b-row>
-              <b-card
-                v-for="solicitud in soliMostrar"
-                :key="solicitud.id"
-                :title="solicitud.nombremascota"
-                :img-src="solicitud.mascotafoto"
-                img-left
-                class="m-2 cardSolicitud"
-              >
-                <div class="row">
-                  <div class="col">
-                    <p>{{ solicitud.mascotaedad }}</p>
-                    <p>{{ solicitud.mascotaespecie }}</p>
-                    <p>{{ solicitud.mascotacolor }}</p>
-                    <p>{{ solicitud.mascotasexo }}</p>
-                  </div>
-                  <div class="col">
-                    <h5>Estado de la solicitud</h5>
-                    <p>Estado: {{ solicitud.estado }}</p>
-                    <b-button
-                      v-if="solicitud.estado == 'pendiente'"
-                      variant="success"
-                      @click="cancelar(solicitud)"
-                      >cancelar</b-button
-                    >
-                  </div>
+        <b-col class="col-12 mb-5 ">
+          <b-row>
+            <b-card
+              v-for="solicitud in soliMostrar"
+              :key="solicitud.id"
+              :title="solicitud.nombremascota"
+              :img-src="solicitud.mascotafoto"
+              img-left
+              class=" cardSolicitud mx-auto my-2"
+            >
+              <div class="row">
+                <div class="col">
+                  <p>{{ solicitud.mascotaedad }}</p>
+                  <p>{{ solicitud.mascotaespecie }}</p>
+                  <p>{{ solicitud.mascotacolor }}</p>
+                  <p>{{ solicitud.mascotasexo }}</p>
                 </div>
-              </b-card>
-            </b-row>
-          </div>
+                <div class="col">
+                  <h5>Estado de la solicitud</h5>
+                  <p>Estado: {{ solicitud.estado }}</p>
+                  <b-button
+                    v-if="solicitud.estado == 'pendiente'"
+                    variant="success"
+                    @click="cancelar(solicitud)"
+                  >cancelar</b-button>
+                </div>
+              </div>
+            </b-card>
+          </b-row>
         </b-col>
       </div>
     </div>
@@ -184,14 +180,18 @@ a {
 }
 
 img {
-  height: 100%;
+  height: 20rem;
   width: 20vw;
   object-fit: cover;
 }
 
 .cardSolicitud {
   text-align: left;
-  width: 50vw;
-  height: 15vw;
+  width: 70vw;
+  min-height: 15vw;
+}
+
+.solicitudes {
+  background-color: #faf5f7;
 }
 </style>

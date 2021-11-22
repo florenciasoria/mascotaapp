@@ -4,7 +4,7 @@
     <div class="container">
       <div class="row" style="margin-top: 50px">
         <div class="col"></div>
-        <b-col class="col-lg-10">
+        <b-col class="col-lg-10 mb-5">
           <div class>
             <b-row>
               <b-card
@@ -24,22 +24,31 @@
                   </div>
                   <div class="col">
                     <h5>Solicitudes</h5>
-
-                    <div v-for="solicitud in mascota.solis" :key="solicitud.id">
+                    <div v-if="mascota.solis.length > 0">
                       <div
-                        v-if="
-                          solicitud.estado == 'pendiente' ||
-                          solicitud.estado == 'aceptada'
-                        "
+                        v-for="solicitud in mascota.solis"
+                        :key="solicitud.id"
+                        
                       >
-                        <p>Nombre: {{ solicitud.nombre }}</p>
-                        <p>Estado: {{ solicitud.estado }}</p>
-                        <div v-if="solicitud.estado == 'pendiente'">
-                          <b-button variant="success" @click="aceptar(solicitud)">aceptar</b-button>
-                          <b-button variant="danger" @click="rechazar(solicitud)">rechazar</b-button>
+                        <div class="w-100"
+                          v-if="
+                            solicitud.estado == 'pendiente' ||
+                            solicitud.estado == 'aceptada'
+                          "
+                        >
+                          <p>Nombre: {{ solicitud.nombre }}</p>
+                          <p>Estado: {{ solicitud.estado }}</p>
+                          <div v-if="solicitud.estado == 'pendiente'" class=" mb-4 mx-3">
+                            <div class="row">
+                            <b-button variant="outline-danger" class="px-3 mr-3" @click="rechazar(solicitud)">rechazar</b-button>
+                            <b-button variant="success" class="px-3  ml-3" @click="aceptar(solicitud)">aceptar</b-button>
+                              
+                            </div>
+                          </div>
                         </div>
                       </div>
                     </div>
+                    <div v-else> {{mascota.nombre}} todavía no tiene solicitudes </div>
                   </div>
                 </div>
               </b-card>
@@ -305,9 +314,16 @@ img {
   object-fit: cover;
 }
 
+p {margin-bottom: 0.5rem !important}
+
 .cardSolicitud {
   text-align: left;
   width: 70vw;
   /* height: 15vw; */
+}
+
+.publicaciones{
+    height: 100%;
+    background-color: #faf5f7;
 }
 </style>

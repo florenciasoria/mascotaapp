@@ -1,54 +1,38 @@
 <template>
-  <div class="container altura">
+  <div class="container altura w-100">
     <b-row>
       <b-col class="col-lg-2">
         <b-row>
           <h3>Especie</h3>
           <b-form-group stacked>
-            <b-form-checkbox-group
-              v-model="filtro.especie"
-              :options="valores.especie"
-            >
-            </b-form-checkbox-group>
+            <b-form-checkbox-group v-model="filtro.especie" :options="valores.especie"></b-form-checkbox-group>
           </b-form-group>
         </b-row>
 
         <b-row>
           <b-form-group stacked>
             <h3>Color</h3>
-            <b-form-checkbox-group
-              v-model="filtro.color"
-              :options="valores.color"
-            >
-            </b-form-checkbox-group>
+            <b-form-checkbox-group v-model="filtro.color" :options="valores.color"></b-form-checkbox-group>
           </b-form-group>
         </b-row>
 
         <b-row>
           <b-form-group stacked>
             <h3>Edad</h3>
-            <b-form-checkbox-group
-              v-model="filtro.edad"
-              :options="valores.edad"
-            >
-            </b-form-checkbox-group>
+            <b-form-checkbox-group v-model="filtro.edad" :options="valores.edad"></b-form-checkbox-group>
           </b-form-group>
         </b-row>
 
         <b-row>
           <h3>Sexo</h3>
           <b-form-group stacked>
-            <b-form-checkbox-group
-              v-model="filtro.sexo"
-              :options="valores.sexo"
-            >
-            </b-form-checkbox-group>
+            <b-form-checkbox-group v-model="filtro.sexo" :options="valores.sexo"></b-form-checkbox-group>
           </b-form-group>
         </b-row>
       </b-col>
 
       <b-col class="col">
-        <div class="">
+        <div>
           <b-row>
             <b-card
               v-for="mascota in mascotasFiltradas"
@@ -70,15 +54,13 @@
                 v-if="mascota.sexo == 'hembra'"
                 class="mt-auto pt-2"
                 @click="asignarMascota(mascota)"
-                >¡Quiero adoptarla!</b-button
-              >
+              >¡Quiero adoptarla!</b-button>
               <b-btn
                 v-b-modal.my-modal
                 v-else
                 class="mt-auto"
                 @click="asignarMascota(mascota)"
-                >¡Quiero adoptarlo!</b-btn
-              >
+              >¡Quiero adoptarlo!</b-btn>
             </b-card>
           </b-row>
           <b-modal id="my-modal" title="Confirmar?" :data="modalData">
@@ -89,9 +71,7 @@
                 <b-button
                   @click="confirmarAdopcion(modalData)"
                   class="float-right"
-                >
-                  Enviar solicitud de adopción
-                </b-button>
+                >Enviar solicitud de adopción</b-button>
               </div>
             </template>
           </b-modal>
@@ -137,7 +117,7 @@ export default {
   computed: {
     mascotasFiltradas() {
       let mascotasF = this.mascotasInicial;
-      //Filter por estado publicado (no ADOPTADO) y q no sean del usuario logueado
+
       mascotasF = mascotasF.sort(() => 0.5 - Math.random());
 
       return this.filtrarAnimalesPorEspecie(
@@ -201,6 +181,7 @@ export default {
         }
         //sacar mascotas con solicitudes del usuario logueado
         //pasar a valores data
+        //Filter por estado publicado (no ADOPTADO) y q no sean del usuario logueado
         arrayDevolver = arrayDevolver.filter((m) => m.estado == "publicado");
         this.$emit("estamosOk", true);
         return arrayDevolver;
@@ -266,6 +247,10 @@ p {
 }
 .altura {
   min-height: 100%;
+}
+
+.container {
+    background-color: #faf5f7;
 }
 
 img {
